@@ -89,7 +89,7 @@ export const LeadershipSection = () => {
                 <path
                   d="M 320 60 L 360 55 L 400 62 L 440 58 L 480 63 L 520 57 L 560 60 L 580 58"
                   fill="none"
-                  stroke="hsl(var(--gold))"
+                  stroke="hsl(142, 60%, 45%)"
                   strokeWidth="2.5"
                   strokeLinecap="round"
                   strokeLinejoin="round"
@@ -101,20 +101,20 @@ export const LeadershipSection = () => {
               <div className="grid grid-cols-2 gap-8 mt-8 pt-6 border-t border-border">
                 {/* Red side labels */}
                 <div className="text-center space-y-2">
-                  <p className="font-serif text-lg md:text-xl text-destructive/80">
+                  <p className="font-serif text-base md:text-lg text-destructive">
                     Quiet worry about Oxbridge offers
                   </p>
-                  <p className="font-serif text-base md:text-lg text-muted-foreground">
+                  <p className="font-serif text-base md:text-lg text-destructive">
                     Leadership called into question
                   </p>
                 </div>
                 
                 {/* Green side labels */}
                 <div className="text-center space-y-2">
-                  <p className="font-serif text-lg md:text-xl text-gold">
+                  <p className="font-serif text-base md:text-lg" style={{ color: 'hsl(142, 60%, 45%)' }}>
                     Trust from governors and parents
                   </p>
-                  <p className="font-serif text-base md:text-lg text-muted-foreground">
+                  <p className="font-serif text-base md:text-lg" style={{ color: 'hsl(142, 60%, 45%)' }}>
                     Clear public success
                   </p>
                 </div>
