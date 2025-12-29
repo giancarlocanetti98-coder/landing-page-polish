@@ -29,7 +29,7 @@ export const HeroSection = () => {
           className="font-serif text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold text-cream mb-8 md:mb-10 leading-tight"
         >
           Consistent Oxford and Cambridge Offers,
-          <br className="hidden sm:block" />
+          <br />
           Year After Year
         </motion.h1>
 
