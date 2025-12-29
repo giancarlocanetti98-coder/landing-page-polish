@@ -7,7 +7,7 @@ export const LeadershipSection = () => {
     once: true,
     margin: "-100px"
   });
-  return <section ref={ref} className="py-24 bg-background md:py-[50px]">
+  return <section ref={ref} className="py-24 bg-background md:py-0">
       <div className="container px-6">
         <div className="grid lg:grid-cols-2 gap-16 items-center">
           {/* Text content */}

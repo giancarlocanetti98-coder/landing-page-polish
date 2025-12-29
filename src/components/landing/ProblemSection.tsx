@@ -1,22 +1,23 @@
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef } from "react";
-
 export const ProblemSection = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, {
     once: true,
     margin: "-100px"
   });
-
-  return (
-    <section ref={ref} className="py-24 bg-gradient-section md:py-32">
+  return <section ref={ref} className="py-24 bg-gradient-section md:py-[20px]">
       <div className="container px-6 max-w-4xl mx-auto text-center">
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.7 }}
-        >
+        <motion.div initial={{
+        opacity: 0,
+        y: 40
+      }} animate={isInView ? {
+        opacity: 1,
+        y: 0
+      } : {}} transition={{
+        duration: 0.7
+      }}>
           <p className="text-lg md:text-xl text-muted-foreground mb-8">
             And most elite schools are
           </p>
@@ -33,12 +34,16 @@ export const ProblemSection = () => {
           </p>
         </motion.div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.7, delay: 0.2 }}
-          className="mt-16 space-y-4"
-        >
+        <motion.div initial={{
+        opacity: 0,
+        y: 40
+      }} animate={isInView ? {
+        opacity: 1,
+        y: 0
+      } : {}} transition={{
+        duration: 0.7,
+        delay: 0.2
+      }} className="mt-16 space-y-4">
           <p className="text-lg md:text-xl text-muted-foreground">
             Those offers don't disappear.
           </p>
@@ -56,12 +61,16 @@ export const ProblemSection = () => {
           </p>
         </motion.div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.7, delay: 0.4 }}
-          className="mt-16"
-        >
+        <motion.div initial={{
+        opacity: 0,
+        y: 40
+      }} animate={isInView ? {
+        opacity: 1,
+        y: 0
+      } : {}} transition={{
+        duration: 0.7,
+        delay: 0.4
+      }} className="mt-16">
           <p className="text-lg md:text-xl text-foreground font-medium max-w-2xl mx-auto">
             Every year your school operates without a reliable, offer-generating system,
           </p>
@@ -70,6 +79,5 @@ export const ProblemSection = () => {
           </p>
         </motion.div>
       </div>
-    </section>
-  );
+    </section>;
 };
