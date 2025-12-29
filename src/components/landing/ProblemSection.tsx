@@ -18,15 +18,10 @@ export const ProblemSection = () => {
       } : {}} transition={{
         duration: 0.7
       }}>
-          <p className="text-lg md:text-xl text-muted-foreground mb-8">
-            And most elite schools are
-          </p>
-
           <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl font-semibold text-foreground mb-8 leading-tight">
-            leaving{" "}
-            <span className="text-gold">8 to 10 Oxbridge offers</span>
-            <br />
-            on the table every single year...
+            And Most Elite Schools Leave{" "}
+            <span className="text-gold">8 to 10 Oxbridge Offers</span>
+            {" "}on the Table Every Single Year...
           </h2>
 
           <p className="text-lg md:text-xl text-muted-foreground">
