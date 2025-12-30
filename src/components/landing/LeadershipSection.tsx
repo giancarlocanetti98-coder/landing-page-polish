@@ -210,13 +210,12 @@ const CredibilityBar = ({ isStable, startAnimation, animationKey }: { isStable: 
           }}
         />
         
-        {/* Sparkle/shimmer overlay for completed stable bar */}
+        {/* Shimmer overlay for completed stable bar */}
         {isGlowing && (
           <motion.div
             className="absolute inset-0 rounded-full overflow-hidden"
             style={{ width }}
           >
-            {/* Shimmer effect */}
             <motion.div
               className="absolute inset-y-0 w-[50%]"
               style={{
@@ -232,36 +231,6 @@ const CredibilityBar = ({ isStable, startAnimation, animationKey }: { isStable: 
                 repeatDelay: 1
               }}
             />
-            
-            {/* Glitter particles at random positions */}
-            {[
-              { left: 15, top: 30, delay: 0 },
-              { left: 42, top: 65, delay: 0.7 },
-              { left: 68, top: 25, delay: 1.4 },
-              { left: 85, top: 55, delay: 2.1 },
-            ].map((particle, i) => (
-              <motion.div
-                key={i}
-                className="absolute rounded-full"
-                style={{
-                  width: "2px",
-                  height: "2px",
-                  background: "hsla(0, 0%, 100%, 0.6)",
-                  left: `${particle.left}%`,
-                  top: `${particle.top}%`,
-                }}
-                animate={{
-                  opacity: [0, 0.6, 0],
-                  scale: [0.5, 1.2, 0.5],
-                }}
-                transition={{
-                  duration: 1.8,
-                  repeat: Infinity,
-                  delay: particle.delay,
-                  ease: "easeInOut",
-                }}
-              />
-            ))}
           </motion.div>
         )}
       </motion.div>
