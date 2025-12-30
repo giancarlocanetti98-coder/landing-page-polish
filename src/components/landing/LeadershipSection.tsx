@@ -31,9 +31,9 @@ const ConfidenceMeter = ({ isStable }: { isStable: boolean }) => {
   const needleLength = 55;
 
   // Animate the ANGLE (not the x2/y2 point) so the tip follows a true arc
-  const angle = useMotionValue(-rotation);
+  const angle = useMotionValue(rotation);
   useEffect(() => {
-    angle.set(-rotation);
+    angle.set(rotation);
   }, [angle, rotation]);
 
   const angleSpring = useSpring(angle, {
