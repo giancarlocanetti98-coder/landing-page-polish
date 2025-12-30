@@ -121,7 +121,10 @@ const CredibilityBar = ({ isStable, startAnimation, animationKey }: { isStable: 
       
       // Delay to match when consistent bars start (after inconsistent bars finish)
       const initialDelay = setTimeout(() => {
-        // First increment happens with first bar
+        // First increment happens immediately with first bar
+        currentStep++;
+        setProgress(50 + (currentStep * increasePerBar));
+        
         const interval = setInterval(() => {
           currentStep++;
           if (currentStep >= CREDIBILITY_STEPS) {
@@ -134,7 +137,7 @@ const CredibilityBar = ({ isStable, startAnimation, animationKey }: { isStable: 
         }, BAR_INTERVAL * 1000);
         
         return () => clearInterval(interval);
-      }, (INCONSISTENT_DURATION + 0.5) * 1000); // Match consistent bars delay
+      }, (INCONSISTENT_DURATION + 0.5) * 1000);
       
       return () => clearTimeout(initialDelay);
     } else {
@@ -142,8 +145,12 @@ const CredibilityBar = ({ isStable, startAnimation, animationKey }: { isStable: 
       const decreasePerBar = 100 / CREDIBILITY_STEPS;
       let currentStep = 0;
       
-      // First bar spawns immediately at 100%, decrease starts with bar 2
+      // First bar spawns immediately at 100%, decrease starts exactly with bar 2
       const initialDelay = setTimeout(() => {
+        // First decrement happens immediately with bar 2
+        currentStep++;
+        setProgress(100 - (currentStep * decreasePerBar));
+        
         const interval = setInterval(() => {
           currentStep++;
           if (currentStep >= CREDIBILITY_STEPS) {
