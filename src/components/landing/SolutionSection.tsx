@@ -48,10 +48,10 @@ export const SolutionSection = () => {
             <div className="w-16 h-16 bg-gold/20 rounded-2xl flex items-center justify-center mb-6">
               <Search className="w-8 h-8 text-gold" />
             </div>
-            <h3 className="font-serif text-xl md:text-2xl font-semibold text-primary-foreground mb-4">
+            <h3 className="font-serif text-xl md:text-2xl font-normal text-primary-foreground/80 mb-4">
               We analyse your Oxbridge performance for free.
             </h3>
-            <p className="text-primary-foreground/80 text-lg">
+            <p className="text-primary-foreground text-lg font-semibold">
               You see exactly what's holding your offers back.
             </p>
           </motion.div>
@@ -70,10 +70,10 @@ export const SolutionSection = () => {
             <div className="w-16 h-16 bg-gold/20 rounded-2xl flex items-center justify-center mb-6">
               <TrendingUp className="w-8 h-8 text-gold" />
             </div>
-            <h3 className="font-serif text-xl md:text-2xl font-semibold text-primary-foreground mb-4">
+            <h3 className="font-serif text-xl md:text-2xl font-normal text-primary-foreground/80 mb-4">
               We begin solving the problem with you.
             </h3>
-            <p className="text-primary-foreground/80 text-lg">
+            <p className="text-primary-foreground text-lg font-semibold">
               At no cost, so you can judge the value for yourself.
             </p>
           </motion.div>
