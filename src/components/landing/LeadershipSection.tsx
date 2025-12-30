@@ -3,30 +3,28 @@ import { useInView } from "framer-motion";
 import { useRef, useEffect, useState } from "react";
 
 const ConfidenceMeter = ({ isStable }: { isStable: boolean }) => {
-  // Rotation: 0 = pointing left (LOW), 180 = pointing right (HIGH)
-  const [rotation, setRotation] = useState(isStable ? 160 : 60);
+  // Rotation: 0 = pointing right (GREEN/HIGH), 180 = pointing left (RED/LOW)
+  const [rotation, setRotation] = useState(isStable ? 15 : 140);
   
   useEffect(() => {
     if (isStable) {
-      // Stable meter: noticeable but slow fluctuations in the green zone (150-175 degrees)
+      // Stable meter: slow fluctuations in the green zone (5-30 degrees = right side)
       const interval = setInterval(() => {
-        setRotation(150 + Math.random() * 25);
+        setRotation(5 + Math.random() * 25);
       }, 2500 + Math.random() * 1500);
       return () => clearInterval(interval);
     } else {
-      // Unstable meter: quick, erratic fluctuations extending into red zone (20-120 degrees)
+      // Unstable meter: slower, less sporadic but favoring the red zone (100-170 degrees = left side)
       const interval = setInterval(() => {
-        setRotation(20 + Math.random() * 100);
-      }, 400 + Math.random() * 400);
+        // Bias toward red (higher rotation values)
+        const baseRotation = 80 + Math.random() * 90; // 80-170 range, favoring red
+        setRotation(baseRotation);
+      }, 1000 + Math.random() * 800);
       return () => clearInterval(interval);
     }
   }, [isStable]);
 
-  // Calculate needle tip position based on rotation
   const needleLength = 58;
-  const rad = (rotation * Math.PI) / 180;
-  const tipX = 100 + needleLength * Math.cos(rad);
-  const tipY = 100 - needleLength * Math.sin(rad);
 
   return (
     <div className="relative w-full max-w-[280px] mx-auto">
@@ -56,9 +54,9 @@ const ConfidenceMeter = ({ isStable }: { isStable: boolean }) => {
           strokeLinecap="round"
         />
         
-        {/* Tick marks */}
-        {[0, 22.5, 45, 67.5, 90].map((angle, i) => {
-          const tickRad = ((angle) * Math.PI) / 180;
+        {/* Tick marks - full arc from left to right */}
+        {[0, 22.5, 45, 67.5, 90, 112.5, 135, 157.5, 180].map((angle, i) => {
+          const tickRad = (angle * Math.PI) / 180;
           const x1 = 100 + 75 * Math.cos(tickRad);
           const y1 = 100 - 75 * Math.sin(tickRad);
           const x2 = 100 + 66 * Math.cos(tickRad);
@@ -76,22 +74,28 @@ const ConfidenceMeter = ({ isStable }: { isStable: boolean }) => {
           );
         })}
         
-        {/* Needle - animated line from center to tip */}
-        <motion.line
-          x1={100}
-          y1={100}
-          animate={{ x2: tipX, y2: tipY }}
+        {/* Needle - rotates around center pivot, consistent length */}
+        <motion.g
+          animate={{ rotate: -rotation }}
           transition={{ 
             type: "spring", 
-            stiffness: isStable ? 120 : 60, 
-            damping: isStable ? 20 : 6,
-            mass: isStable ? 0.3 : 0.5
+            stiffness: isStable ? 100 : 50, 
+            damping: isStable ? 20 : 12,
+            mass: isStable ? 0.3 : 0.6
           }}
-          stroke="hsl(var(--gold))"
-          strokeWidth="3"
-          strokeLinecap="round"
-          style={{ filter: 'drop-shadow(0 1px 2px rgba(0,0,0,0.3))' }}
-        />
+          style={{ transformOrigin: '100px 100px' }}
+        >
+          <line
+            x1={100}
+            y1={100}
+            x2={100 + needleLength}
+            y2={100}
+            stroke="hsl(var(--gold))"
+            strokeWidth="3"
+            strokeLinecap="round"
+            style={{ filter: 'drop-shadow(0 1px 2px rgba(0,0,0,0.3))' }}
+          />
+        </motion.g>
         
         {/* Center pivot point - elegant gold circle (fixed base) */}
         <circle cx="100" cy="100" r="10" fill="hsl(var(--gold))" />
