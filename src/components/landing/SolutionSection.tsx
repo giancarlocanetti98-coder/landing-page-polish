@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef } from "react";
+import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Search, TrendingUp } from "lucide-react";
 export const SolutionSection = () => {
@@ -89,9 +90,11 @@ export const SolutionSection = () => {
         duration: 0.7,
         delay: 0.5
       }} className="text-center mt-16">
-          <Button variant="hero" size="lg" className="text-lg px-10 py-7 mb-6">
-            Request a Free Oxbridge Performance Analysis
-          </Button>
+          <Link to="/request-analysis">
+            <Button variant="hero" size="lg" className="text-lg px-10 py-7 mb-6">
+              Request a Free Oxbridge Performance Analysis
+            </Button>
+          </Link>
           <p className="text-primary-foreground/60 italic">
             We only work with a small number of schools at any one time.
           </p>
