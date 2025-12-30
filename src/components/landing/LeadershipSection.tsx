@@ -129,7 +129,8 @@ const ConfidenceMeter = ({ isStable }: { isStable: boolean }) => {
 };
 
 const CredibilityBar = ({ isStable }: { isStable: boolean }) => {
-  const [progress, setProgress] = useState(isStable ? 100 : 85);
+  const [progress, setProgress] = useState(isStable ? 100 : 50);
+  const [isFlashing, setIsFlashing] = useState(false);
 
   useEffect(() => {
     if (isStable) {
@@ -139,21 +140,31 @@ const CredibilityBar = ({ isStable }: { isStable: boolean }) => {
       }, 2000);
       return () => clearInterval(interval);
     } else {
-      // Unstable: decreasing with sporadic partial recoveries
+      // Unstable: slowly decrease from 50 to 0
       const interval = setInterval(() => {
         setProgress((prev) => {
-          // Random decrease with occasional small recovery
-          const change = Math.random() > 0.3 
-            ? -(5 + Math.random() * 15) // decrease
-            : (3 + Math.random() * 8);   // small recovery
-          const next = prev + change;
-          // Keep between 15 and 75 for the unstable state
-          return Math.max(15, Math.min(75, next));
+          const next = prev - (1 + Math.random() * 2);
+          if (next <= 0) {
+            setIsFlashing(true);
+            return 0;
+          }
+          return next;
         });
-      }, 800 + Math.random() * 400);
+      }, 300);
       return () => clearInterval(interval);
     }
   }, [isStable]);
+
+  // Reset after reaching zero and flashing for a bit
+  useEffect(() => {
+    if (isFlashing && !isStable) {
+      const timeout = setTimeout(() => {
+        setIsFlashing(false);
+        setProgress(50); // Reset to half
+      }, 3000);
+      return () => clearTimeout(timeout);
+    }
+  }, [isFlashing, isStable]);
 
   const progressSpring = useSpring(progress, {
     stiffness: 60,
@@ -172,7 +183,18 @@ const CredibilityBar = ({ isStable }: { isStable: boolean }) => {
       <p className="text-xs text-muted-foreground mb-2 text-center font-medium tracking-wide uppercase">
         Leadership Credibility
       </p>
-      <div className="relative h-3 bg-muted/30 rounded-full overflow-hidden border border-border/50">
+      <motion.div 
+        className="relative h-3 bg-muted/30 rounded-full overflow-hidden border border-border/50"
+        animate={isFlashing ? { 
+          opacity: [1, 0.3, 1],
+          borderColor: ["hsl(0, 60%, 55%)", "hsl(0, 80%, 40%)", "hsl(0, 60%, 55%)"]
+        } : {}}
+        transition={isFlashing ? { 
+          duration: 0.5, 
+          repeat: Infinity,
+          ease: "easeInOut"
+        } : {}}
+      >
         <motion.div
           className="absolute inset-y-0 left-0 rounded-full"
           style={{ 
@@ -181,7 +203,7 @@ const CredibilityBar = ({ isStable }: { isStable: boolean }) => {
             boxShadow: `0 0 8px ${barColor}40`
           }}
         />
-      </div>
+      </motion.div>
     </div>
   );
 };
