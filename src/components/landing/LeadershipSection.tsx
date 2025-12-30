@@ -11,7 +11,7 @@ import { useRef, useEffect, useState } from "react";
 const inconsistentData = [
   { year: '2019', value: 85 },
   { year: '2020', value: 35 },
-  { year: '2021', value: 70 },
+  { year: '2021', value: 55 },  // Lowered to yellow range
   { year: '2022', value: 25 },
   { year: '2023', value: 55 },
   { year: '2024', value: 40 },
@@ -108,37 +108,34 @@ const CredibilityBar = ({ isStable, startAnimation }: { isStable: boolean; start
       }, 2000);
       return () => clearInterval(interval);
     } else if (hasStarted) {
-      // Unstable: decrease in sync with bars spawning (one step per bar)
-      const decreasePerBar = 100 / TOTAL_BARS;
-      let currentBar = 0;
+      // Unstable: decrease in sync with bars spawning
+      // First bar spawns at 100%, then 5 decrements for remaining 5 bars
+      const CREDIBILITY_STEPS = 5;
+      const decreasePerBar = 100 / CREDIBILITY_STEPS;
+      let currentStep = 0;
       
-      const interval = setInterval(() => {
-        currentBar++;
-        if (currentBar >= TOTAL_BARS) {
-          setProgress(0);
-          setIsFlashing(true);
-          clearInterval(interval);
-        } else {
-          setProgress(100 - (currentBar * decreasePerBar));
-        }
+      // Start decreasing after first bar (delay matches second bar spawn)
+      const initialDelay = setTimeout(() => {
+        const interval = setInterval(() => {
+          currentStep++;
+          if (currentStep >= CREDIBILITY_STEPS) {
+            setProgress(0);
+            setIsFlashing(true);
+            clearInterval(interval);
+          } else {
+            setProgress(100 - (currentStep * decreasePerBar));
+          }
+        }, BAR_INTERVAL * 1000);
+        
+        return () => clearInterval(interval);
       }, BAR_INTERVAL * 1000);
       
-      return () => clearInterval(interval);
+      return () => clearTimeout(initialDelay);
     }
   }, [isStable, hasStarted]);
 
-  // Reset after reaching zero and flashing for a bit
-  useEffect(() => {
-    if (isFlashing && !isStable) {
-      const timeout = setTimeout(() => {
-        setIsFlashing(false);
-        setProgress(100);
-        setHasStarted(false);
-        // Will restart when component re-triggers
-      }, 3000);
-      return () => clearTimeout(timeout);
-    }
-  }, [isFlashing, isStable]);
+  // Keep flashing indefinitely when empty (no reset)
+  // No reset effect needed - just keep flashing
 
   const progressSpring = useSpring(progressValue, {
     stiffness: 80,
@@ -156,6 +153,9 @@ const CredibilityBar = ({ isStable, startAnimation }: { isStable: boolean; start
         ? "hsl(45, 70%, 55%)" 
         : "hsl(0, 60%, 55%)";
 
+  // Glow effect for stable bar
+  const stableGlow = isStable ? "0 0 12px hsl(142, 50%, 45%, 0.5), 0 0 20px hsl(142, 50%, 45%, 0.3)" : "";
+
   return (
     <div className="w-full max-w-[200px] mx-auto mt-4">
       <p className="text-xs text-muted-foreground mb-2 text-center font-medium tracking-wide uppercase">
@@ -172,13 +172,14 @@ const CredibilityBar = ({ isStable, startAnimation }: { isStable: boolean; start
           repeat: Infinity,
           ease: "easeInOut"
         } : {}}
+        style={isStable ? { boxShadow: stableGlow } : {}}
       >
         <motion.div
           className="absolute inset-y-0 left-0 rounded-full transition-colors duration-300"
           style={{ 
             width,
             backgroundColor: barColor,
-            boxShadow: `0 0 8px ${barColor}40`
+            boxShadow: isStable ? stableGlow : `0 0 8px ${barColor}40`
           }}
         />
       </motion.div>
