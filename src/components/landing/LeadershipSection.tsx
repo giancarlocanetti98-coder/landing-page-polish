@@ -73,16 +73,12 @@ const ConfidenceMeter = ({ isStable }: { isStable: boolean }) => {
           );
         })}
         
-        {/* Center pivot point - elegant gold circle (drawn first so needle appears attached) */}
+        {/* Center pivot point - elegant gold circle */}
         <circle cx="100" cy="100" r="12" fill="hsl(var(--gold))" />
         <circle cx="100" cy="100" r="8" fill="hsl(var(--gold))" style={{ filter: 'brightness(1.2)' }} />
         
-        {/* Needle - rotates around center pivot */}
-        <motion.line
-          x1={100}
-          y1={100}
-          x2={100 + needleLength}
-          y2={100}
+        {/* Needle - rotates around center pivot, base attached to gold circle center */}
+        <motion.g
           animate={{ rotate: -rotation }}
           transition={{ 
             type: "spring", 
@@ -90,17 +86,23 @@ const ConfidenceMeter = ({ isStable }: { isStable: boolean }) => {
             damping: isStable ? 18 : 8,
             mass: isStable ? 0.4 : 0.3
           }}
-          stroke="hsl(var(--gold))"
-          strokeWidth="4"
-          strokeLinecap="round"
-          style={{ 
-            transformOrigin: '100px 100px',
-            filter: 'drop-shadow(0 1px 2px rgba(0,0,0,0.3))' 
-          }}
-        />
+          style={{ transformOrigin: '100px 100px' }}
+        >
+          <line
+            x1={100}
+            y1={100}
+            x2={100 + needleLength}
+            y2={100}
+            stroke="hsl(var(--gold))"
+            strokeWidth="4"
+            strokeLinecap="round"
+            style={{ filter: 'drop-shadow(0 1px 2px rgba(0,0,0,0.3))' }}
+          />
+        </motion.g>
         
-        {/* Center dot overlay */}
-        <circle cx="100" cy="100" r="3" fill="hsl(var(--background))" />
+        {/* Center dot overlay - on top of everything */}
+        <circle cx="100" cy="100" r="4" fill="hsl(var(--gold))" style={{ filter: 'brightness(1.4)' }} />
+        <circle cx="100" cy="100" r="2" fill="hsl(var(--background))" />
       </svg>
     </div>
   );
