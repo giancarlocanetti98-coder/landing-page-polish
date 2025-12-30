@@ -262,14 +262,14 @@ export const LeadershipSection = () => {
           <div className="grid grid-cols-2 gap-8">
             {/* Unstable meter + decreasing credibility */}
             <div className="flex flex-col items-center">
-              <p className="text-sm text-muted-foreground mb-3 font-medium">Volatility</p>
+              <p className="text-sm text-muted-foreground mb-3 font-medium">Inconsistent Oxbridge Offers</p>
               <ConfidenceMeter isStable={false} />
               <CredibilityBar isStable={false} />
             </div>
             
             {/* Stable meter + full credibility */}
             <div className="flex flex-col items-center">
-              <p className="text-sm text-muted-foreground mb-3 font-medium">Stability</p>
+              <p className="text-sm text-muted-foreground mb-3 font-medium">Consistent Oxbridge Offers</p>
               <ConfidenceMeter isStable={true} />
               <CredibilityBar isStable={true} />
             </div>
