@@ -24,9 +24,6 @@ const ConfidenceMeter = ({ isStable }: { isStable: boolean }) => {
   }, [isStable]);
 
   const needleLength = 55;
-  const rad = (rotation * Math.PI) / 180;
-  const tipX = 100 + needleLength * Math.cos(rad);
-  const tipY = 100 - needleLength * Math.sin(rad);
 
   return (
     <div className="relative w-full max-w-[280px] mx-auto">
@@ -76,24 +73,28 @@ const ConfidenceMeter = ({ isStable }: { isStable: boolean }) => {
           );
         })}
         
-        {/* Needle - fixed base at (100,100), constant length; only angle changes */}
-        <motion.line
-          x1={100}
-          y1={100}
-          x2={tipX}
-          y2={tipY}
-          animate={{ x2: tipX, y2: tipY }}
+        {/* Needle - uses SVG transform rotation for true arc motion */}
+        <motion.g
+          animate={{ rotate: -rotation }}
           transition={{
             type: "spring",
-            stiffness: isStable ? 100 : 90,
-            damping: isStable ? 18 : 10,
-            mass: isStable ? 0.4 : 0.35
+            stiffness: isStable ? 100 : 70,
+            damping: isStable ? 18 : 12,
+            mass: isStable ? 0.4 : 0.4
           }}
-          stroke="hsl(var(--gold))"
-          strokeWidth="2.5"
-          strokeLinecap="round"
-          style={{ filter: "drop-shadow(0 1px 2px rgba(0,0,0,0.24))" }}
-        />
+          style={{ transformOrigin: '100px 100px' }}
+        >
+          <line
+            x1={100}
+            y1={100}
+            x2={100 + needleLength}
+            y2={100}
+            stroke="hsl(var(--gold))"
+            strokeWidth="2.5"
+            strokeLinecap="round"
+            style={{ filter: "drop-shadow(0 1px 2px rgba(0,0,0,0.24))" }}
+          />
+        </motion.g>
 
         {/* Center pivot point - on top so the needle looks attached */}
         <circle cx="100" cy="100" r="12" fill="hsl(var(--gold))" />
