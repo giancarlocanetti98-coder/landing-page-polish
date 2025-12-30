@@ -1,5 +1,5 @@
 export const Footer = () => {
-  return <footer className="bg-oxford text-primary-foreground/60 py-[10px]">
+  return <footer className="bg-oxford text-primary-foreground/60 py-[30px]">
       <div className="container px-6 text-center">
         <div className="mb-4">
           
