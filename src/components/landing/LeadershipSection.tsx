@@ -31,7 +31,7 @@ const BAR_INTERVAL = 0.6; // seconds between each bar spawn
 const TOTAL_BARS = 6;
 const INCONSISTENT_DURATION = BAR_INTERVAL * TOTAL_BARS; // Total time for inconsistent bars
 
-const OffersBarChart = ({ isStable, startAnimation }: { isStable: boolean; startAnimation: boolean }) => {
+const OffersBarChart = ({ isStable, startAnimation, animationKey }: { isStable: boolean; startAnimation: boolean; animationKey: number }) => {
   const data = isStable ? consistentData : inconsistentData;
   const maxValue = 100;
   
@@ -53,7 +53,7 @@ const OffersBarChart = ({ isStable, startAnimation }: { isStable: boolean; start
           };
           
           return (
-            <div key={item.year} className="flex flex-col items-center flex-1">
+            <div key={`${item.year}-${animationKey}`} className="flex flex-col items-center flex-1">
               <div className="relative w-full h-28 flex items-end justify-center">
                 <motion.div
                   className="w-full max-w-[28px] rounded-t-sm"
@@ -61,10 +61,10 @@ const OffersBarChart = ({ isStable, startAnimation }: { isStable: boolean; start
                   animate={startAnimation ? { 
                     height: `${heightPercent}%`, 
                     opacity: 1 
-                  } : {}}
+                  } : { height: 0, opacity: 0 }}
                   transition={{
                     duration: 0.5,
-                    delay,
+                    delay: startAnimation ? delay : 0,
                     ease: [0.25, 0.46, 0.45, 0.94]
                   }}
                   style={{ 
@@ -81,8 +81,8 @@ const OffersBarChart = ({ isStable, startAnimation }: { isStable: boolean; start
   );
 };
 
-const CredibilityBar = ({ isStable, startAnimation }: { isStable: boolean; startAnimation: boolean }) => {
-  const [progress, setProgress] = useState(isStable ? 100 : 100);
+const CredibilityBar = ({ isStable, startAnimation, animationKey }: { isStable: boolean; startAnimation: boolean; animationKey: number }) => {
+  const [progress, setProgress] = useState(100);
   const [isFlashing, setIsFlashing] = useState(false);
   const [hasStarted, setHasStarted] = useState(false);
   
@@ -92,6 +92,13 @@ const CredibilityBar = ({ isStable, startAnimation }: { isStable: boolean; start
   useEffect(() => {
     progressValue.set(progress);
   }, [progress, progressValue]);
+
+  // Reset when animationKey changes
+  useEffect(() => {
+    setProgress(100);
+    setIsFlashing(false);
+    setHasStarted(false);
+  }, [animationKey]);
 
   // Start the credibility decrease when animation starts (for inconsistent)
   useEffect(() => {
@@ -133,9 +140,6 @@ const CredibilityBar = ({ isStable, startAnimation }: { isStable: boolean; start
       return () => clearTimeout(initialDelay);
     }
   }, [isStable, hasStarted]);
-
-  // Keep flashing indefinitely when empty (no reset)
-  // No reset effect needed - just keep flashing
 
   const progressSpring = useSpring(progressValue, {
     stiffness: 80,
@@ -188,12 +192,49 @@ const CredibilityBar = ({ isStable, startAnimation }: { isStable: boolean; start
 };
 export const LeadershipSection = () => {
   const chartRef = useRef(null);
-  const chartInView = useInView(chartRef, { once: true, margin: "-50px" });
+  const chartInView = useInView(chartRef, { margin: "-50px" }); // Removed once: true
   const ref = useRef(null);
   const isInView = useInView(ref, {
     once: true,
     margin: "-100px"
   });
+  
+  // Track animation state with reset capability
+  const [animationKey, setAnimationKey] = useState(0);
+  const [shouldAnimate, setShouldAnimate] = useState(false);
+  const outOfViewTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const hasAnimatedOnce = useRef(false);
+
+  useEffect(() => {
+    if (chartInView) {
+      // Clear any pending reset timer
+      if (outOfViewTimerRef.current) {
+        clearTimeout(outOfViewTimerRef.current);
+        outOfViewTimerRef.current = null;
+      }
+      
+      // Start animation if not already running
+      if (!shouldAnimate || !hasAnimatedOnce.current) {
+        setShouldAnimate(true);
+        hasAnimatedOnce.current = true;
+      }
+    } else if (hasAnimatedOnce.current) {
+      // Element left view - start 2 second timer
+      outOfViewTimerRef.current = setTimeout(() => {
+        // Reset animation state
+        setShouldAnimate(false);
+        setAnimationKey(prev => prev + 1);
+        hasAnimatedOnce.current = false;
+      }, 2000);
+    }
+    
+    return () => {
+      if (outOfViewTimerRef.current) {
+        clearTimeout(outOfViewTimerRef.current);
+      }
+    };
+  }, [chartInView]);
+
   return <section ref={ref} className="py-24 bg-background">
       <div className="container px-6">
         {/* Centered text content */}
@@ -237,15 +278,15 @@ export const LeadershipSection = () => {
             {/* Unstable chart + decreasing credibility */}
             <div ref={chartRef} className="flex flex-col items-center">
               <p className="text-sm text-muted-foreground mb-4 font-medium">Inconsistent Oxbridge Offers</p>
-              <OffersBarChart isStable={false} startAnimation={chartInView} />
-              <CredibilityBar isStable={false} startAnimation={chartInView} />
+              <OffersBarChart isStable={false} startAnimation={shouldAnimate} animationKey={animationKey} />
+              <CredibilityBar isStable={false} startAnimation={shouldAnimate} animationKey={animationKey} />
             </div>
             
             {/* Stable chart + full credibility */}
             <div className="flex flex-col items-center">
               <p className="text-sm text-muted-foreground mb-4 font-medium">Consistent Oxbridge Offers</p>
-              <OffersBarChart isStable={true} startAnimation={chartInView} />
-              <CredibilityBar isStable={true} startAnimation={chartInView} />
+              <OffersBarChart isStable={true} startAnimation={shouldAnimate} animationKey={animationKey} />
+              <CredibilityBar isStable={true} startAnimation={shouldAnimate} animationKey={animationKey} />
             </div>
           </div>
         </motion.div>
