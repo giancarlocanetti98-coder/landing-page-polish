@@ -39,11 +39,8 @@ export const ProblemSection = () => {
         duration: 0.7,
         delay: 0.2
       }} className="mt-12">
-          <div className="space-y-6 text-lg md:text-xl text-muted-foreground leading-relaxed">
+          <div className="space-y-4 text-lg md:text-xl text-muted-foreground leading-relaxed">
             <p>Those offers don't disappear. They go to other schools.</p>
-
-            <div className="w-24 h-px bg-gold/40 mx-auto !my-8" />
-
             <p>
               This is how reputations drift quietly.
               And the more they drift, the harder it is to recover.
