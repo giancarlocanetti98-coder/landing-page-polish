@@ -82,8 +82,9 @@ const OffersBarChart = ({ isStable, startAnimation, animationKey }: { isStable: 
 };
 
 const CredibilityBar = ({ isStable, startAnimation, animationKey }: { isStable: boolean; startAnimation: boolean; animationKey: number }) => {
-  const [progress, setProgress] = useState(100);
+  const [progress, setProgress] = useState(isStable ? 50 : 100);
   const [isFlashing, setIsFlashing] = useState(false);
+  const [isGlowing, setIsGlowing] = useState(false);
   const [hasStarted, setHasStarted] = useState(false);
   
   // Create motion value and update it when progress changes
@@ -95,33 +96,53 @@ const CredibilityBar = ({ isStable, startAnimation, animationKey }: { isStable: 
 
   // Reset when animationKey changes
   useEffect(() => {
-    setProgress(100);
+    setProgress(isStable ? 50 : 100);
     setIsFlashing(false);
+    setIsGlowing(false);
     setHasStarted(false);
-  }, [animationKey]);
+  }, [animationKey, isStable]);
 
-  // Start the credibility decrease when animation starts (for inconsistent)
+  // Start the credibility animation when bars start animating
   useEffect(() => {
-    if (startAnimation && !isStable && !hasStarted) {
+    if (startAnimation && !hasStarted) {
       setHasStarted(true);
     }
-  }, [startAnimation, isStable, hasStarted]);
+  }, [startAnimation, hasStarted]);
 
   useEffect(() => {
+    if (!hasStarted) return;
+    
+    const CREDIBILITY_STEPS = 5;
+    
     if (isStable) {
-      // Stable: always full with tiny fluctuations
-      const interval = setInterval(() => {
-        setProgress(97 + Math.random() * 3);
-      }, 2000);
-      return () => clearInterval(interval);
-    } else if (hasStarted) {
-      // Unstable: decrease in sync with bars spawning
-      // First bar spawns at 100%, then 5 decrements for remaining 5 bars
-      const CREDIBILITY_STEPS = 5;
+      // Stable: start at 50%, increase with each bar spawn
+      const increasePerBar = 50 / CREDIBILITY_STEPS;
+      let currentStep = 0;
+      
+      // Delay to match when consistent bars start (after inconsistent bars finish)
+      const initialDelay = setTimeout(() => {
+        // First increment happens with first bar
+        const interval = setInterval(() => {
+          currentStep++;
+          if (currentStep >= CREDIBILITY_STEPS) {
+            setProgress(100);
+            setIsGlowing(true);
+            clearInterval(interval);
+          } else {
+            setProgress(50 + (currentStep * increasePerBar));
+          }
+        }, BAR_INTERVAL * 1000);
+        
+        return () => clearInterval(interval);
+      }, (INCONSISTENT_DURATION + 0.5) * 1000); // Match consistent bars delay
+      
+      return () => clearTimeout(initialDelay);
+    } else {
+      // Unstable: decrease exactly when each bar spawns (starting from bar 2)
       const decreasePerBar = 100 / CREDIBILITY_STEPS;
       let currentStep = 0;
       
-      // Start decreasing after first bar (delay matches second bar spawn)
+      // First bar spawns immediately at 100%, decrease starts with bar 2
       const initialDelay = setTimeout(() => {
         const interval = setInterval(() => {
           currentStep++;
@@ -157,8 +178,12 @@ const CredibilityBar = ({ isStable, startAnimation, animationKey }: { isStable: 
         ? "hsl(45, 70%, 55%)" 
         : "hsl(0, 60%, 55%)";
 
-  // Glow effect for stable bar
-  const stableGlow = isStable ? "0 0 12px hsl(142, 50%, 45%, 0.5), 0 0 20px hsl(142, 50%, 45%, 0.3)" : "";
+  // Glow effect for stable bar (enhanced when complete)
+  const stableGlow = isGlowing 
+    ? "0 0 16px hsl(142, 50%, 45%, 0.7), 0 0 30px hsl(142, 50%, 45%, 0.5), 0 0 45px hsl(142, 50%, 45%, 0.3)"
+    : isStable 
+      ? "0 0 8px hsl(142, 50%, 45%, 0.3)" 
+      : "";
 
   return (
     <div className="w-full max-w-[200px] mx-auto mt-4">
@@ -170,13 +195,19 @@ const CredibilityBar = ({ isStable, startAnimation, animationKey }: { isStable: 
         animate={isFlashing ? { 
           opacity: [1, 0.3, 1],
           borderColor: ["hsl(0, 60%, 55%)", "hsl(0, 80%, 40%)", "hsl(0, 60%, 55%)"]
+        } : isGlowing ? {
+          boxShadow: [
+            "0 0 16px hsl(142, 50%, 45%, 0.7), 0 0 30px hsl(142, 50%, 45%, 0.5)",
+            "0 0 20px hsl(142, 50%, 45%, 0.8), 0 0 40px hsl(142, 50%, 45%, 0.6)",
+            "0 0 16px hsl(142, 50%, 45%, 0.7), 0 0 30px hsl(142, 50%, 45%, 0.5)"
+          ]
         } : {}}
-        transition={isFlashing ? { 
-          duration: 0.5, 
+        transition={isFlashing || isGlowing ? { 
+          duration: isGlowing ? 1.5 : 0.5, 
           repeat: Infinity,
           ease: "easeInOut"
         } : {}}
-        style={isStable ? { boxShadow: stableGlow } : {}}
+        style={isStable && !isGlowing ? { boxShadow: stableGlow } : {}}
       >
         <motion.div
           className="absolute inset-y-0 left-0 rounded-full transition-colors duration-300"
