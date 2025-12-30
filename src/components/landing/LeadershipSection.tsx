@@ -218,41 +218,42 @@ const CredibilityBar = ({ isStable, startAnimation, animationKey }: { isStable: 
           >
             {/* Shimmer effect */}
             <motion.div
-              className="absolute inset-y-0 w-[60%]"
+              className="absolute inset-y-0 w-[50%]"
               style={{
-                background: "linear-gradient(90deg, transparent 0%, hsla(142, 80%, 75%, 0.4) 40%, hsla(0, 0%, 100%, 0.6) 50%, hsla(142, 80%, 75%, 0.4) 60%, transparent 100%)",
+                background: "linear-gradient(90deg, transparent 0%, hsla(142, 70%, 75%, 0.15) 45%, hsla(0, 0%, 100%, 0.25) 50%, hsla(142, 70%, 75%, 0.15) 55%, transparent 100%)",
               }}
               animate={{
-                x: ["-100%", "250%"]
+                x: ["-100%", "300%"]
               }}
               transition={{
-                duration: 2.5,
+                duration: 3.5,
                 repeat: Infinity,
                 ease: "easeInOut",
-                repeatDelay: 1
+                repeatDelay: 2
               }}
             />
             
             {/* Subtle sparkle particles */}
-            {[0, 1, 2].map((i) => (
+            {[0, 1].map((i) => (
               <motion.div
                 key={i}
-                className="absolute w-1 h-1 rounded-full"
+                className="absolute rounded-full"
                 style={{
-                  background: "hsla(0, 0%, 100%, 0.9)",
+                  width: "2px",
+                  height: "2px",
+                  background: "hsla(0, 0%, 100%, 0.6)",
                   top: "50%",
-                  boxShadow: "0 0 3px hsla(0, 0%, 100%, 0.8)",
                 }}
                 animate={{
-                  opacity: [0, 1, 0],
+                  opacity: [0, 0.6, 0],
                   scale: [0.5, 1, 0.5],
-                  left: [`${20 + i * 25}%`, `${25 + i * 25}%`, `${20 + i * 25}%`],
+                  left: [`${30 + i * 35}%`, `${33 + i * 35}%`, `${30 + i * 35}%`],
                   y: ["-50%", "-50%", "-50%"],
                 }}
                 transition={{
-                  duration: 2,
+                  duration: 2.5,
                   repeat: Infinity,
-                  delay: i * 0.8,
+                  delay: i * 1.5,
                   ease: "easeInOut",
                 }}
               />
