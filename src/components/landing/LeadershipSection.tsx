@@ -204,15 +204,15 @@ const CredibilityBar = ({ isStable, startAnimation, animationKey }: { isStable: 
           borderColor: ["hsl(0, 60%, 55%)", "hsl(0, 80%, 40%)", "hsl(0, 60%, 55%)"]
         } : isGlowing ? {
           boxShadow: [
-            "0 0 8px hsl(142, 60%, 50%, 0.4), 0 0 16px hsl(142, 60%, 50%, 0.2)",
-            "0 0 24px hsl(142, 70%, 55%, 1), 0 0 48px hsl(142, 70%, 55%, 0.8), 0 0 72px hsl(142, 70%, 55%, 0.5)",
-            "0 0 8px hsl(142, 60%, 50%, 0.4), 0 0 16px hsl(142, 60%, 50%, 0.2)"
+            "0 0 8px hsl(142, 60%, 50%, 0.3), 0 0 16px hsl(142, 60%, 50%, 0.15)",
+            "0 0 20px hsl(142, 70%, 55%, 0.9), 0 0 40px hsl(142, 70%, 55%, 0.6), 0 0 60px hsl(142, 70%, 55%, 0.35)",
+            "0 0 8px hsl(142, 60%, 50%, 0.3), 0 0 16px hsl(142, 60%, 50%, 0.15)"
           ]
         } : {}}
         transition={isFlashing || isGlowing ? { 
-          duration: isGlowing ? 1.2 : 0.5, 
+          duration: isGlowing ? 2.5 : 0.5, 
           repeat: Infinity,
-          ease: "easeInOut"
+          ease: [0.45, 0.05, 0.55, 0.95]
         } : {}}
         style={isStable && !isGlowing ? { boxShadow: stableGlow } : {}}
       >
@@ -220,15 +220,15 @@ const CredibilityBar = ({ isStable, startAnimation, animationKey }: { isStable: 
           className="absolute inset-y-0 left-0 rounded-full"
           animate={isGlowing ? {
             boxShadow: [
-              "0 0 6px hsl(142, 60%, 50%, 0.5)",
-              "0 0 20px hsl(142, 70%, 60%, 1), 0 0 35px hsl(142, 70%, 55%, 0.7)",
-              "0 0 6px hsl(142, 60%, 50%, 0.5)"
+              "0 0 4px hsl(142, 60%, 50%, 0.4)",
+              "0 0 16px hsl(142, 70%, 60%, 0.9), 0 0 28px hsl(142, 70%, 55%, 0.5)",
+              "0 0 4px hsl(142, 60%, 50%, 0.4)"
             ]
           } : {}}
           transition={isGlowing ? {
-            duration: 1.2,
+            duration: 2.5,
             repeat: Infinity,
-            ease: "easeInOut"
+            ease: [0.45, 0.05, 0.55, 0.95]
           } : {}}
           style={{ 
             width,
