@@ -14,17 +14,16 @@ const ConfidenceMeter = ({ isStable }: { isStable: boolean }) => {
       }, 2500 + Math.random() * 1500);
       return () => clearInterval(interval);
     } else {
-      // Unstable meter: slower, less sporadic but favoring the red zone (100-170 degrees = left side)
+      // Unstable meter: sporadic movements across full range (red to green)
       const interval = setInterval(() => {
-        // Bias toward red (higher rotation values)
-        const baseRotation = 80 + Math.random() * 90; // 80-170 range, favoring red
-        setRotation(baseRotation);
-      }, 1000 + Math.random() * 800);
+        // Full range: 15-165 degrees (covers green through middle to red)
+        setRotation(15 + Math.random() * 150);
+      }, 500 + Math.random() * 500);
       return () => clearInterval(interval);
     }
   }, [isStable]);
 
-  const needleLength = 58;
+  const needleLength = 55;
 
   return (
     <div className="relative w-full max-w-[280px] mx-auto">
@@ -74,33 +73,34 @@ const ConfidenceMeter = ({ isStable }: { isStable: boolean }) => {
           );
         })}
         
-        {/* Needle - rotates around center pivot, consistent length */}
-        <motion.g
+        {/* Center pivot point - elegant gold circle (drawn first so needle appears attached) */}
+        <circle cx="100" cy="100" r="12" fill="hsl(var(--gold))" />
+        <circle cx="100" cy="100" r="8" fill="hsl(var(--gold))" style={{ filter: 'brightness(1.2)' }} />
+        
+        {/* Needle - rotates around center pivot */}
+        <motion.line
+          x1={100}
+          y1={100}
+          x2={100 + needleLength}
+          y2={100}
           animate={{ rotate: -rotation }}
           transition={{ 
             type: "spring", 
-            stiffness: isStable ? 100 : 50, 
-            damping: isStable ? 20 : 12,
-            mass: isStable ? 0.3 : 0.6
+            stiffness: isStable ? 100 : 80, 
+            damping: isStable ? 18 : 8,
+            mass: isStable ? 0.4 : 0.3
           }}
-          style={{ transformOrigin: '100px 100px' }}
-        >
-          <line
-            x1={100}
-            y1={100}
-            x2={100 + needleLength}
-            y2={100}
-            stroke="hsl(var(--gold))"
-            strokeWidth="3"
-            strokeLinecap="round"
-            style={{ filter: 'drop-shadow(0 1px 2px rgba(0,0,0,0.3))' }}
-          />
-        </motion.g>
+          stroke="hsl(var(--gold))"
+          strokeWidth="4"
+          strokeLinecap="round"
+          style={{ 
+            transformOrigin: '100px 100px',
+            filter: 'drop-shadow(0 1px 2px rgba(0,0,0,0.3))' 
+          }}
+        />
         
-        {/* Center pivot point - elegant gold circle (fixed base) */}
-        <circle cx="100" cy="100" r="10" fill="hsl(var(--gold))" />
-        <circle cx="100" cy="100" r="6" fill="hsl(var(--gold))" style={{ filter: 'brightness(1.3)' }} />
-        <circle cx="100" cy="100" r="2.5" fill="hsl(var(--background))" />
+        {/* Center dot overlay */}
+        <circle cx="100" cy="100" r="3" fill="hsl(var(--background))" />
       </svg>
     </div>
   );
