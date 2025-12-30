@@ -24,7 +24,7 @@ export const ProblemSection = () => {
             {" "}on the Table Every Single Year...
           </h2>
 
-          <p className="text-lg md:text-xl text-muted-foreground mt-6">
+          <p className="text-lg md:text-xl text-muted-foreground mt-3">
             without ever seeing why they are lost.
           </p>
         </motion.div>
