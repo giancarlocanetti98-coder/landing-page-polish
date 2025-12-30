@@ -26,6 +26,11 @@ const consistentData = [
   { year: '2024', value: 91 },
 ];
 
+// Timing constants for synchronization
+const BAR_INTERVAL = 0.6; // seconds between each bar spawn
+const TOTAL_BARS = 6;
+const INCONSISTENT_DURATION = BAR_INTERVAL * TOTAL_BARS; // Total time for inconsistent bars
+
 const OffersBarChart = ({ isStable, startAnimation }: { isStable: boolean; startAnimation: boolean }) => {
   const data = isStable ? consistentData : inconsistentData;
   const maxValue = 100;
@@ -35,13 +40,13 @@ const OffersBarChart = ({ isStable, startAnimation }: { isStable: boolean; start
       <div className="flex items-end justify-between gap-2 h-32">
         {data.map((item, index) => {
           const heightPercent = (item.value / maxValue) * 100;
-          // Inconsistent bars animate first, then consistent bars
-          const delayBase = isStable ? 1.8 : 0; // Consistent starts after inconsistent
-          const delay = delayBase + index * 0.15;
+          // Slower rate, consistent starts after all inconsistent bars are done
+          const delayBase = isStable ? INCONSISTENT_DURATION + 0.5 : 0;
+          const delay = delayBase + index * BAR_INTERVAL;
           
-          // Color based on value for inconsistent, gold for consistent
+          // Green for consistent, color-coded for inconsistent
           const getBarColor = () => {
-            if (isStable) return "hsl(var(--gold))";
+            if (isStable) return "hsl(142, 50%, 45%)";
             if (item.value >= 70) return "hsl(142, 50%, 45%)";
             if (item.value >= 50) return "hsl(45, 70%, 55%)";
             return "hsl(0, 60%, 55%)";
@@ -58,7 +63,7 @@ const OffersBarChart = ({ isStable, startAnimation }: { isStable: boolean; start
                     opacity: 1 
                   } : {}}
                   transition={{
-                    duration: 0.6,
+                    duration: 0.5,
                     delay,
                     ease: [0.25, 0.46, 0.45, 0.94]
                   }}
@@ -68,14 +73,6 @@ const OffersBarChart = ({ isStable, startAnimation }: { isStable: boolean; start
                   }}
                 />
               </div>
-              <motion.span 
-                className="text-[10px] text-muted-foreground mt-2 font-medium"
-                initial={{ opacity: 0 }}
-                animate={startAnimation ? { opacity: 1 } : {}}
-                transition={{ duration: 0.3, delay: delay + 0.3 }}
-              >
-                {item.year.slice(2)}
-              </motion.span>
             </div>
           );
         })}
@@ -84,9 +81,10 @@ const OffersBarChart = ({ isStable, startAnimation }: { isStable: boolean; start
   );
 };
 
-const CredibilityBar = ({ isStable }: { isStable: boolean }) => {
-  const [progress, setProgress] = useState(isStable ? 100 : 50);
+const CredibilityBar = ({ isStable, startAnimation }: { isStable: boolean; startAnimation: boolean }) => {
+  const [progress, setProgress] = useState(isStable ? 100 : 100);
   const [isFlashing, setIsFlashing] = useState(false);
+  const [hasStarted, setHasStarted] = useState(false);
   
   // Create motion value and update it when progress changes
   const progressValue = useMotionValue(progress);
@@ -95,6 +93,13 @@ const CredibilityBar = ({ isStable }: { isStable: boolean }) => {
     progressValue.set(progress);
   }, [progress, progressValue]);
 
+  // Start the credibility decrease when animation starts (for inconsistent)
+  useEffect(() => {
+    if (startAnimation && !isStable && !hasStarted) {
+      setHasStarted(true);
+    }
+  }, [startAnimation, isStable, hasStarted]);
+
   useEffect(() => {
     if (isStable) {
       // Stable: always full with tiny fluctuations
@@ -102,44 +107,54 @@ const CredibilityBar = ({ isStable }: { isStable: boolean }) => {
         setProgress(97 + Math.random() * 3);
       }, 2000);
       return () => clearInterval(interval);
-    } else {
-      // Unstable: slowly decrease from 50 to 0
+    } else if (hasStarted) {
+      // Unstable: decrease in sync with bars spawning (one step per bar)
+      const decreasePerBar = 100 / TOTAL_BARS;
+      let currentBar = 0;
+      
       const interval = setInterval(() => {
-        setProgress((prev) => {
-          const next = prev - (2 + Math.random() * 3);
-          if (next <= 0) {
-            setIsFlashing(true);
-            return 0;
-          }
-          return next;
-        });
-      }, 200);
+        currentBar++;
+        if (currentBar >= TOTAL_BARS) {
+          setProgress(0);
+          setIsFlashing(true);
+          clearInterval(interval);
+        } else {
+          setProgress(100 - (currentBar * decreasePerBar));
+        }
+      }, BAR_INTERVAL * 1000);
+      
       return () => clearInterval(interval);
     }
-  }, [isStable]);
+  }, [isStable, hasStarted]);
 
   // Reset after reaching zero and flashing for a bit
   useEffect(() => {
     if (isFlashing && !isStable) {
       const timeout = setTimeout(() => {
         setIsFlashing(false);
-        setProgress(50); // Reset to half
+        setProgress(100);
+        setHasStarted(false);
+        // Will restart when component re-triggers
       }, 3000);
       return () => clearTimeout(timeout);
     }
   }, [isFlashing, isStable]);
 
   const progressSpring = useSpring(progressValue, {
-    stiffness: 100,
-    damping: 25,
+    stiffness: 80,
+    damping: 20,
   });
 
   const width = useTransform(progressSpring, (v) => `${v}%`);
   
-  // Color based on progress level
+  // Color transitions from green to yellow to red as it decreases
   const barColor = isStable 
     ? "hsl(142, 50%, 45%)" // Green for stable
-    : "hsl(0, 60%, 55%)";   // Red for unstable
+    : progress > 60 
+      ? "hsl(142, 50%, 45%)" 
+      : progress > 30 
+        ? "hsl(45, 70%, 55%)" 
+        : "hsl(0, 60%, 55%)";
 
   return (
     <div className="w-full max-w-[200px] mx-auto mt-4">
@@ -159,7 +174,7 @@ const CredibilityBar = ({ isStable }: { isStable: boolean }) => {
         } : {}}
       >
         <motion.div
-          className="absolute inset-y-0 left-0 rounded-full"
+          className="absolute inset-y-0 left-0 rounded-full transition-colors duration-300"
           style={{ 
             width,
             backgroundColor: barColor,
@@ -222,14 +237,14 @@ export const LeadershipSection = () => {
             <div ref={chartRef} className="flex flex-col items-center">
               <p className="text-sm text-muted-foreground mb-4 font-medium">Inconsistent Oxbridge Offers</p>
               <OffersBarChart isStable={false} startAnimation={chartInView} />
-              <CredibilityBar isStable={false} />
+              <CredibilityBar isStable={false} startAnimation={chartInView} />
             </div>
             
             {/* Stable chart + full credibility */}
             <div className="flex flex-col items-center">
               <p className="text-sm text-muted-foreground mb-4 font-medium">Consistent Oxbridge Offers</p>
               <OffersBarChart isStable={true} startAnimation={chartInView} />
-              <CredibilityBar isStable={true} />
+              <CredibilityBar isStable={true} startAnimation={chartInView} />
             </div>
           </div>
         </motion.div>
