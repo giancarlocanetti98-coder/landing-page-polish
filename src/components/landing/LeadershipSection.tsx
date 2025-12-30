@@ -8,10 +8,10 @@ const ConfidenceMeter = ({ isStable }: { isStable: boolean }) => {
   
   useEffect(() => {
     if (isStable) {
-      // Stable meter: slow fluctuations in the green zone (5-30 degrees = right side)
+      // Stable meter: quicker fluctuations in the green zone (3-35 degrees = right side)
       const interval = setInterval(() => {
-        setRotation(5 + Math.random() * 25);
-      }, 2500 + Math.random() * 1500);
+        setRotation(3 + Math.random() * 32);
+      }, 1200 + Math.random() * 800);
       return () => clearInterval(interval);
     } else {
       // Unstable meter: sporadic movements across full range (red to green)
