@@ -1,6 +1,100 @@
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
-import { useRef } from "react";
+import { useRef, useEffect, useState } from "react";
+
+const ConfidenceMeter = ({ isStable }: { isStable: boolean }) => {
+  const [rotation, setRotation] = useState(isStable ? 65 : 20);
+  
+  useEffect(() => {
+    if (isStable) {
+      // Stable meter: small fluctuations near the top (60-70 degrees)
+      const interval = setInterval(() => {
+        setRotation(62 + Math.random() * 8);
+      }, 2000 + Math.random() * 1000);
+      return () => clearInterval(interval);
+    } else {
+      // Unstable meter: unpredictable fluctuations across range
+      const interval = setInterval(() => {
+        setRotation(15 + Math.random() * 50);
+      }, 800 + Math.random() * 600);
+      return () => clearInterval(interval);
+    }
+  }, [isStable]);
+
+  return (
+    <div className="relative w-full max-w-[280px] mx-auto">
+      <svg viewBox="0 0 200 120" className="w-full h-auto">
+        {/* Outer arc border */}
+        <path
+          d="M 20 100 A 80 80 0 0 1 180 100"
+          fill="none"
+          stroke="hsl(var(--gold) / 0.3)"
+          strokeWidth="2"
+        />
+        
+        {/* Inner gradient arc - background */}
+        <defs>
+          <linearGradient id={`gaugeGradient-${isStable ? 'stable' : 'unstable'}`} x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stopColor="hsl(0, 60%, 55%)" stopOpacity="0.3" />
+            <stop offset="50%" stopColor="hsl(40, 60%, 55%)" stopOpacity="0.3" />
+            <stop offset="100%" stopColor="hsl(142, 50%, 45%)" stopOpacity="0.3" />
+          </linearGradient>
+        </defs>
+        
+        <path
+          d="M 30 100 A 70 70 0 0 1 170 100"
+          fill="none"
+          stroke={`url(#gaugeGradient-${isStable ? 'stable' : 'unstable'})`}
+          strokeWidth="12"
+          strokeLinecap="round"
+        />
+        
+        {/* Tick marks */}
+        {[0, 22.5, 45, 67.5, 90].map((angle, i) => {
+          const rad = ((180 - angle) * Math.PI) / 180;
+          const x1 = 100 + 75 * Math.cos(rad);
+          const y1 = 100 - 75 * Math.sin(rad);
+          const x2 = 100 + 68 * Math.cos(rad);
+          const y2 = 100 - 68 * Math.sin(rad);
+          return (
+            <line
+              key={i}
+              x1={x1}
+              y1={y1}
+              x2={x2}
+              y2={y2}
+              stroke="hsl(var(--gold) / 0.5)"
+              strokeWidth="1.5"
+            />
+          );
+        })}
+        
+        {/* Center pivot point - elegant gold circle */}
+        <circle cx="100" cy="100" r="8" fill="hsl(var(--gold))" />
+        <circle cx="100" cy="100" r="5" fill="hsl(var(--gold))" style={{ filter: 'brightness(1.2)' }} />
+        <circle cx="100" cy="100" r="2" fill="hsl(var(--background))" />
+        
+        {/* Needle */}
+        <motion.g
+          animate={{ rotate: rotation }}
+          transition={{ 
+            type: "spring", 
+            stiffness: isStable ? 80 : 40, 
+            damping: isStable ? 15 : 8,
+            mass: isStable ? 0.5 : 0.8
+          }}
+          style={{ transformOrigin: '100px 100px' }}
+        >
+          <path
+            d="M 100 100 L 98 95 L 100 35 L 102 95 Z"
+            fill="hsl(var(--gold))"
+            style={{ filter: 'drop-shadow(0 2px 3px rgba(0,0,0,0.2))' }}
+          />
+        </motion.g>
+      </svg>
+    </div>
+  );
+};
 export const LeadershipSection = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, {
@@ -53,47 +147,16 @@ export const LeadershipSection = () => {
           duration: 0.7,
           delay: 0.2
         }} className="bg-card rounded-2xl p-8 md:p-12 shadow-card border border-border">
-            {/* Graph visualization */}
-            <div className="relative">
-              <svg viewBox="0 0 600 200" className="w-full h-auto" preserveAspectRatio="xMidYMid meet">
-                {/* Volatile declining red line (left side) */}
-                <path d="M 20 80 L 50 50 L 80 90 L 110 40 L 140 70 L 170 55 L 200 100 L 230 75 L 260 120 L 280 150" fill="none" stroke="hsl(0, 70%, 60%)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="opacity-80" />
-                
-                {/* Baseline */}
-                <line x1="20" y1="170" x2="580" y2="170" stroke="hsl(var(--border))" strokeWidth="1" />
-                
-                {/* Dotted divider */}
-                <line x1="300" y1="30" x2="300" y2="170" stroke="hsl(var(--muted-foreground))" strokeWidth="1" strokeDasharray="4 4" className="opacity-40" />
-                
-                {/* Stable green line (right side) */}
-                <path d="M 320 60 L 360 55 L 400 62 L 440 58 L 480 63 L 520 57 L 560 60 L 580 58" fill="none" stroke="hsl(142, 60%, 45%)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="opacity-90" />
-              </svg>
+            {/* Confidence meters */}
+            <div className="grid grid-cols-2 gap-8">
+              {/* Unstable meter */}
+              <div className="flex flex-col items-center">
+                <ConfidenceMeter isStable={false} />
+              </div>
               
-              {/* Labels */}
-              <div className="grid grid-cols-2 gap-8 mt-8 pt-6 border-t border-border">
-                {/* Red side labels */}
-                <div className="text-center space-y-2">
-                  <p className="font-serif text-base md:text-lg text-destructive">
-                    Quiet worry about Oxbridge offers
-                  </p>
-                  <p className="font-serif text-base md:text-lg text-destructive">
-                    Leadership called into question
-                  </p>
-                </div>
-                
-                {/* Green side labels */}
-                <div className="text-center space-y-2">
-                  <p className="font-serif text-base md:text-lg" style={{
-                  color: 'hsl(142, 60%, 45%)'
-                }}>
-                    Trust from governors and parents
-                  </p>
-                  <p className="font-serif text-base md:text-lg" style={{
-                  color: 'hsl(142, 60%, 45%)'
-                }}>
-                    Clear public success
-                  </p>
-                </div>
+              {/* Stable meter */}
+              <div className="flex flex-col items-center">
+                <ConfidenceMeter isStable={true} />
               </div>
             </div>
           </motion.div>
