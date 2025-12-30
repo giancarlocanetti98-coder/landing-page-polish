@@ -204,24 +204,36 @@ const CredibilityBar = ({ isStable, startAnimation, animationKey }: { isStable: 
           borderColor: ["hsl(0, 60%, 55%)", "hsl(0, 80%, 40%)", "hsl(0, 60%, 55%)"]
         } : isGlowing ? {
           boxShadow: [
-            "0 0 16px hsl(142, 50%, 45%, 0.7), 0 0 30px hsl(142, 50%, 45%, 0.5)",
-            "0 0 20px hsl(142, 50%, 45%, 0.8), 0 0 40px hsl(142, 50%, 45%, 0.6)",
-            "0 0 16px hsl(142, 50%, 45%, 0.7), 0 0 30px hsl(142, 50%, 45%, 0.5)"
+            "0 0 8px hsl(142, 60%, 50%, 0.4), 0 0 16px hsl(142, 60%, 50%, 0.2)",
+            "0 0 24px hsl(142, 70%, 55%, 1), 0 0 48px hsl(142, 70%, 55%, 0.8), 0 0 72px hsl(142, 70%, 55%, 0.5)",
+            "0 0 8px hsl(142, 60%, 50%, 0.4), 0 0 16px hsl(142, 60%, 50%, 0.2)"
           ]
         } : {}}
         transition={isFlashing || isGlowing ? { 
-          duration: isGlowing ? 1.5 : 0.5, 
+          duration: isGlowing ? 1.2 : 0.5, 
           repeat: Infinity,
           ease: "easeInOut"
         } : {}}
         style={isStable && !isGlowing ? { boxShadow: stableGlow } : {}}
       >
         <motion.div
-          className="absolute inset-y-0 left-0 rounded-full transition-colors duration-300"
+          className="absolute inset-y-0 left-0 rounded-full"
+          animate={isGlowing ? {
+            boxShadow: [
+              "0 0 6px hsl(142, 60%, 50%, 0.5)",
+              "0 0 20px hsl(142, 70%, 60%, 1), 0 0 35px hsl(142, 70%, 55%, 0.7)",
+              "0 0 6px hsl(142, 60%, 50%, 0.5)"
+            ]
+          } : {}}
+          transition={isGlowing ? {
+            duration: 1.2,
+            repeat: Infinity,
+            ease: "easeInOut"
+          } : {}}
           style={{ 
             width,
             backgroundColor: barColor,
-            boxShadow: isStable ? stableGlow : `0 0 8px ${barColor}40`
+            boxShadow: !isGlowing ? (isStable ? stableGlow : `0 0 8px ${barColor}40`) : undefined
           }}
         />
       </motion.div>
