@@ -18,17 +18,17 @@ export const HeroSection = () => {
         <motion.div 
           className="absolute w-[800px] h-[800px] border border-gold/15 rounded-full"
           animate={{ rotate: 360 }}
-          transition={{ duration: 150, repeat: Infinity, ease: "linear" }}
+          transition={{ duration: 60, repeat: Infinity, ease: "linear" }}
         />
         <motion.div 
           className="absolute w-[600px] h-[600px] border border-gold/15 rounded-full"
           animate={{ rotate: -360 }}
-          transition={{ duration: 120, repeat: Infinity, ease: "linear" }}
+          transition={{ duration: 45, repeat: Infinity, ease: "linear" }}
         />
         <motion.div 
           className="absolute w-[400px] h-[400px] border border-gold/10 rounded-full"
           animate={{ rotate: 360 }}
-          transition={{ duration: 90, repeat: Infinity, ease: "linear" }}
+          transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
         />
       </motion.div>
 
