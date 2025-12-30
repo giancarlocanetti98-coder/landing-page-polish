@@ -220,70 +220,61 @@ export const LeadershipSection = () => {
     once: true,
     margin: "-100px"
   });
-  return <section ref={ref} className="py-24 bg-background md:py-0">
+  return <section ref={ref} className="py-24 bg-background">
       <div className="container px-6">
-        <div className="grid lg:grid-cols-2 gap-16 items-center">
-          {/* Text content */}
-          <motion.div initial={{
-          opacity: 0,
-          x: -40
-        }} animate={isInView ? {
-          opacity: 1,
-          x: 0
-        } : {}} transition={{
-          duration: 0.7
-        }}>
-            <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl font-semibold text-foreground mb-8 leading-tight">
-              School Leadership is Judged on{" "}
-              <span className="text-gold">Oxbridge Offers</span>
-            </h2>
+        {/* Centered text content */}
+        <motion.div 
+          initial={{ opacity: 0, y: 30 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.7 }}
+          className="max-w-3xl mx-auto text-center mb-16"
+        >
+          <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl font-semibold text-foreground mb-8 leading-tight">
+            School Leadership is Judged on{" "}
+            <span className="text-gold">Oxbridge Offers</span>
+          </h2>
 
-            <div className="space-y-6 text-lg text-muted-foreground leading-relaxed">
-              <p>Every year, your Oxbridge results are on display.</p>
-              <p>To governors. To other elite schools. To the public.</p>
-              <p className="text-foreground font-medium">These results shape your reputation.</p>
-              <p>
-                There is no league table for having the brightest students.
-                Or for the best teaching.
-                Or even for how many students reach interview.
-              </p>
-              <p>You do exceptional work.</p>
-              <p className="text-foreground font-medium">
-                But unless it converts into offers, it goes unrecognised.
-              </p>
-              <p className="text-gold font-semibold text-xl">Only your offers are published.</p>
-            </div>
-          </motion.div>
+          <div className="space-y-4 text-lg text-muted-foreground leading-relaxed">
+            <p>Every year, your Oxbridge results are on display.</p>
+            <p>To governors. To other elite schools. To the public.</p>
+            <p className="text-foreground font-medium">These results shape your reputation.</p>
+            <p>
+              There is no league table for having the brightest students.
+              Or for the best teaching.
+              Or even for how many students reach interview.
+            </p>
+            <p>You do exceptional work.</p>
+            <p className="text-foreground font-medium">
+              But unless it converts into offers, it goes unrecognised.
+            </p>
+            <p className="text-gold font-semibold text-xl">Only your offers are published.</p>
+          </div>
+        </motion.div>
 
-          {/* Visual comparison */}
-          <motion.div initial={{
-          opacity: 0,
-          x: 40
-        }} animate={isInView ? {
-          opacity: 1,
-          x: 0
-        } : {}} transition={{
-          duration: 0.7,
-          delay: 0.2
-        }} className="bg-card rounded-2xl p-8 md:p-12 shadow-card border border-border">
-            {/* Confidence meters with credibility bars */}
-            <div className="grid grid-cols-2 gap-8">
-              {/* Unstable meter + decreasing credibility */}
-              <div className="flex flex-col items-center">
-                <p className="text-sm text-muted-foreground mb-3 font-medium">Volatility</p>
-                <ConfidenceMeter isStable={false} />
-                <CredibilityBar isStable={false} />
-              </div>
-              
-              {/* Stable meter + full credibility */}
-              <div className="flex flex-col items-center">
-                <p className="text-sm text-muted-foreground mb-3 font-medium">Stability</p>
-                <ConfidenceMeter isStable={true} />
-                <CredibilityBar isStable={true} />
-              </div>
+        {/* Visual comparison - now below text */}
+        <motion.div 
+          initial={{ opacity: 0, y: 40 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.7, delay: 0.2 }}
+          className="bg-card rounded-2xl p-8 md:p-12 shadow-card border border-border max-w-2xl mx-auto"
+        >
+          {/* Confidence meters with credibility bars */}
+          <div className="grid grid-cols-2 gap-8">
+            {/* Unstable meter + decreasing credibility */}
+            <div className="flex flex-col items-center">
+              <p className="text-sm text-muted-foreground mb-3 font-medium">Volatility</p>
+              <ConfidenceMeter isStable={false} />
+              <CredibilityBar isStable={false} />
             </div>
-          </motion.div>
-        </div>
+            
+            {/* Stable meter + full credibility */}
+            <div className="flex flex-col items-center">
+              <p className="text-sm text-muted-foreground mb-3 font-medium">Stability</p>
+              <ConfidenceMeter isStable={true} />
+              <CredibilityBar isStable={true} />
+            </div>
+          </div>
+        </motion.div>
       </div>
     </section>;
 };
