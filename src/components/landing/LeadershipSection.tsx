@@ -185,13 +185,6 @@ const CredibilityBar = ({ isStable, startAnimation, animationKey }: { isStable: 
         ? "hsl(45, 70%, 55%)" 
         : "hsl(0, 60%, 55%)";
 
-  // Glow effect for stable bar (enhanced when complete)
-  const stableGlow = isGlowing 
-    ? "0 0 16px hsl(142, 50%, 45%, 0.7), 0 0 30px hsl(142, 50%, 45%, 0.5), 0 0 45px hsl(142, 50%, 45%, 0.3)"
-    : isStable 
-      ? "0 0 8px hsl(142, 50%, 45%, 0.3)" 
-      : "";
-
   return (
     <div className="w-full max-w-[200px] mx-auto mt-4">
       <p className="text-xs text-muted-foreground mb-2 text-center font-medium tracking-wide uppercase">
@@ -202,82 +195,70 @@ const CredibilityBar = ({ isStable, startAnimation, animationKey }: { isStable: 
         animate={isFlashing ? { 
           opacity: [1, 0.3, 1],
           borderColor: ["hsl(0, 60%, 55%)", "hsl(0, 80%, 40%)", "hsl(0, 60%, 55%)"]
-        } : isGlowing ? {
-          boxShadow: [
-            // Fade in (0% - 50%)
-            "0 0 4px hsl(142, 60%, 50%, 0.1), 0 0 8px hsl(142, 60%, 50%, 0.05)",
-            "0 0 5px hsl(142, 61%, 50%, 0.15), 0 0 10px hsl(142, 61%, 50%, 0.08)",
-            "0 0 6px hsl(142, 62%, 51%, 0.2), 0 0 12px hsl(142, 62%, 51%, 0.12)",
-            "0 0 7px hsl(142, 63%, 51%, 0.26), 0 0 15px hsl(142, 63%, 51%, 0.16)",
-            "0 0 8px hsl(142, 64%, 52%, 0.32), 0 0 18px hsl(142, 64%, 52%, 0.2)",
-            "0 0 10px hsl(142, 65%, 52%, 0.4), 0 0 22px hsl(142, 65%, 52%, 0.26)",
-            "0 0 12px hsl(142, 66%, 53%, 0.48), 0 0 26px hsl(142, 66%, 53%, 0.32)",
-            "0 0 14px hsl(142, 67%, 53%, 0.56), 0 0 30px hsl(142, 67%, 53%, 0.38)",
-            "0 0 16px hsl(142, 68%, 54%, 0.64), 0 0 35px hsl(142, 68%, 54%, 0.44), 0 0 50px hsl(142, 68%, 54%, 0.2)",
-            "0 0 18px hsl(142, 69%, 54%, 0.72), 0 0 40px hsl(142, 69%, 54%, 0.5), 0 0 55px hsl(142, 69%, 54%, 0.26)",
-            // Peak (50%)
-            "0 0 20px hsl(142, 70%, 55%, 0.8), 0 0 45px hsl(142, 70%, 55%, 0.55), 0 0 60px hsl(142, 70%, 55%, 0.3)",
-            // Fade out (50% - 100%)
-            "0 0 18px hsl(142, 69%, 54%, 0.72), 0 0 40px hsl(142, 69%, 54%, 0.5), 0 0 55px hsl(142, 69%, 54%, 0.26)",
-            "0 0 16px hsl(142, 68%, 54%, 0.64), 0 0 35px hsl(142, 68%, 54%, 0.44), 0 0 50px hsl(142, 68%, 54%, 0.2)",
-            "0 0 14px hsl(142, 67%, 53%, 0.56), 0 0 30px hsl(142, 67%, 53%, 0.38)",
-            "0 0 12px hsl(142, 66%, 53%, 0.48), 0 0 26px hsl(142, 66%, 53%, 0.32)",
-            "0 0 10px hsl(142, 65%, 52%, 0.4), 0 0 22px hsl(142, 65%, 52%, 0.26)",
-            "0 0 8px hsl(142, 64%, 52%, 0.32), 0 0 18px hsl(142, 64%, 52%, 0.2)",
-            "0 0 7px hsl(142, 63%, 51%, 0.26), 0 0 15px hsl(142, 63%, 51%, 0.16)",
-            "0 0 6px hsl(142, 62%, 51%, 0.2), 0 0 12px hsl(142, 62%, 51%, 0.12)",
-            "0 0 5px hsl(142, 61%, 50%, 0.15), 0 0 10px hsl(142, 61%, 50%, 0.08)",
-            "0 0 4px hsl(142, 60%, 50%, 0.1), 0 0 8px hsl(142, 60%, 50%, 0.05)"
-          ]
         } : {}}
-        transition={isFlashing || isGlowing ? { 
-          duration: isGlowing ? 4 : 0.5, 
+        transition={isFlashing ? { 
+          duration: 0.5, 
           repeat: Infinity,
-          ease: "linear"
+          ease: "easeInOut"
         } : {}}
-        style={isStable && !isGlowing ? { boxShadow: stableGlow } : {}}
       >
         <motion.div
           className="absolute inset-y-0 left-0 rounded-full"
-          animate={isGlowing ? {
-            boxShadow: [
-              // Fade in
-              "0 0 2px hsl(142, 60%, 50%, 0.2)",
-              "0 0 3px hsl(142, 62%, 51%, 0.28)",
-              "0 0 4px hsl(142, 64%, 52%, 0.36)",
-              "0 0 5px hsl(142, 65%, 53%, 0.44)",
-              "0 0 7px hsl(142, 66%, 54%, 0.52)",
-              "0 0 9px hsl(142, 67%, 55%, 0.6)",
-              "0 0 11px hsl(142, 68%, 56%, 0.68)",
-              "0 0 13px hsl(142, 69%, 57%, 0.76)",
-              "0 0 15px hsl(142, 70%, 58%, 0.84), 0 0 22px hsl(142, 70%, 55%, 0.4)",
-              "0 0 16px hsl(142, 70%, 58%, 0.88), 0 0 24px hsl(142, 70%, 55%, 0.45)",
-              // Peak
-              "0 0 17px hsl(142, 70%, 58%, 0.9), 0 0 26px hsl(142, 70%, 55%, 0.5)",
-              // Fade out
-              "0 0 16px hsl(142, 70%, 58%, 0.88), 0 0 24px hsl(142, 70%, 55%, 0.45)",
-              "0 0 15px hsl(142, 70%, 58%, 0.84), 0 0 22px hsl(142, 70%, 55%, 0.4)",
-              "0 0 13px hsl(142, 69%, 57%, 0.76)",
-              "0 0 11px hsl(142, 68%, 56%, 0.68)",
-              "0 0 9px hsl(142, 67%, 55%, 0.6)",
-              "0 0 7px hsl(142, 66%, 54%, 0.52)",
-              "0 0 5px hsl(142, 65%, 53%, 0.44)",
-              "0 0 4px hsl(142, 64%, 52%, 0.36)",
-              "0 0 3px hsl(142, 62%, 51%, 0.28)",
-              "0 0 2px hsl(142, 60%, 50%, 0.2)"
-            ]
-          } : {}}
-          transition={isGlowing ? {
-            duration: 4,
-            repeat: Infinity,
-            ease: "linear"
-          } : {}}
           style={{ 
             width,
             backgroundColor: barColor,
-            boxShadow: !isGlowing ? (isStable ? stableGlow : `0 0 8px ${barColor}40`) : undefined
           }}
         />
+        
+        {/* Sparkle/shimmer overlay for completed stable bar */}
+        {isGlowing && (
+          <motion.div
+            className="absolute inset-0 rounded-full overflow-hidden"
+            style={{ width }}
+          >
+            {/* Shimmer effect */}
+            <motion.div
+              className="absolute inset-y-0 w-[60%]"
+              style={{
+                background: "linear-gradient(90deg, transparent 0%, hsla(142, 80%, 75%, 0.4) 40%, hsla(0, 0%, 100%, 0.6) 50%, hsla(142, 80%, 75%, 0.4) 60%, transparent 100%)",
+              }}
+              animate={{
+                x: ["-100%", "250%"]
+              }}
+              transition={{
+                duration: 2.5,
+                repeat: Infinity,
+                ease: "easeInOut",
+                repeatDelay: 1
+              }}
+            />
+            
+            {/* Subtle sparkle particles */}
+            {[0, 1, 2].map((i) => (
+              <motion.div
+                key={i}
+                className="absolute w-1 h-1 rounded-full"
+                style={{
+                  background: "hsla(0, 0%, 100%, 0.9)",
+                  top: "50%",
+                  boxShadow: "0 0 3px hsla(0, 0%, 100%, 0.8)",
+                }}
+                animate={{
+                  opacity: [0, 1, 0],
+                  scale: [0.5, 1, 0.5],
+                  left: [`${20 + i * 25}%`, `${25 + i * 25}%`, `${20 + i * 25}%`],
+                  y: ["-50%", "-50%", "-50%"],
+                }}
+                transition={{
+                  duration: 2,
+                  repeat: Infinity,
+                  delay: i * 0.8,
+                  ease: "easeInOut",
+                }}
+              />
+            ))}
+          </motion.div>
+        )}
       </motion.div>
     </div>
   );
