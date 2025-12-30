@@ -131,6 +131,13 @@ const ConfidenceMeter = ({ isStable }: { isStable: boolean }) => {
 const CredibilityBar = ({ isStable }: { isStable: boolean }) => {
   const [progress, setProgress] = useState(isStable ? 100 : 50);
   const [isFlashing, setIsFlashing] = useState(false);
+  
+  // Create motion value and update it when progress changes
+  const progressValue = useMotionValue(progress);
+  
+  useEffect(() => {
+    progressValue.set(progress);
+  }, [progress, progressValue]);
 
   useEffect(() => {
     if (isStable) {
@@ -143,14 +150,14 @@ const CredibilityBar = ({ isStable }: { isStable: boolean }) => {
       // Unstable: slowly decrease from 50 to 0
       const interval = setInterval(() => {
         setProgress((prev) => {
-          const next = prev - (1 + Math.random() * 2);
+          const next = prev - (2 + Math.random() * 3);
           if (next <= 0) {
             setIsFlashing(true);
             return 0;
           }
           return next;
         });
-      }, 300);
+      }, 200);
       return () => clearInterval(interval);
     }
   }, [isStable]);
@@ -166,9 +173,9 @@ const CredibilityBar = ({ isStable }: { isStable: boolean }) => {
     }
   }, [isFlashing, isStable]);
 
-  const progressSpring = useSpring(progress, {
-    stiffness: 60,
-    damping: 20,
+  const progressSpring = useSpring(progressValue, {
+    stiffness: 100,
+    damping: 25,
   });
 
   const width = useTransform(progressSpring, (v) => `${v}%`);
