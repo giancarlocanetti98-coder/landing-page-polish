@@ -25,13 +25,10 @@ export const LeadershipSection = () => {
               <span className="text-gold">Oxbridge Offers</span>
             </h2>
 
-            <div className="space-y-3 text-lg md:text-xl text-muted-foreground leading-relaxed">
+            <div className="space-y-6 text-lg text-muted-foreground leading-relaxed">
               <p>Every year, your Oxbridge results are on display.</p>
               <p>To governors. To other elite schools. To the public.</p>
               <p className="text-foreground font-medium">These results shape your reputation.</p>
-              
-              <div className="w-24 h-px bg-gold/40 !my-8" />
-              
               <p>
                 There is no league table for having the brightest students.
                 Or for the best teaching.
@@ -41,7 +38,7 @@ export const LeadershipSection = () => {
               <p className="text-foreground font-medium">
                 But unless it converts into offers, it goes unrecognised.
               </p>
-              <p className="text-foreground font-bold text-xl md:text-2xl !mt-6">Only your offers are published.</p>
+              <p className="text-gold font-semibold text-xl">Only your offers are published.</p>
             </div>
           </motion.div>
 
