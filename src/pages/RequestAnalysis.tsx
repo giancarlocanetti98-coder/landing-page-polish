@@ -63,21 +63,28 @@ const RequestAnalysis = () => {
 
   return (
     <div className="min-h-screen bg-cream relative overflow-hidden">
-      {/* Background decorative elements */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[800px] h-[800px] rounded-full border border-gold/10" />
-        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] h-[600px] rounded-full border border-gold/15" />
-        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[400px] h-[400px] rounded-full border border-gold/20" />
-      </div>
+      {/* Background grid pattern */}
+      <div 
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          backgroundImage: `
+            linear-gradient(to right, rgba(26, 32, 44, 0.03) 1px, transparent 1px),
+            linear-gradient(to bottom, rgba(26, 32, 44, 0.03) 1px, transparent 1px)
+          `,
+          backgroundSize: '60px 60px'
+        }}
+      />
+      
+      {/* Subtle radial gradient overlay */}
+      <div className="absolute inset-0 bg-gradient-radial from-transparent via-transparent to-cream/50 pointer-events-none" />
 
       <div className="container mx-auto px-4 py-8 relative z-10">
-        {/* Back link */}
+        {/* Back arrow */}
         <Link 
           to="/" 
-          className="inline-flex items-center gap-2 text-oxford/70 hover:text-oxford transition-colors mb-12"
+          className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-oxford/5 text-oxford/70 hover:bg-oxford/10 hover:text-oxford transition-all duration-300 mb-12"
         >
-          <ArrowLeft className="w-4 h-4" />
-          <span className="font-sans">Back to Home</span>
+          <ArrowLeft className="w-5 h-5" />
         </Link>
 
         <div className="max-w-2xl mx-auto">
@@ -237,7 +244,9 @@ const RequestAnalysis = () => {
                   <Button
                     type="submit"
                     disabled={isSubmitting}
-                    className="bg-gold hover:bg-gold/90 text-oxford font-semibold px-10 py-6 text-lg rounded-lg shadow-lg hover:shadow-xl transition-all duration-300"
+                    variant="hero"
+                    size="lg"
+                    className="text-base md:text-lg px-8 md:px-10 py-6 md:py-7"
                   >
                     {isSubmitting ? "Submitting..." : "Request Free Analysis"}
                   </Button>
