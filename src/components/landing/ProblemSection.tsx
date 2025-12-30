@@ -7,7 +7,7 @@ export const ProblemSection = () => {
     once: true,
     margin: "-100px"
   });
-  return <section ref={ref} className="py-24 bg-gradient-section md:py-[50px]">
+  return <section ref={ref} className="py-24 bg-gradient-section md:py-[100px]">
       <div className="container px-6 max-w-4xl mx-auto text-center">
         <motion.div initial={{
         opacity: 0,
