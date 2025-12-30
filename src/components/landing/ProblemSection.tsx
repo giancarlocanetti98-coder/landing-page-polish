@@ -38,7 +38,7 @@ export const ProblemSection = () => {
       } : {}} transition={{
         duration: 0.7,
         delay: 0.2
-      }} className="mt-12">
+      }} className="mt-4">
           <div className="space-y-4 text-lg md:text-xl text-muted-foreground leading-relaxed">
             <p>Those offers don't disappear. They go to other schools.</p>
             <p>
