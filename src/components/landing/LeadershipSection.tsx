@@ -47,7 +47,7 @@ const ConfidenceMeter = ({ isStable }: { isStable: boolean }) => {
   const y2 = useTransform(radians, (rad) => 100 - needleLength * Math.sin(rad));
 
   return (
-    <div className="relative w-full max-w-[280px] mx-auto">
+    <div className="relative w-full max-w-[200px] mx-auto">
       <svg viewBox="0 0 200 120" className="w-full h-auto">
         {/* Outer arc border */}
         <path
@@ -127,6 +127,64 @@ const ConfidenceMeter = ({ isStable }: { isStable: boolean }) => {
     </div>
   );
 };
+
+const CredibilityBar = ({ isStable }: { isStable: boolean }) => {
+  const [progress, setProgress] = useState(isStable ? 100 : 85);
+
+  useEffect(() => {
+    if (isStable) {
+      // Stable: always full with tiny fluctuations
+      const interval = setInterval(() => {
+        setProgress(97 + Math.random() * 3);
+      }, 2000);
+      return () => clearInterval(interval);
+    } else {
+      // Unstable: decreasing with sporadic partial recoveries
+      const interval = setInterval(() => {
+        setProgress((prev) => {
+          // Random decrease with occasional small recovery
+          const change = Math.random() > 0.3 
+            ? -(5 + Math.random() * 15) // decrease
+            : (3 + Math.random() * 8);   // small recovery
+          const next = prev + change;
+          // Keep between 15 and 75 for the unstable state
+          return Math.max(15, Math.min(75, next));
+        });
+      }, 800 + Math.random() * 400);
+      return () => clearInterval(interval);
+    }
+  }, [isStable]);
+
+  const progressSpring = useSpring(progress, {
+    stiffness: 60,
+    damping: 20,
+  });
+
+  const width = useTransform(progressSpring, (v) => `${v}%`);
+  
+  // Color based on progress level
+  const barColor = isStable 
+    ? "hsl(142, 50%, 45%)" // Green for stable
+    : "hsl(0, 60%, 55%)";   // Red for unstable
+
+  return (
+    <div className="w-full max-w-[200px] mx-auto mt-4">
+      <p className="text-xs text-muted-foreground mb-2 text-center font-medium tracking-wide uppercase">
+        Leadership Credibility
+      </p>
+      <div className="relative h-3 bg-muted/30 rounded-full overflow-hidden border border-border/50">
+        <motion.div
+          className="absolute inset-y-0 left-0 rounded-full"
+          style={{ 
+            width,
+            backgroundColor: barColor,
+            boxShadow: `0 0 8px ${barColor}40`
+          }}
+        />
+      </div>
+    </div>
+  );
+};
 export const LeadershipSection = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, {
@@ -179,16 +237,20 @@ export const LeadershipSection = () => {
           duration: 0.7,
           delay: 0.2
         }} className="bg-card rounded-2xl p-8 md:p-12 shadow-card border border-border">
-            {/* Confidence meters */}
+            {/* Confidence meters with credibility bars */}
             <div className="grid grid-cols-2 gap-8">
-              {/* Unstable meter */}
+              {/* Unstable meter + decreasing credibility */}
               <div className="flex flex-col items-center">
+                <p className="text-sm text-muted-foreground mb-3 font-medium">Volatility</p>
                 <ConfidenceMeter isStable={false} />
+                <CredibilityBar isStable={false} />
               </div>
               
-              {/* Stable meter */}
+              {/* Stable meter + full credibility */}
               <div className="flex flex-col items-center">
+                <p className="text-sm text-muted-foreground mb-3 font-medium">Stability</p>
                 <ConfidenceMeter isStable={true} />
+                <CredibilityBar isStable={true} />
               </div>
             </div>
           </motion.div>
