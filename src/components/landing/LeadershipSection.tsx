@@ -24,6 +24,9 @@ const ConfidenceMeter = ({ isStable }: { isStable: boolean }) => {
   }, [isStable]);
 
   const needleLength = 55;
+  const rad = (rotation * Math.PI) / 180;
+  const tipX = 100 + needleLength * Math.cos(rad);
+  const tipY = 100 - needleLength * Math.sin(rad);
 
   return (
     <div className="relative w-full max-w-[280px] mx-auto">
@@ -73,35 +76,41 @@ const ConfidenceMeter = ({ isStable }: { isStable: boolean }) => {
           );
         })}
         
-        {/* Center pivot point - elegant gold circle */}
-        <circle cx="100" cy="100" r="12" fill="hsl(var(--gold))" />
-        <circle cx="100" cy="100" r="8" fill="hsl(var(--gold))" style={{ filter: 'brightness(1.2)' }} />
-        
-        {/* Needle - rotates around center pivot, base attached to gold circle center */}
-        <motion.g
-          animate={{ rotate: -rotation }}
-          transition={{ 
-            type: "spring", 
-            stiffness: isStable ? 100 : 80, 
-            damping: isStable ? 18 : 8,
-            mass: isStable ? 0.4 : 0.3
+        {/* Needle - fixed base at (100,100), constant length; only angle changes */}
+        <motion.line
+          x1={100}
+          y1={100}
+          x2={tipX}
+          y2={tipY}
+          animate={{ x2: tipX, y2: tipY }}
+          transition={{
+            type: "spring",
+            stiffness: isStable ? 100 : 90,
+            damping: isStable ? 18 : 10,
+            mass: isStable ? 0.4 : 0.35
           }}
-          style={{ transformOrigin: '100px 100px' }}
-        >
-          <line
-            x1={100}
-            y1={100}
-            x2={100 + needleLength}
-            y2={100}
-            stroke="hsl(var(--gold))"
-            strokeWidth="4"
-            strokeLinecap="round"
-            style={{ filter: 'drop-shadow(0 1px 2px rgba(0,0,0,0.3))' }}
-          />
-        </motion.g>
-        
-        {/* Center dot overlay - on top of everything */}
-        <circle cx="100" cy="100" r="4" fill="hsl(var(--gold))" style={{ filter: 'brightness(1.4)' }} />
+          stroke="hsl(var(--gold))"
+          strokeWidth="2.5"
+          strokeLinecap="round"
+          style={{ filter: "drop-shadow(0 1px 2px rgba(0,0,0,0.24))" }}
+        />
+
+        {/* Center pivot point - on top so the needle looks attached */}
+        <circle cx="100" cy="100" r="12" fill="hsl(var(--gold))" />
+        <circle
+          cx="100"
+          cy="100"
+          r="8"
+          fill="hsl(var(--gold))"
+          style={{ filter: "brightness(1.2)" }}
+        />
+        <circle
+          cx="100"
+          cy="100"
+          r="4"
+          fill="hsl(var(--gold))"
+          style={{ filter: "brightness(1.4)" }}
+        />
         <circle cx="100" cy="100" r="2" fill="hsl(var(--background))" />
       </svg>
     </div>
