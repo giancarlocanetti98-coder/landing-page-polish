@@ -208,7 +208,8 @@ const CredibilityBar = ({
     } : {}}>
         <motion.div className="absolute inset-y-0 left-0 rounded-full" style={{
         width,
-        backgroundColor: barColor
+        backgroundColor: barColor,
+        opacity: 1
       }} />
         
         {/* Shimmer overlay for completed stable bar */}
