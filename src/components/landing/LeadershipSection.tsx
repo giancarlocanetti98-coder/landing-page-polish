@@ -7,123 +7,79 @@ import {
 } from "framer-motion";
 import { useRef, useEffect, useState } from "react";
 
-const ConfidenceMeter = ({ isStable }: { isStable: boolean }) => {
-  // Rotation: 0 = pointing right (GREEN/HIGH), 180 = pointing left (RED/LOW)
-  const [rotation, setRotation] = useState(isStable ? 15 : 140);
+// Yearly data - inconsistent shows volatile results, consistent shows steady high results
+const inconsistentData = [
+  { year: '2019', value: 85 },
+  { year: '2020', value: 35 },
+  { year: '2021', value: 70 },
+  { year: '2022', value: 25 },
+  { year: '2023', value: 55 },
+  { year: '2024', value: 40 },
+];
+
+const consistentData = [
+  { year: '2019', value: 88 },
+  { year: '2020', value: 92 },
+  { year: '2021', value: 85 },
+  { year: '2022', value: 90 },
+  { year: '2023', value: 87 },
+  { year: '2024', value: 91 },
+];
+
+const OffersBarChart = ({ isStable, startAnimation }: { isStable: boolean; startAnimation: boolean }) => {
+  const data = isStable ? consistentData : inconsistentData;
+  const maxValue = 100;
   
-  useEffect(() => {
-    if (isStable) {
-      // Stable meter: quicker fluctuations in the green zone (3-35 degrees = right side)
-      const interval = setInterval(() => {
-        setRotation(3 + Math.random() * 32);
-      }, 1200 + Math.random() * 800);
-      return () => clearInterval(interval);
-    } else {
-      // Unstable meter: sporadic movements across full range (red to green)
-      const interval = setInterval(() => {
-        // Full range: 15-165 degrees (covers green through middle to red)
-        setRotation(15 + Math.random() * 150);
-      }, 500 + Math.random() * 500);
-      return () => clearInterval(interval);
-    }
-  }, [isStable]);
-
-  const needleLength = 55;
-
-  // Animate the ANGLE (not the x2/y2 point) so the tip follows a true arc
-  const angle = useMotionValue(rotation);
-  useEffect(() => {
-    angle.set(rotation);
-  }, [angle, rotation]);
-
-  const angleSpring = useSpring(angle, {
-    stiffness: isStable ? 100 : 70,
-    damping: isStable ? 18 : 12,
-    mass: 0.4,
-  });
-
-  const radians = useTransform(angleSpring, (deg) => (deg * Math.PI) / 180);
-  const x2 = useTransform(radians, (rad) => 100 + needleLength * Math.cos(rad));
-  const y2 = useTransform(radians, (rad) => 100 - needleLength * Math.sin(rad));
-
   return (
-    <div className="relative w-full max-w-[200px] mx-auto">
-      <svg viewBox="0 0 200 120" className="w-full h-auto">
-        {/* Outer arc border */}
-        <path
-          d="M 20 100 A 80 80 0 0 1 180 100"
-          fill="none"
-          stroke="hsl(var(--gold) / 0.3)"
-          strokeWidth="2"
-        />
-        
-        {/* Inner gradient arc - background */}
-        <defs>
-          <linearGradient id={`gaugeGradient-${isStable ? 'stable' : 'unstable'}`} x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stopColor="hsl(0, 60%, 55%)" stopOpacity="0.4" />
-            <stop offset="50%" stopColor="hsl(45, 70%, 55%)" stopOpacity="0.4" />
-            <stop offset="100%" stopColor="hsl(142, 50%, 45%)" stopOpacity="0.4" />
-          </linearGradient>
-        </defs>
-        
-        <path
-          d="M 30 100 A 70 70 0 0 1 170 100"
-          fill="none"
-          stroke={`url(#gaugeGradient-${isStable ? 'stable' : 'unstable'})`}
-          strokeWidth="14"
-          strokeLinecap="round"
-        />
-        
-        {/* Tick marks - full arc from left to right */}
-        {[0, 22.5, 45, 67.5, 90, 112.5, 135, 157.5, 180].map((angle, i) => {
-          const tickRad = (angle * Math.PI) / 180;
-          const x1 = 100 + 75 * Math.cos(tickRad);
-          const y1 = 100 - 75 * Math.sin(tickRad);
-          const x2 = 100 + 66 * Math.cos(tickRad);
-          const y2 = 100 - 66 * Math.sin(tickRad);
+    <div className="w-full max-w-[220px] mx-auto">
+      <div className="flex items-end justify-between gap-2 h-32">
+        {data.map((item, index) => {
+          const heightPercent = (item.value / maxValue) * 100;
+          // Inconsistent bars animate first, then consistent bars
+          const delayBase = isStable ? 1.8 : 0; // Consistent starts after inconsistent
+          const delay = delayBase + index * 0.15;
+          
+          // Color based on value for inconsistent, gold for consistent
+          const getBarColor = () => {
+            if (isStable) return "hsl(var(--gold))";
+            if (item.value >= 70) return "hsl(142, 50%, 45%)";
+            if (item.value >= 50) return "hsl(45, 70%, 55%)";
+            return "hsl(0, 60%, 55%)";
+          };
+          
           return (
-            <line
-              key={i}
-              x1={x1}
-              y1={y1}
-              x2={x2}
-              y2={y2}
-              stroke="hsl(var(--gold) / 0.6)"
-              strokeWidth="1.5"
-            />
+            <div key={item.year} className="flex flex-col items-center flex-1">
+              <div className="relative w-full h-28 flex items-end justify-center">
+                <motion.div
+                  className="w-full max-w-[28px] rounded-t-sm"
+                  initial={{ height: 0, opacity: 0 }}
+                  animate={startAnimation ? { 
+                    height: `${heightPercent}%`, 
+                    opacity: 1 
+                  } : {}}
+                  transition={{
+                    duration: 0.6,
+                    delay,
+                    ease: [0.25, 0.46, 0.45, 0.94]
+                  }}
+                  style={{ 
+                    backgroundColor: getBarColor(),
+                    boxShadow: `0 0 12px ${getBarColor()}30`
+                  }}
+                />
+              </div>
+              <motion.span 
+                className="text-[10px] text-muted-foreground mt-2 font-medium"
+                initial={{ opacity: 0 }}
+                animate={startAnimation ? { opacity: 1 } : {}}
+                transition={{ duration: 0.3, delay: delay + 0.3 }}
+              >
+                {item.year.slice(2)}
+              </motion.span>
+            </div>
           );
         })}
-        
-        {/* Needle - base locked at (100,100), tip moves on an arc */}
-        <motion.line
-          x1={100}
-          y1={100}
-          x2={x2}
-          y2={y2}
-          stroke="hsl(var(--gold))"
-          strokeWidth="2.5"
-          strokeLinecap="round"
-          style={{ filter: "drop-shadow(0 1px 2px rgba(0,0,0,0.24))" }}
-        />
-
-        {/* Center pivot point - on top so the needle looks attached */}
-        <circle cx="100" cy="100" r="12" fill="hsl(var(--gold))" />
-        <circle
-          cx="100"
-          cy="100"
-          r="8"
-          fill="hsl(var(--gold))"
-          style={{ filter: "brightness(1.2)" }}
-        />
-        <circle
-          cx="100"
-          cy="100"
-          r="4"
-          fill="hsl(var(--gold))"
-          style={{ filter: "brightness(1.4)" }}
-        />
-        <circle cx="100" cy="100" r="2" fill="hsl(var(--background))" />
-      </svg>
+      </div>
     </div>
   );
 };
@@ -215,6 +171,8 @@ const CredibilityBar = ({ isStable }: { isStable: boolean }) => {
   );
 };
 export const LeadershipSection = () => {
+  const chartRef = useRef(null);
+  const chartInView = useInView(chartRef, { once: true, margin: "-50px" });
   const ref = useRef(null);
   const isInView = useInView(ref, {
     once: true,
@@ -260,17 +218,17 @@ export const LeadershipSection = () => {
         >
           {/* Confidence meters with credibility bars */}
           <div className="grid grid-cols-2 gap-8">
-            {/* Unstable meter + decreasing credibility */}
-            <div className="flex flex-col items-center">
-              <p className="text-sm text-muted-foreground mb-3 font-medium">Inconsistent Oxbridge Offers</p>
-              <ConfidenceMeter isStable={false} />
+            {/* Unstable chart + decreasing credibility */}
+            <div ref={chartRef} className="flex flex-col items-center">
+              <p className="text-sm text-muted-foreground mb-4 font-medium">Inconsistent Oxbridge Offers</p>
+              <OffersBarChart isStable={false} startAnimation={chartInView} />
               <CredibilityBar isStable={false} />
             </div>
             
-            {/* Stable meter + full credibility */}
+            {/* Stable chart + full credibility */}
             <div className="flex flex-col items-center">
-              <p className="text-sm text-muted-foreground mb-3 font-medium">Consistent Oxbridge Offers</p>
-              <ConfidenceMeter isStable={true} />
+              <p className="text-sm text-muted-foreground mb-4 font-medium">Consistent Oxbridge Offers</p>
+              <OffersBarChart isStable={true} startAnimation={chartInView} />
               <CredibilityBar isStable={true} />
             </div>
           </div>
