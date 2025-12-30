@@ -3,23 +3,30 @@ import { useInView } from "framer-motion";
 import { useRef, useEffect, useState } from "react";
 
 const ConfidenceMeter = ({ isStable }: { isStable: boolean }) => {
-  const [rotation, setRotation] = useState(isStable ? 65 : 20);
+  // Rotation: 0 = pointing left (LOW), 180 = pointing right (HIGH)
+  const [rotation, setRotation] = useState(isStable ? 160 : 60);
   
   useEffect(() => {
     if (isStable) {
-      // Stable meter: small fluctuations near the top (60-70 degrees)
+      // Stable meter: noticeable but slow fluctuations in the green zone (150-175 degrees)
       const interval = setInterval(() => {
-        setRotation(62 + Math.random() * 8);
-      }, 2000 + Math.random() * 1000);
+        setRotation(150 + Math.random() * 25);
+      }, 2500 + Math.random() * 1500);
       return () => clearInterval(interval);
     } else {
-      // Unstable meter: unpredictable fluctuations across range
+      // Unstable meter: quick, erratic fluctuations extending into red zone (20-120 degrees)
       const interval = setInterval(() => {
-        setRotation(15 + Math.random() * 50);
-      }, 800 + Math.random() * 600);
+        setRotation(20 + Math.random() * 100);
+      }, 400 + Math.random() * 400);
       return () => clearInterval(interval);
     }
   }, [isStable]);
+
+  // Calculate needle tip position based on rotation
+  const needleLength = 58;
+  const rad = (rotation * Math.PI) / 180;
+  const tipX = 100 + needleLength * Math.cos(rad);
+  const tipY = 100 - needleLength * Math.sin(rad);
 
   return (
     <div className="relative w-full max-w-[280px] mx-auto">
@@ -35,9 +42,9 @@ const ConfidenceMeter = ({ isStable }: { isStable: boolean }) => {
         {/* Inner gradient arc - background */}
         <defs>
           <linearGradient id={`gaugeGradient-${isStable ? 'stable' : 'unstable'}`} x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stopColor="hsl(0, 60%, 55%)" stopOpacity="0.3" />
-            <stop offset="50%" stopColor="hsl(40, 60%, 55%)" stopOpacity="0.3" />
-            <stop offset="100%" stopColor="hsl(142, 50%, 45%)" stopOpacity="0.3" />
+            <stop offset="0%" stopColor="hsl(0, 60%, 55%)" stopOpacity="0.4" />
+            <stop offset="50%" stopColor="hsl(45, 70%, 55%)" stopOpacity="0.4" />
+            <stop offset="100%" stopColor="hsl(142, 50%, 45%)" stopOpacity="0.4" />
           </linearGradient>
         </defs>
         
@@ -45,17 +52,17 @@ const ConfidenceMeter = ({ isStable }: { isStable: boolean }) => {
           d="M 30 100 A 70 70 0 0 1 170 100"
           fill="none"
           stroke={`url(#gaugeGradient-${isStable ? 'stable' : 'unstable'})`}
-          strokeWidth="12"
+          strokeWidth="14"
           strokeLinecap="round"
         />
         
         {/* Tick marks */}
         {[0, 22.5, 45, 67.5, 90].map((angle, i) => {
-          const rad = ((180 - angle) * Math.PI) / 180;
-          const x1 = 100 + 75 * Math.cos(rad);
-          const y1 = 100 - 75 * Math.sin(rad);
-          const x2 = 100 + 68 * Math.cos(rad);
-          const y2 = 100 - 68 * Math.sin(rad);
+          const tickRad = ((angle) * Math.PI) / 180;
+          const x1 = 100 + 75 * Math.cos(tickRad);
+          const y1 = 100 - 75 * Math.sin(tickRad);
+          const x2 = 100 + 66 * Math.cos(tickRad);
+          const y2 = 100 - 66 * Math.sin(tickRad);
           return (
             <line
               key={i}
@@ -63,34 +70,33 @@ const ConfidenceMeter = ({ isStable }: { isStable: boolean }) => {
               y1={y1}
               x2={x2}
               y2={y2}
-              stroke="hsl(var(--gold) / 0.5)"
+              stroke="hsl(var(--gold) / 0.6)"
               strokeWidth="1.5"
             />
           );
         })}
         
-        {/* Center pivot point - elegant gold circle */}
-        <circle cx="100" cy="100" r="8" fill="hsl(var(--gold))" />
-        <circle cx="100" cy="100" r="5" fill="hsl(var(--gold))" style={{ filter: 'brightness(1.2)' }} />
-        <circle cx="100" cy="100" r="2" fill="hsl(var(--background))" />
-        
-        {/* Needle */}
-        <motion.g
-          animate={{ rotate: rotation }}
+        {/* Needle - animated line from center to tip */}
+        <motion.line
+          x1={100}
+          y1={100}
+          animate={{ x2: tipX, y2: tipY }}
           transition={{ 
             type: "spring", 
-            stiffness: isStable ? 80 : 40, 
-            damping: isStable ? 15 : 8,
-            mass: isStable ? 0.5 : 0.8
+            stiffness: isStable ? 120 : 60, 
+            damping: isStable ? 20 : 6,
+            mass: isStable ? 0.3 : 0.5
           }}
-          style={{ transformOrigin: '100px 100px' }}
-        >
-          <path
-            d="M 100 100 L 98 95 L 100 35 L 102 95 Z"
-            fill="hsl(var(--gold))"
-            style={{ filter: 'drop-shadow(0 2px 3px rgba(0,0,0,0.2))' }}
-          />
-        </motion.g>
+          stroke="hsl(var(--gold))"
+          strokeWidth="3"
+          strokeLinecap="round"
+          style={{ filter: 'drop-shadow(0 1px 2px rgba(0,0,0,0.3))' }}
+        />
+        
+        {/* Center pivot point - elegant gold circle (fixed base) */}
+        <circle cx="100" cy="100" r="10" fill="hsl(var(--gold))" />
+        <circle cx="100" cy="100" r="6" fill="hsl(var(--gold))" style={{ filter: 'brightness(1.3)' }} />
+        <circle cx="100" cy="100" r="2.5" fill="hsl(var(--background))" />
       </svg>
     </div>
   );
