@@ -73,29 +73,29 @@ const ConfidenceMeter = ({ isStable }: { isStable: boolean }) => {
           );
         })}
         
-        {/* Needle - positioned at origin, group translated to center for proper rotation */}
-        <g transform="translate(100, 100)">
-          <motion.g
-            animate={{ rotate: -rotation }}
-            transition={{
-              type: "spring",
-              stiffness: isStable ? 100 : 70,
-              damping: isStable ? 18 : 12,
-              mass: isStable ? 0.4 : 0.4
-            }}
-          >
-            <line
-              x1={0}
-              y1={0}
-              x2={needleLength}
-              y2={0}
-              stroke="hsl(var(--gold))"
-              strokeWidth="2.5"
-              strokeLinecap="round"
-              style={{ filter: "drop-shadow(0 1px 2px rgba(0,0,0,0.24))" }}
-            />
-          </motion.g>
-        </g>
+        {/* Needle - SVG transform rotation around the translated origin (100,100) */}
+        <motion.g
+          transform="translate(100 100)"
+          animate={{ rotate: -rotation }}
+          transition={{
+            type: "spring",
+            stiffness: isStable ? 100 : 70,
+            damping: isStable ? 18 : 12,
+            mass: isStable ? 0.4 : 0.4
+          }}
+          style={{ transformOrigin: "0px 0px", transformBox: "fill-box" }}
+        >
+          <line
+            x1={0}
+            y1={0}
+            x2={needleLength}
+            y2={0}
+            stroke="hsl(var(--gold))"
+            strokeWidth="2.5"
+            strokeLinecap="round"
+            style={{ filter: "drop-shadow(0 1px 2px rgba(0,0,0,0.24))" }}
+          />
+        </motion.g>
 
         {/* Center pivot point - on top so the needle looks attached */}
         <circle cx="100" cy="100" r="12" fill="hsl(var(--gold))" />
