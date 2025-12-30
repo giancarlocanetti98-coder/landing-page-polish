@@ -112,11 +112,10 @@ const CredibilityBar = ({ isStable, startAnimation, animationKey }: { isStable: 
   useEffect(() => {
     if (!hasStarted) return;
     
-    const CREDIBILITY_STEPS = 5;
-    
     if (isStable) {
-      // Stable: start at 50%, increase with each bar spawn
-      const increasePerBar = 50 / CREDIBILITY_STEPS;
+      // Stable: start at 50%, increase with each of the 6 bar spawns
+      const STABLE_STEPS = 6;
+      const increasePerBar = 50 / STABLE_STEPS;
       let currentStep = 0;
       
       // Delay to match when consistent bars start (after inconsistent bars finish)
@@ -127,7 +126,7 @@ const CredibilityBar = ({ isStable, startAnimation, animationKey }: { isStable: 
         
         const interval = setInterval(() => {
           currentStep++;
-          if (currentStep >= CREDIBILITY_STEPS) {
+          if (currentStep >= STABLE_STEPS) {
             setProgress(100);
             setIsGlowing(true);
             clearInterval(interval);
@@ -142,7 +141,8 @@ const CredibilityBar = ({ isStable, startAnimation, animationKey }: { isStable: 
       return () => clearTimeout(initialDelay);
     } else {
       // Unstable: decrease exactly when each bar spawns (starting from bar 2)
-      const decreasePerBar = 100 / CREDIBILITY_STEPS;
+      const UNSTABLE_STEPS = 5;
+      const decreasePerBar = 100 / UNSTABLE_STEPS;
       let currentStep = 0;
       
       // First bar spawns immediately at 100%, decrease starts exactly with bar 2
@@ -153,7 +153,7 @@ const CredibilityBar = ({ isStable, startAnimation, animationKey }: { isStable: 
         
         const interval = setInterval(() => {
           currentStep++;
-          if (currentStep >= CREDIBILITY_STEPS) {
+          if (currentStep >= UNSTABLE_STEPS) {
             setProgress(0);
             setIsFlashing(true);
             clearInterval(interval);
@@ -204,15 +204,19 @@ const CredibilityBar = ({ isStable, startAnimation, animationKey }: { isStable: 
           borderColor: ["hsl(0, 60%, 55%)", "hsl(0, 80%, 40%)", "hsl(0, 60%, 55%)"]
         } : isGlowing ? {
           boxShadow: [
-            "0 0 8px hsl(142, 60%, 50%, 0.3), 0 0 16px hsl(142, 60%, 50%, 0.15)",
-            "0 0 20px hsl(142, 70%, 55%, 0.9), 0 0 40px hsl(142, 70%, 55%, 0.6), 0 0 60px hsl(142, 70%, 55%, 0.35)",
-            "0 0 8px hsl(142, 60%, 50%, 0.3), 0 0 16px hsl(142, 60%, 50%, 0.15)"
+            "0 0 6px hsl(142, 60%, 50%, 0.2), 0 0 12px hsl(142, 60%, 50%, 0.1)",
+            "0 0 8px hsl(142, 65%, 52%, 0.35), 0 0 18px hsl(142, 65%, 52%, 0.2)",
+            "0 0 12px hsl(142, 68%, 54%, 0.55), 0 0 28px hsl(142, 68%, 54%, 0.35)",
+            "0 0 18px hsl(142, 70%, 55%, 0.8), 0 0 38px hsl(142, 70%, 55%, 0.55), 0 0 55px hsl(142, 70%, 55%, 0.3)",
+            "0 0 12px hsl(142, 68%, 54%, 0.55), 0 0 28px hsl(142, 68%, 54%, 0.35)",
+            "0 0 8px hsl(142, 65%, 52%, 0.35), 0 0 18px hsl(142, 65%, 52%, 0.2)",
+            "0 0 6px hsl(142, 60%, 50%, 0.2), 0 0 12px hsl(142, 60%, 50%, 0.1)"
           ]
         } : {}}
         transition={isFlashing || isGlowing ? { 
-          duration: isGlowing ? 2.5 : 0.5, 
+          duration: isGlowing ? 3 : 0.5, 
           repeat: Infinity,
-          ease: [0.45, 0.05, 0.55, 0.95]
+          ease: "linear"
         } : {}}
         style={isStable && !isGlowing ? { boxShadow: stableGlow } : {}}
       >
@@ -220,15 +224,19 @@ const CredibilityBar = ({ isStable, startAnimation, animationKey }: { isStable: 
           className="absolute inset-y-0 left-0 rounded-full"
           animate={isGlowing ? {
             boxShadow: [
-              "0 0 4px hsl(142, 60%, 50%, 0.4)",
-              "0 0 16px hsl(142, 70%, 60%, 0.9), 0 0 28px hsl(142, 70%, 55%, 0.5)",
-              "0 0 4px hsl(142, 60%, 50%, 0.4)"
+              "0 0 3px hsl(142, 60%, 50%, 0.3)",
+              "0 0 6px hsl(142, 65%, 52%, 0.45)",
+              "0 0 10px hsl(142, 68%, 55%, 0.65)",
+              "0 0 14px hsl(142, 70%, 58%, 0.85), 0 0 24px hsl(142, 70%, 55%, 0.45)",
+              "0 0 10px hsl(142, 68%, 55%, 0.65)",
+              "0 0 6px hsl(142, 65%, 52%, 0.45)",
+              "0 0 3px hsl(142, 60%, 50%, 0.3)"
             ]
           } : {}}
           transition={isGlowing ? {
-            duration: 2.5,
+            duration: 3,
             repeat: Infinity,
-            ease: [0.45, 0.05, 0.55, 0.95]
+            ease: "linear"
           } : {}}
           style={{ 
             width,
