@@ -1,5 +1,10 @@
-import { motion } from "framer-motion";
-import { useInView } from "framer-motion";
+import {
+  motion,
+  useInView,
+  useMotionValue,
+  useSpring,
+  useTransform,
+} from "framer-motion";
 import { useRef, useEffect, useState } from "react";
 
 const ConfidenceMeter = ({ isStable }: { isStable: boolean }) => {
@@ -24,6 +29,22 @@ const ConfidenceMeter = ({ isStable }: { isStable: boolean }) => {
   }, [isStable]);
 
   const needleLength = 55;
+
+  // Animate the ANGLE (not the x2/y2 point) so the tip follows a true arc
+  const angle = useMotionValue(-rotation);
+  useEffect(() => {
+    angle.set(-rotation);
+  }, [angle, rotation]);
+
+  const angleSpring = useSpring(angle, {
+    stiffness: isStable ? 100 : 70,
+    damping: isStable ? 18 : 12,
+    mass: 0.4,
+  });
+
+  const radians = useTransform(angleSpring, (deg) => (deg * Math.PI) / 180);
+  const x2 = useTransform(radians, (rad) => 100 + needleLength * Math.cos(rad));
+  const y2 = useTransform(radians, (rad) => 100 - needleLength * Math.sin(rad));
 
   return (
     <div className="relative w-full max-w-[280px] mx-auto">
@@ -73,29 +94,17 @@ const ConfidenceMeter = ({ isStable }: { isStable: boolean }) => {
           );
         })}
         
-        {/* Needle - SVG transform rotation around the translated origin (100,100) */}
-        <motion.g
-          transform="translate(100 100)"
-          animate={{ rotate: -rotation }}
-          transition={{
-            type: "spring",
-            stiffness: isStable ? 100 : 70,
-            damping: isStable ? 18 : 12,
-            mass: isStable ? 0.4 : 0.4
-          }}
-          style={{ transformOrigin: "0px 0px", transformBox: "fill-box" }}
-        >
-          <line
-            x1={0}
-            y1={0}
-            x2={needleLength}
-            y2={0}
-            stroke="hsl(var(--gold))"
-            strokeWidth="2.5"
-            strokeLinecap="round"
-            style={{ filter: "drop-shadow(0 1px 2px rgba(0,0,0,0.24))" }}
-          />
-        </motion.g>
+        {/* Needle - base locked at (100,100), tip moves on an arc */}
+        <motion.line
+          x1={100}
+          y1={100}
+          x2={x2}
+          y2={y2}
+          stroke="hsl(var(--gold))"
+          strokeWidth="2.5"
+          strokeLinecap="round"
+          style={{ filter: "drop-shadow(0 1px 2px rgba(0,0,0,0.24))" }}
+        />
 
         {/* Center pivot point - on top so the needle looks attached */}
         <circle cx="100" cy="100" r="12" fill="hsl(var(--gold))" />
