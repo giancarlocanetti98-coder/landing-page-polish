@@ -38,40 +38,23 @@ export const ProblemSection = () => {
       } : {}} transition={{
         duration: 0.7,
         delay: 0.2
-      }} className="mt-12 space-y-3">
-          <p className="text-lg md:text-xl text-muted-foreground">
-            Those offers don't disappear.
-          </p>
-          <p className="text-xl md:text-2xl text-foreground font-medium">
-            They go to other schools.
-          </p>
-
-          <div className="w-24 h-px bg-gold/40 mx-auto !my-8" />
-
-          <p className="text-lg md:text-xl text-muted-foreground">
-            This is how reputations drift quietly.
-          </p>
-          <p className="text-lg md:text-xl text-muted-foreground">
-            And the more they drift, the harder it is to recover.
-          </p>
-        </motion.div>
-
-        <motion.div initial={{
-        opacity: 0,
-        y: 40
-      }} animate={isInView ? {
-        opacity: 1,
-        y: 0
-      } : {}} transition={{
-        duration: 0.7,
-        delay: 0.4
       }} className="mt-12">
-          <p className="text-lg md:text-xl text-foreground font-medium max-w-2xl mx-auto">
-            Every year your school operates without a reliable, offer-generating system,
-          </p>
-          <p className="text-lg md:text-xl text-destructive font-medium mt-3">
-            those Oxbridge offers are gone for good.
-          </p>
+          <div className="space-y-6 text-lg md:text-xl text-muted-foreground leading-relaxed">
+            <p>Those offers don't disappear. They go to other schools.</p>
+
+            <div className="w-24 h-px bg-gold/40 mx-auto !my-8" />
+
+            <p>
+              This is how reputations drift quietly.
+              And the more they drift, the harder it is to recover.
+            </p>
+            <p>
+              Every year your school operates without a reliable, offer-generating system,
+            </p>
+            <p className="text-foreground font-semibold">
+              those Oxbridge offers are gone for good.
+            </p>
+          </div>
         </motion.div>
       </div>
     </section>;
