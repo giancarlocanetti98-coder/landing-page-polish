@@ -229,12 +229,17 @@ const CredibilityBar = ({ isStable, startAnimation, animationKey }: { isStable: 
                 duration: 3.5,
                 repeat: Infinity,
                 ease: "easeInOut",
-                repeatDelay: 2
+                repeatDelay: 1
               }}
             />
             
-            {/* Subtle sparkle particles */}
-            {[0, 1].map((i) => (
+            {/* Glitter particles at random positions */}
+            {[
+              { left: 15, top: 30, delay: 0 },
+              { left: 42, top: 65, delay: 0.7 },
+              { left: 68, top: 25, delay: 1.4 },
+              { left: 85, top: 55, delay: 2.1 },
+            ].map((particle, i) => (
               <motion.div
                 key={i}
                 className="absolute rounded-full"
@@ -242,18 +247,17 @@ const CredibilityBar = ({ isStable, startAnimation, animationKey }: { isStable: 
                   width: "2px",
                   height: "2px",
                   background: "hsla(0, 0%, 100%, 0.6)",
-                  top: "50%",
+                  left: `${particle.left}%`,
+                  top: `${particle.top}%`,
                 }}
                 animate={{
                   opacity: [0, 0.6, 0],
-                  scale: [0.5, 1, 0.5],
-                  left: [`${30 + i * 35}%`, `${33 + i * 35}%`, `${30 + i * 35}%`],
-                  y: ["-50%", "-50%", "-50%"],
+                  scale: [0.5, 1.2, 0.5],
                 }}
                 transition={{
-                  duration: 2.5,
+                  duration: 1.8,
                   repeat: Infinity,
-                  delay: i * 1.5,
+                  delay: particle.delay,
                   ease: "easeInOut",
                 }}
               />
