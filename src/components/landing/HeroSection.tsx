@@ -16,19 +16,37 @@ export const HeroSection = () => {
         transition={{ duration: 1 }}
       >
         <motion.div 
-          className="absolute w-[800px] h-[800px] border border-gold/15 rounded-full"
-          animate={{ rotate: 360 }}
-          transition={{ duration: 60, repeat: Infinity, ease: "linear" }}
+          className="absolute w-[800px] h-[800px] border border-gold/20 rounded-full"
+          animate={{ 
+            rotate: 360,
+            opacity: [0.3, 0.6, 0.3]
+          }}
+          transition={{ 
+            rotate: { duration: 60, repeat: Infinity, ease: "linear" },
+            opacity: { duration: 8, repeat: Infinity, ease: "easeInOut" }
+          }}
         />
         <motion.div 
-          className="absolute w-[600px] h-[600px] border border-gold/15 rounded-full"
-          animate={{ rotate: -360 }}
-          transition={{ duration: 45, repeat: Infinity, ease: "linear" }}
+          className="absolute w-[600px] h-[600px] border border-gold/20 rounded-full"
+          animate={{ 
+            rotate: -360,
+            opacity: [0.4, 0.7, 0.4]
+          }}
+          transition={{ 
+            rotate: { duration: 45, repeat: Infinity, ease: "linear" },
+            opacity: { duration: 6, repeat: Infinity, ease: "easeInOut", delay: 2 }
+          }}
         />
         <motion.div 
-          className="absolute w-[400px] h-[400px] border border-gold/10 rounded-full"
-          animate={{ rotate: 360 }}
-          transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
+          className="absolute w-[400px] h-[400px] border border-gold/15 rounded-full"
+          animate={{ 
+            rotate: 360,
+            opacity: [0.2, 0.5, 0.2]
+          }}
+          transition={{ 
+            rotate: { duration: 30, repeat: Infinity, ease: "linear" },
+            opacity: { duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1 }
+          }}
         />
       </motion.div>
 
