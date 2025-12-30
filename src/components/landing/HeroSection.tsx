@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 
 export const HeroSection = () => {
@@ -82,9 +83,11 @@ export const HeroSection = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.5 }}
         >
-          <Button variant="hero" size="lg" className="text-base md:text-lg px-8 md:px-10 py-6 md:py-7">
-            Request a Free Oxbridge Performance Analysis
-          </Button>
+          <Link to="/request-analysis">
+            <Button variant="hero" size="lg" className="text-base md:text-lg px-8 md:px-10 py-6 md:py-7">
+              Request a Free Oxbridge Performance Analysis
+            </Button>
+          </Link>
         </motion.div>
 
         <motion.p
