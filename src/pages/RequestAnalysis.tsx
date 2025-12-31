@@ -96,10 +96,10 @@ const RequestAnalysis = () => {
             className="text-center mb-12"
           >
             <h1 className="font-serif text-3xl md:text-4xl lg:text-5xl font-bold text-oxford mb-6 leading-tight">
-              Let's find the Oxbridge offers that are going to other schools.
+              You're probably leaving 8-10 Oxbridge offers on the table every year.
             </h1>
             <p className="font-sans text-lg md:text-xl text-oxford/80">
-              Every lost offer has a cause. Identify it - before another year goes by.
+              Let's find where they're being lost - before other schools do.
             </p>
           </motion.div>
 
