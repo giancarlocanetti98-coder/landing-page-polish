@@ -271,9 +271,6 @@ const RequestAnalysis = () => {
             transition={{ duration: 0.6, delay: 0.4 }}
             className="mt-16"
           >
-            <h2 className="font-serif text-2xl md:text-3xl text-oxford text-center mb-8">
-              Questions & Answers
-            </h2>
             <Accordion type="single" collapsible className="space-y-4">
               <AccordionItem 
                 value="item-1" 
@@ -282,8 +279,9 @@ const RequestAnalysis = () => {
                 <AccordionTrigger className="text-oxford font-serif text-lg hover:no-underline py-5">
                   What is an Oxbridge Performance Analysis?
                 </AccordionTrigger>
-                <AccordionContent className="text-oxford/80 font-sans leading-relaxed pb-5">
-                  We analyse your Oxford and Cambridge applications by subject, college and stage of selection — including tests, interviews and academic profiles — to reveal exactly where offers are being lost. This creates a clear, data-driven picture of what is happening to your candidates.
+                <AccordionContent className="text-oxford/80 font-sans leading-relaxed pb-5 space-y-2">
+                  <p>We analyse your Oxford and Cambridge applications by subject, college and stage of selection — including tests, interviews and academic profiles — to reveal exactly where offers are being lost.</p>
+                  <p>This creates a clear, data-driven picture of what is happening to your candidates.</p>
                 </AccordionContent>
               </AccordionItem>
 
@@ -294,8 +292,9 @@ const RequestAnalysis = () => {
                 <AccordionTrigger className="text-oxford font-serif text-lg hover:no-underline py-5">
                   What happens after the analysis?
                 </AccordionTrigger>
-                <AccordionContent className="text-oxford/80 font-sans leading-relaxed pb-5">
-                  You will have a clear picture of where offers are being lost. If you wish to proceed, we deliver a free workshop to begin securing more offers.
+                <AccordionContent className="text-oxford/80 font-sans leading-relaxed pb-5 space-y-2">
+                  <p>You will have a clear picture of where offers are being lost.</p>
+                  <p>If you wish to proceed, we deliver a free workshop to begin securing more offers.</p>
                 </AccordionContent>
               </AccordionItem>
 
@@ -306,8 +305,9 @@ const RequestAnalysis = () => {
                 <AccordionTrigger className="text-oxford font-serif text-lg hover:no-underline py-5">
                   What happens after we submit the form?
                 </AccordionTrigger>
-                <AccordionContent className="text-oxford/80 font-sans leading-relaxed pb-5">
-                  We review your details and a consultant will contact you to begin the analysis. There is no cost or commitment attached to this.
+                <AccordionContent className="text-oxford/80 font-sans leading-relaxed pb-5 space-y-2">
+                  <p>We review your details and a consultant will contact you to begin the analysis.</p>
+                  <p>There is no cost or commitment attached to this.</p>
                 </AccordionContent>
               </AccordionItem>
             </Accordion>
