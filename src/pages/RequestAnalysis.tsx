@@ -16,6 +16,12 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 import { useToast } from "@/hooks/use-toast";
 
 const formSchema = z.object({
@@ -256,6 +262,55 @@ const RequestAnalysis = () => {
                 </div>
               </form>
             </Form>
+          </motion.div>
+
+          {/* Q&A Section */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.4 }}
+            className="mt-16"
+          >
+            <h2 className="font-serif text-2xl md:text-3xl text-oxford text-center mb-8">
+              Questions & Answers
+            </h2>
+            <Accordion type="single" collapsible className="space-y-4">
+              <AccordionItem 
+                value="item-1" 
+                className="bg-white/80 backdrop-blur-sm rounded-xl px-6 border border-gold/10 shadow-sm"
+              >
+                <AccordionTrigger className="text-oxford font-serif text-lg hover:no-underline py-5">
+                  What is an Oxbridge Performance Analysis?
+                </AccordionTrigger>
+                <AccordionContent className="text-oxford/80 font-sans leading-relaxed pb-5">
+                  We analyse your Oxford and Cambridge applications by subject, college and stage of selection — including tests, interviews and academic profiles — to reveal exactly where offers are being lost. This creates a clear, data-driven picture of what is happening to your candidates.
+                </AccordionContent>
+              </AccordionItem>
+
+              <AccordionItem 
+                value="item-2" 
+                className="bg-white/80 backdrop-blur-sm rounded-xl px-6 border border-gold/10 shadow-sm"
+              >
+                <AccordionTrigger className="text-oxford font-serif text-lg hover:no-underline py-5">
+                  What happens after the analysis?
+                </AccordionTrigger>
+                <AccordionContent className="text-oxford/80 font-sans leading-relaxed pb-5">
+                  You will have a clear picture of where offers are being lost. If you wish to proceed, we deliver a free workshop to begin securing more offers.
+                </AccordionContent>
+              </AccordionItem>
+
+              <AccordionItem 
+                value="item-3" 
+                className="bg-white/80 backdrop-blur-sm rounded-xl px-6 border border-gold/10 shadow-sm"
+              >
+                <AccordionTrigger className="text-oxford font-serif text-lg hover:no-underline py-5">
+                  What happens after we submit the form?
+                </AccordionTrigger>
+                <AccordionContent className="text-oxford/80 font-sans leading-relaxed pb-5">
+                  We review your details and a consultant will contact you to begin the analysis. There is no cost or commitment attached to this.
+                </AccordionContent>
+              </AccordionItem>
+            </Accordion>
           </motion.div>
         </div>
       </div>
