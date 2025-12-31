@@ -248,7 +248,7 @@ const RequestAnalysis = () => {
                     size="lg"
                     className="text-base md:text-lg px-8 md:px-10 py-6 md:py-7"
                   >
-                    {isSubmitting ? "Submitting..." : "Request Free Analysis"}
+                    {isSubmitting ? "Submitting..." : "Request a Free Oxbridge Performance Analysis"}
                   </Button>
                   <p className="mt-4 text-oxford/70 font-sans italic">
                     The analysis is free and carries no obligation.
