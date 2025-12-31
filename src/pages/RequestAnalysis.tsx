@@ -280,7 +280,7 @@ const RequestAnalysis = () => {
                   What is an Oxbridge Performance Analysis?
                 </AccordionTrigger>
                 <AccordionContent className="text-oxford/80 font-sans leading-relaxed pb-5 space-y-2">
-                  <p>We analyse your Oxford and Cambridge applications by subject, college and stage of selection — including tests, interviews and academic profiles — to reveal exactly where offers are being lost.</p>
+                  <p>We analyse your Oxford and Cambridge applications by subject, college and stage of selection to reveal exactly where offers are being lost.</p>
                   <p>This creates a clear, data-driven picture of what is happening to your candidates.</p>
                 </AccordionContent>
               </AccordionItem>
