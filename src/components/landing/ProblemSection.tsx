@@ -40,7 +40,7 @@ export const ProblemSection = () => {
         delay: 0.2
       }} className="mt-4">
           <div className="space-y-4 text-lg md:text-xl text-muted-foreground leading-relaxed">
-            <p>Those offers don't disappear. They go to other schools.</p>
+            <p>Those offers don't disappear. They are taken by other schools.</p>
             <p>
               This is how reputations drift quietly.
               And the more they drift, the harder it is to recover.
@@ -49,7 +49,7 @@ export const ProblemSection = () => {
               Every year your school operates without a reliable, offer-generating system,
             </p>
             <p className="text-foreground font-semibold">
-              those Oxbridge offers are gone for good.
+              those Oxbridge offers are secured by other schools.
             </p>
           </div>
         </motion.div>
