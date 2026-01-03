@@ -69,7 +69,7 @@ export const SolutionSection = () => {
               <TrendingUp className="w-8 h-8 text-gold" />
             </div>
             <p className="text-primary-foreground text-lg font-semibold">
-              You only pay if your Oxbridge position improves.
+              We begin improving your Oxbridge position immediately.
             </p>
           </motion.div>
         </div>
