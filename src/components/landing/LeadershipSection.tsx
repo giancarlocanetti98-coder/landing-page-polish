@@ -294,7 +294,7 @@ export const LeadershipSection = () => {
           <div className="space-y-4 text-lg text-muted-foreground leading-relaxed">
             <p>Every year, your Oxbridge results are on display.</p>
             <p>To governors. To other elite schools. To the public.</p>
-            <p className="text-foreground font-medium">These results shape your reputation.</p>
+            <p className="text-foreground font-medium">These results shape your school's reputation.</p>
             <p>
               There is no league table for having the brightest students.
               Or for the best teaching.
