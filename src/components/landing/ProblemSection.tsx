@@ -41,10 +41,8 @@ export const ProblemSection = () => {
       }} className="mt-4">
           <div className="space-y-4 text-lg md:text-xl text-muted-foreground leading-relaxed">
             <p>Those offers don't disappear. They move other schools up the Oxbridge table.</p>
-            <p>
-              This is how reputations drift - one place at a time.
-              And the more they drift, the harder it is to recover.
-            </p>
+            <p>This is how reputations drift - one place at a time.</p>
+            <p>And the more they drift, the harder it is to recover.</p>
             <p>
               Every year your school operates without a reliable, offer-generating system,
             </p>
