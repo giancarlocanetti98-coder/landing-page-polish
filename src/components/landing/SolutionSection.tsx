@@ -92,7 +92,7 @@ export const SolutionSection = () => {
       }} className="text-center mt-16">
           <Link to="/request-analysis">
             <Button variant="hero" size="lg" className="text-lg px-10 py-7 mb-6">
-              Request a Free Oxbridge Performance Analysis
+              Check Your School's Oxbridge Position
             </Button>
           </Link>
           <p className="text-primary-foreground/60 italic">
