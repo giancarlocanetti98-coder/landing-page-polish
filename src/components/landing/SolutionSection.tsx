@@ -74,6 +74,15 @@ export const SolutionSection = () => {
           </motion.div>
         </div>
 
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.7, delay: 0.4 }}
+          className="text-center text-primary-foreground text-xl md:text-2xl font-semibold mt-10"
+        >
+          You only pay if your Oxbridge position improves.
+        </motion.p>
+
         <motion.div initial={{
         opacity: 0,
         y: 40
