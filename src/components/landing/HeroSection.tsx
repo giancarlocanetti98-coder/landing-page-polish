@@ -59,8 +59,8 @@ export const HeroSection = () => {
           transition={{ duration: 0.6, delay: 0.2 }}
           className="font-serif text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-cream mb-8 md:mb-10 leading-tight whitespace-nowrap"
         >
-          <span className="block">Consistent Oxford and Cambridge Offers,</span>
-          <span className="block">Year After Year</span>
+          <span className="block">Be One of the Schools Known for Getting Oxbridge Offers,</span>
+          <span className="block">Year After Year.</span>
         </motion.h1>
 
         <motion.div
@@ -70,11 +70,11 @@ export const HeroSection = () => {
           className="max-w-2xl mx-auto mb-8 md:mb-10"
         >
           <p className="text-base md:text-lg lg:text-xl text-cream/80 mb-2">
-            The pressure to deliver Oxbridge results is relentless.
+            Every year, your Oxbridge results are compared against peer schools.
           </p>
           <p className="text-base md:text-lg lg:text-xl text-cream/90">
             Take control of the numbers that{" "}
-            <span className="text-gold font-semibold">shape your reputation.</span>
+            <span className="text-gold font-semibold">decide where your school ranks.</span>
           </p>
         </motion.div>
 
