@@ -59,7 +59,7 @@ export const HeroSection = () => {
           transition={{ duration: 0.6, delay: 0.2 }}
           className="font-serif text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-cream mb-8 md:mb-10 leading-tight whitespace-nowrap"
         >
-          <span className="block">Be One of the Schools Known for Getting Oxbridge Offers,</span>
+          <span className="block">Be One of the Schools Known for Getting Oxford and Cambridge Offers,</span>
           <span className="block">Year After Year.</span>
         </motion.h1>
 
