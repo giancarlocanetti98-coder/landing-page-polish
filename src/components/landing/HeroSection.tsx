@@ -75,7 +75,7 @@ export const HeroSection = () => {
           </p>
           <p className="text-base md:text-lg lg:text-xl text-cream/90">
             Take control of the numbers that{" "}
-            <span className="text-gold font-semibold">decide where your school ranks.</span>
+            <span className="text-gold font-semibold">decide your school's reputation.</span>
           </p>
         </motion.div>
 
