@@ -50,7 +50,7 @@ export const SolutionSection = () => {
               <Search className="w-8 h-8 text-gold" />
             </div>
             <h3 className="font-serif text-xl md:text-2xl font-normal text-primary-foreground/80 mb-4">
-              We analyse your Oxbridge performance for free.
+              We analyse your Oxbridge performance.
             </h3>
             <p className="text-primary-foreground text-lg font-semibold">
               You see exactly which schools you compete with for Oxbridge offers - and how to pull ahead.
@@ -72,10 +72,10 @@ export const SolutionSection = () => {
               <TrendingUp className="w-8 h-8 text-gold" />
             </div>
             <h3 className="font-serif text-xl md:text-2xl font-normal text-primary-foreground/80 mb-4">
-              We begin improving your Oxbridge position with you.
+              We begin improving your Oxbridge position immediately.
             </h3>
             <p className="text-primary-foreground text-lg font-semibold">
-              At no cost, so you can see the impact for yourself.
+              You only pay if your Oxbridge position improves.
             </p>
           </motion.div>
         </div>
