@@ -49,9 +49,6 @@ export const SolutionSection = () => {
             <div className="w-16 h-16 bg-gold/20 rounded-2xl flex items-center justify-center mb-6">
               <Search className="w-8 h-8 text-gold" />
             </div>
-            <h3 className="font-serif text-xl md:text-2xl font-normal text-primary-foreground/80 mb-4">
-              We analyse your Oxbridge performance.
-            </h3>
             <p className="text-primary-foreground text-lg font-semibold">
               You see exactly which schools you compete with for Oxbridge offers - and how to pull ahead.
             </p>
@@ -71,9 +68,6 @@ export const SolutionSection = () => {
             <div className="w-16 h-16 bg-gold/20 rounded-2xl flex items-center justify-center mb-6">
               <TrendingUp className="w-8 h-8 text-gold" />
             </div>
-            <h3 className="font-serif text-xl md:text-2xl font-normal text-primary-foreground/80 mb-4">
-              We begin improving your Oxbridge position immediately.
-            </h3>
             <p className="text-primary-foreground text-lg font-semibold">
               You only pay if your Oxbridge position improves.
             </p>
