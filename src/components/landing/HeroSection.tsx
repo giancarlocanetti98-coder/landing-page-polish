@@ -99,7 +99,7 @@ export const HeroSection = () => {
         >
           Developed at{" "}
           <span className="text-gold not-italic font-medium">The University of Oxford</span>
-          , our data-driven analysis shows which schools you're competing with for Oxbridge offers - and how to move ahead.
+          , our data-driven analysis shows how your Oxbridge performance compares to similar schools - and whether you are pulling ahead or falling behind.
         </motion.p>
       </div>
 
