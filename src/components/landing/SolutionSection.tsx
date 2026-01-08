@@ -68,7 +68,7 @@ export const SolutionSection = () => {
               <TrendingUp className="w-8 h-8 text-gold" />
             </div>
             <p className="text-primary-foreground text-lg font-semibold">
-              We begin improving your Oxbridge position immediately.
+              We begin improving your Oxbridge performance immediately with a clear, data-driven plan tailored to your school.
             </p>
           </motion.div>
         </div>
