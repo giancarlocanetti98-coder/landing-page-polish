@@ -28,7 +28,7 @@ export const SolutionSection = () => {
         duration: 0.7
       }} className="text-center mb-16">
           <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl font-semibold text-primary-foreground mb-6 leading-tight">
-            <span className="block">If We Don't Move <span className="text-gold">Your School Ahead of Peer Schools</span></span>
+            <span className="block">If <span className="text-gold">Your School Doesn't Move Ahead of Peer Schools</span></span>
             <span className="block">for Oxbridge Offers,</span>
             <span className="block text-gold">You Don't Pay</span>
           </h2>
