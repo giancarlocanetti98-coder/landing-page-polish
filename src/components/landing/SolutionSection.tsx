@@ -49,7 +49,7 @@ export const SolutionSection = () => {
               <Search className="w-8 h-8 text-gold" />
             </div>
             <p className="text-primary-foreground text-lg font-semibold">
-              You see exactly how your school's Oxbridge performance compares to similar schools — and where it can be improved.
+              You see exactly how your school's Oxbridge performance compares to similar schools.
             </p>
           </motion.div>
 
