@@ -49,7 +49,7 @@ export const SolutionSection = () => {
               <Search className="w-8 h-8 text-gold" />
             </div>
             <p className="text-primary-foreground text-lg font-semibold">
-              You see exactly how your school's Oxbridge performance compares to similar schools.
+              You see exactly how your school's Oxbridge position compares to similar schools.
             </p>
           </motion.div>
 
@@ -68,7 +68,7 @@ export const SolutionSection = () => {
               <TrendingUp className="w-8 h-8 text-gold" />
             </div>
             <p className="text-primary-foreground text-lg font-semibold">
-              We begin improving your Oxbridge performance immediately with a clear, data-driven plan tailored to your school.
+              We begin improving your Oxbridge position immediately with a clear, data-driven plan tailored to your school.
             </p>
           </motion.div>
         </div>

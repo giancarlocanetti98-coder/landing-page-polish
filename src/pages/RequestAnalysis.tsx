@@ -254,7 +254,7 @@ const RequestAnalysis = () => {
                     size="lg"
                     className="text-base md:text-lg px-8 md:px-10 py-6 md:py-7"
                   >
-                    {isSubmitting ? "Submitting..." : "Request a Free Oxbridge Performance Analysis"}
+                    {isSubmitting ? "Submitting..." : "Request a Free Oxbridge Position Analysis"}
                   </Button>
                   <p className="mt-4 text-oxford/70 font-sans italic">
                     The analysis is free and carries no obligation.
@@ -277,7 +277,7 @@ const RequestAnalysis = () => {
                 className="bg-white/80 backdrop-blur-sm rounded-xl px-6 border border-gold/10 shadow-sm"
               >
                 <AccordionTrigger className="text-oxford font-serif text-lg hover:no-underline py-5">
-                  What is an Oxbridge Performance Analysis?
+                  What is an Oxbridge Position Analysis?
                 </AccordionTrigger>
                 <AccordionContent className="text-oxford/80 font-sans leading-relaxed pb-5 space-y-2">
                   <p>We analyse your Oxford and Cambridge applications by subject, college and stage of selection to reveal exactly where offers are being lost.</p>
