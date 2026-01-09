@@ -59,6 +59,52 @@ const About = () => {
         >
           A Data-Driven System That Allows Schools to Measure and Improve Their Oxbridge Performance
         </motion.h1>
+
+        {/* Looping Flowchart */}
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.6 }}
+          className="mt-16 md:mt-24 flex justify-center"
+        >
+          <div className="relative">
+            {/* The circular flow */}
+            <div className="flex flex-col items-center gap-4 md:gap-6">
+              {/* Top row */}
+              <div className="flex items-center gap-3 md:gap-6">
+                <div className="bg-cream/10 backdrop-blur-sm border border-gold/30 rounded-lg px-4 py-3 md:px-6 md:py-4">
+                  <span className="text-cream font-medium text-sm md:text-base">Gather Data</span>
+                </div>
+                <div className="text-gold text-xl md:text-2xl">→</div>
+                <div className="bg-cream/10 backdrop-blur-sm border border-gold/30 rounded-lg px-4 py-3 md:px-6 md:py-4">
+                  <span className="text-cream font-medium text-sm md:text-base">Determine Oxbridge Position</span>
+                </div>
+              </div>
+
+              {/* Right arrow down */}
+              <div className="self-end mr-8 md:mr-12 text-gold text-xl md:text-2xl">↓</div>
+
+              {/* Bottom row */}
+              <div className="flex items-center gap-3 md:gap-6">
+                <div className="bg-cream/10 backdrop-blur-sm border border-gold/30 rounded-lg px-4 py-3 md:px-6 md:py-4">
+                  <span className="text-cream font-medium text-sm md:text-base">Improve Oxbridge Position</span>
+                </div>
+                <div className="text-gold text-xl md:text-2xl">←</div>
+                <div className="bg-cream/10 backdrop-blur-sm border border-gold/30 rounded-lg px-4 py-3 md:px-6 md:py-4">
+                  <span className="text-cream font-medium text-sm md:text-base whitespace-nowrap">Identify Where Offers Are Being Lost</span>
+                </div>
+              </div>
+
+              {/* Left arrow up - completing the loop */}
+              <div className="self-start ml-8 md:ml-12 text-gold text-xl md:text-2xl">↑</div>
+            </div>
+
+            {/* Loop indicator text */}
+            <div className="absolute -left-4 top-1/2 -translate-y-1/2 -translate-x-full hidden lg:block">
+              <div className="text-gold/60 text-sm italic">Continuous improvement cycle</div>
+            </div>
+          </div>
+        </motion.div>
       </div>
     </div>
   );
