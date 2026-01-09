@@ -12,7 +12,7 @@ export const HeroSection = () => {
             to="/about" 
             className="text-cream/80 hover:text-gold transition-colors duration-300 font-medium text-sm md:text-base tracking-wide"
           >
-            About
+            Our System
           </Link>
         </nav>
       </header>
