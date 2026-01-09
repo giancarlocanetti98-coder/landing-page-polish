@@ -5,6 +5,17 @@ import { Button } from "@/components/ui/button";
 export const HeroSection = () => {
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-hero">
+      {/* Header navigation */}
+      <header className="absolute top-0 left-0 right-0 z-20 px-6 py-6">
+        <nav className="container mx-auto flex justify-end">
+          <Link 
+            to="/about" 
+            className="text-cream/80 hover:text-gold transition-colors duration-300 font-medium text-sm md:text-base tracking-wide"
+          >
+            About
+          </Link>
+        </nav>
+      </header>
       {/* Decorative floating blurs */}
       <div className="absolute top-20 left-10 w-64 h-64 bg-gold/5 rounded-full blur-3xl animate-float" />
       <div className="absolute bottom-20 right-10 w-96 h-96 bg-gold/5 rounded-full blur-3xl animate-float" style={{ animationDelay: '2s' }} />
