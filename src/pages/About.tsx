@@ -50,12 +50,12 @@ const About = () => {
       </header>
 
       {/* Main content */}
-      <div className="relative z-10 container mx-auto px-6 flex items-center justify-center min-h-screen">
+      <div className="relative z-10 container mx-auto px-6 pt-32 md:pt-40">
         <motion.h1
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.3 }}
-          className="font-serif text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-cream text-center max-w-5xl leading-tight"
+          className="font-serif text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-cream text-center max-w-5xl mx-auto leading-tight"
         >
           A Data-Driven System That Allows Schools to Measure and Improve Their Oxbridge Performance
         </motion.h1>
