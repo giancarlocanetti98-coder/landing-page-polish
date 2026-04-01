@@ -19,9 +19,9 @@ export const ProblemSection = () => {
         duration: 0.7
       }}>
           <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl font-semibold text-foreground leading-tight">
-            And many ambitious schools are closer than they realise to{" "}
-            <span className="text-gold">stronger university outcomes</span>
-            {" "}— without ever seeing clearly what is holding them back.
+            And many ambitious schools leave{" "}
+            <span className="text-gold">top-university offers</span>
+            {" "}on the table every year — without ever seeing clearly where they are lost.
           </h2>
         </motion.div>
 
