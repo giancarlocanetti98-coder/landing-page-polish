@@ -95,7 +95,7 @@ export const HeroSection = () => {
         >
           <Link to="/request-analysis">
             <Button variant="hero" size="lg" className="text-base md:text-lg px-8 md:px-10 py-6 md:py-7">
-              See Where You Stand For Top University Outcomes
+              See Where You Stand For Top-University Outcomes
             </Button>
           </Link>
         </motion.div>
@@ -108,7 +108,7 @@ export const HeroSection = () => {
         >
           Developed at{" "}
           <span className="text-gold not-italic font-medium">The University of Oxford</span>
-          , our data-driven analysis shows how your Oxbridge position compares to similar schools - and whether you are pulling ahead or falling behind.
+          , our data-driven analysis shows how you compare to similar institutions - and whether you are pulling ahead or falling behind.
         </motion.p>
       </div>
 
