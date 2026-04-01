@@ -288,7 +288,7 @@ export const LeadershipSection = () => {
       }} className="max-w-3xl mx-auto text-center mb-16">
           <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl font-semibold text-foreground mb-8 leading-tight">
             School Leadership is Judged on{" "}
-            <span className="text-gold">Oxbridge Offers</span>
+            <span className="text-gold">Top-University Offers</span>
           </h2>
 
           <div className="space-y-4 text-lg text-muted-foreground leading-relaxed">
