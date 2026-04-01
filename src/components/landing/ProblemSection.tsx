@@ -19,7 +19,7 @@ export const ProblemSection = () => {
         duration: 0.7
       }}>
           <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl font-semibold text-foreground leading-tight">
-            Being Responsible for Results You Can't Control Is{" "}
+            Being Responsible for University Outcomes You Can't Control Is{" "}
             <span className="text-gold">Draining.</span>
           </h2>
         </motion.div>
