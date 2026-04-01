@@ -84,7 +84,7 @@ export const HeroSection = () => {
           </p>
           <p className="text-base md:text-lg lg:text-xl text-cream/90">
             Take control of the numbers that{" "}
-            <span className="text-gold font-semibold">decide your school's reputation.</span>
+            <span className="text-gold font-semibold">decide your reputation.</span>
           </p>
         </motion.div>
 
@@ -95,7 +95,7 @@ export const HeroSection = () => {
         >
           <Link to="/request-analysis">
             <Button variant="hero" size="lg" className="text-base md:text-lg px-8 md:px-10 py-6 md:py-7">
-              Check Your School's Oxbridge Position
+              See How Your Institution Compares for Top-University Outcomes
             </Button>
           </Link>
         </motion.div>
