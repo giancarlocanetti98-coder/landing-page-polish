@@ -347,7 +347,7 @@ export const LeadershipSection = () => {
         >
           <div className="grid grid-cols-2 gap-8">
             <div ref={chartRef} className="flex flex-col items-center">
-              <p className="text-sm text-muted-foreground mb-4 font-medium">Stagnating Outcomes</p>
+              <p className="text-sm text-muted-foreground mb-4 font-medium">Stalled University Outcomes</p>
               <LineGraph data={stagnatingData} isUpward={false} startAnimation={shouldAnimate} animationKey={animationKey} />
               <PublicPerceptionBar isUpward={false} startAnimation={shouldAnimate} animationKey={animationKey} />
             </div>
