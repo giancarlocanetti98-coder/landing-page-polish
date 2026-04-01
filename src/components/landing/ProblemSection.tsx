@@ -49,7 +49,7 @@ export const ProblemSection = () => {
             <p>Too much still depends on the individual students.</p>
             <p>On one or two members of staff.</p>
             <p>On how competitive the universities were that year.</p>
-            <p>On factors you can't fully see or control.</p>
+            <p>On factors you can't see or control.</p>
             <p>You know there are students who could have gone further.</p>
             <p>Applications that could have been stronger.</p>
             <p>Outcomes that should have been better.</p>
