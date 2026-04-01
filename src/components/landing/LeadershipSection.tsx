@@ -353,7 +353,7 @@ export const LeadershipSection = () => {
             </div>
 
             <div className="flex flex-col items-center">
-              <p className="text-sm text-muted-foreground mb-4 font-medium">Growing Outcomes</p>
+              <p className="text-sm text-muted-foreground mb-4 font-medium">Improving University Outcomes</p>
               <LineGraph data={upwardData} isUpward={true} startAnimation={shouldAnimate} animationKey={animationKey} />
               <PublicPerceptionBar isUpward={true} startAnimation={shouldAnimate} animationKey={animationKey} />
             </div>
