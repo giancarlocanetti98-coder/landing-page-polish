@@ -3,12 +3,12 @@ import { useRef, useEffect, useState } from "react";
 
 // Line graph data - stagnating vs upward trajectory
 const stagnatingData = [
-  { year: '2019', value: 35 },
-  { year: '2020', value: 30 },
-  { year: '2021', value: 40 },
-  { year: '2022', value: 28 },
-  { year: '2023', value: 38 },
-  { year: '2024', value: 32 },
+  { year: '2019', value: 38 },
+  { year: '2020', value: 42 },
+  { year: '2021', value: 18 },
+  { year: '2022', value: 40 },
+  { year: '2023', value: 22 },
+  { year: '2024', value: 35 },
 ];
 
 const upwardData = [
