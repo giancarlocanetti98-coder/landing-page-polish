@@ -86,7 +86,6 @@ export const HeroSection = () => {
             Take control of the numbers that{" "}
             <span className="text-gold font-semibold">shape your reputation.</span>
           </p>
-          </p>
         </motion.div>
 
         <motion.div
