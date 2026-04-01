@@ -19,14 +19,10 @@ export const ProblemSection = () => {
         duration: 0.7
       }}>
           <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl font-semibold text-foreground leading-tight">
-            And Most Elite Schools Leave{" "}
-            <span className="text-gold">8 to 10 Oxbridge Offers</span>
-            {" "}on the Table Every Single Year...
+            And many ambitious schools are closer than they realise to{" "}
+            <span className="text-gold">stronger university outcomes</span>
+            {" "}— without ever seeing clearly what is holding them back.
           </h2>
-
-          <p className="text-lg md:text-xl text-muted-foreground mt-6">
-            without ever seeing why they are lost.
-          </p>
         </motion.div>
 
         <motion.div initial={{
@@ -38,16 +34,20 @@ export const ProblemSection = () => {
       } : {}} transition={{
         duration: 0.7,
         delay: 0.2
-      }} className="mt-4">
+      }} className="mt-8">
           <div className="space-y-4 text-lg md:text-xl text-muted-foreground leading-relaxed">
-            <p>Those offers don't disappear. They move other schools up the Oxbridge table.</p>
-            <p>This is how reputations drift - one place at a time.</p>
-            <p>And the more they drift, the harder it is to recover.</p>
-            <p>
-              Every year your school operates without a reliable, offer-generating system,
-            </p>
-            <p className="text-foreground font-semibold">
-              other schools move ahead of you.
+            <p>Strong students are there.</p>
+            <p>Ambition is there.</p>
+            <p>Effort is there.</p>
+            <p className="text-foreground font-medium">But outcomes remain unpredictable.</p>
+            <p>One year, a cohort performs strongly.</p>
+            <p>The next, results fall back.</p>
+            <p>Not always because the students are less capable.</p>
+            <p>But because success is still too dependent on individual staff, changing cohorts, and an increasingly competitive admissions landscape.</p>
+            <p className="text-foreground font-medium">Without a reliable system, too much potential is lost.</p>
+            <p>And while your institution works hard to improve, other schools move ahead faster.</p>
+            <p className="text-gold font-semibold">
+              That is how progress stalls — even when the intent to improve is there.
             </p>
           </div>
         </motion.div>
