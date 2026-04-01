@@ -80,7 +80,7 @@ export const HeroSection = () => {
           className="max-w-2xl mx-auto mb-8 md:mb-10"
         >
           <p className="text-base md:text-lg lg:text-xl text-cream/80 mb-2">
-            Every year, your Oxbridge offers are measured against peer schools.
+            Every year, your university outcomes are measured against peer schools.
           </p>
           <p className="text-base md:text-lg lg:text-xl text-cream/90">
             Take control of the numbers that{" "}
