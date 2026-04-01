@@ -68,11 +68,9 @@ export const HeroSection = () => {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="font-serif text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-cream mb-8 md:mb-10 leading-tight whitespace-nowrap"
+          className="font-serif text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-cream mb-8 md:mb-10 leading-tight"
         >
-          <span className="block">Be One of the Schools Known for</span>
-          <span className="block">Consistent Oxford and Cambridge Offers,</span>
-          <span className="block">Year After Year.</span>
+          Become Known for Sending Students to Top Universities
         </motion.h1>
 
         <motion.div
