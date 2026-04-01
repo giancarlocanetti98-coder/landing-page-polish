@@ -295,11 +295,9 @@ export const LeadershipSection = () => {
             <p>Every year, your university results are on display.</p>
             <p>To governors. To other schools. To the public.</p>
             <p className="text-foreground font-medium">These results shape your institution's reputation.</p>
-            <p>
-              There is no league table for having the brightest students.
-              Or for the best teaching.
-              Or even for how many students reach interview.
-            </p>
+            <p>There is no league table for having the brightest students.</p>
+            <p>Or for the best teaching.</p>
+            <p>Or even for how many students reach interview.</p>
             <p>You do exceptional work.</p>
             <p className="text-foreground font-medium">
               But unless it converts into offers, it goes unrecognised.
