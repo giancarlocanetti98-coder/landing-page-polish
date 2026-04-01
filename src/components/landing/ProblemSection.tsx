@@ -41,7 +41,7 @@ export const ProblemSection = () => {
             <p>You push for higher standards.</p>
             <p>You ask more of your staff.</p>
             <p>You support your students.</p>
-            <p className="text-foreground font-medium">But when results come back, they don't always reflect the effort.</p>
+            <p className="text-foreground font-medium">But when university decisions come back, they don't always reflect your effort.</p>
             <p>One year looks strong.</p>
             <p>The next falls short.</p>
             <p className="text-foreground font-medium">And you are left asking the same question again:</p>
