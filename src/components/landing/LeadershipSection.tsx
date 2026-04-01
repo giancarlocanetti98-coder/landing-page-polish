@@ -179,10 +179,10 @@ const PublicPerceptionBar = ({
     if (!hasStarted) return;
 
     if (isUpward) {
-      // Upward: starts after stagnating line finishes, grows to ~90%
+      // Upward: starts after stagnating line finishes, grows to 100%
       const delay = (ANIMATION_DURATION + 0.3) * 1000;
       const steps = 6;
-      const targetProgress = 90;
+      const targetProgress = 100;
       const increasePerStep = (targetProgress - 20) / steps;
       let currentStep = 0;
 
