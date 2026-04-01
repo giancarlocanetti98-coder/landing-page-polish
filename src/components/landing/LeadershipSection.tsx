@@ -244,7 +244,7 @@ export const LeadershipSection = () => {
   // Track animation state with reset capability
   const [animationKey, setAnimationKey] = useState(0);
   const [shouldAnimate, setShouldAnimate] = useState(false);
-  const outOfViewTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const outOfViewTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const hasAnimatedOnce = useRef(false);
   useEffect(() => {
     if (chartInView) {
