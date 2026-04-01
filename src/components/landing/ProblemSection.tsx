@@ -46,7 +46,7 @@ export const ProblemSection = () => {
             <p>The next falls short.</p>
             <p className="text-foreground font-medium">And you are left asking the same question again:</p>
             <p className="text-gold font-semibold italic">What actually made the difference?</p>
-            <p>Too much still depends on the cohort.</p>
+            <p>Too much still depends on the individual students.</p>
             <p>On one or two members of staff.</p>
             <p>On how competitive the universities were that year.</p>
             <p>On factors you can't fully see or control.</p>
