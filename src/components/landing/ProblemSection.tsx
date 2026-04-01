@@ -53,7 +53,7 @@ export const ProblemSection = () => {
             <p>You know there are students who could have gone further.</p>
             <p>Applications that could have been stronger.</p>
             <p>Outcomes that should have been better.</p>
-            <p className="text-foreground font-medium">But once the cycle has passed, it's hard to pinpoint exactly where it was lost.</p>
+            <p className="text-foreground font-medium">But once the admissions cycle is over, it's hard to see exactly where university places were lost.</p>
             <p>And that's the most frustrating part.</p>
             <p>Not just that outcomes could be better —</p>
             <p className="text-foreground font-medium">but that improvement still feels unpredictable.</p>
