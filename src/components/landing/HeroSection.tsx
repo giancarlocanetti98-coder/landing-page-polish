@@ -108,7 +108,7 @@ export const HeroSection = () => {
         >
           Developed at{" "}
           <span className="text-gold not-italic font-medium">The University of Oxford</span>
-          , our data-driven analysis shows how your Oxbridge position compares to similar schools - and whether you are pulling ahead or falling behind.
+          , our data-driven analysis shows how you compare to similar institutions - and whether you are pulling ahead or falling behind.
         </motion.p>
       </div>
 
