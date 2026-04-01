@@ -95,7 +95,7 @@ export const HeroSection = () => {
         >
           <Link to="/request-analysis">
             <Button variant="hero" size="lg" className="text-base md:text-lg px-8 md:px-10 py-6 md:py-7">
-              See How Your Institution Compares for Top-University Outcomes
+              See Where You Stand For Top University Outcomes
             </Button>
           </Link>
         </motion.div>
