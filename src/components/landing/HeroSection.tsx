@@ -70,7 +70,7 @@ export const HeroSection = () => {
           transition={{ duration: 0.6, delay: 0.2 }}
           className="font-serif text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-cream mb-8 md:mb-10 leading-tight"
         >
-          Become Known for Sending Students to Top Universities
+          Get More Red-Brick University Offers WITHOUT Adding More Staff Hours
         </motion.h1>
 
         <motion.div
