@@ -77,7 +77,7 @@ export const ReputationSection = () => {
 
               {/* Animated rising line */}
               <motion.path
-                d="M 70 205 C 140 195, 200 150, 260 100 S 350 40, 375 30"
+                d="M 70 215 C 180 213, 250 205, 300 175 S 360 70, 378 25"
                 fill="none"
                 stroke="hsl(var(--gold))"
                 strokeWidth="3"
@@ -89,8 +89,8 @@ export const ReputationSection = () => {
 
               {/* End point dot */}
               <motion.circle
-                cx="375"
-                cy="30"
+                cx="378"
+                cy="25"
                 r="5"
                 fill="hsl(var(--gold))"
                 initial={{ opacity: 0, scale: 0 }}
