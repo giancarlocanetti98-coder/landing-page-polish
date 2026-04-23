@@ -77,7 +77,7 @@ export const ReputationSection = () => {
 
               {/* Animated rising line */}
               <motion.path
-                d="M 70 215 C 160 213, 230 200, 290 165 S 360 70, 378 25"
+                d="M 70 215 C 110 213, 160 195, 210 160 S 320 65, 378 25"
                 fill="none"
                 stroke="hsl(var(--gold))"
                 strokeWidth="3"
