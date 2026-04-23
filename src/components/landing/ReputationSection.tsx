@@ -111,7 +111,7 @@ export const ReputationSection = () => {
             When your school becomes known for sending students to top universities, it attracts more ambitious and academically-driven students.
           </p>
           <p>
-            This creates momentum, helping you to build <span className="font-semibold text-foreground">stronger results and a stronger reputation</span> over time.
+            This creates momentum, helping you to build <span className="font-semibold text-foreground">stronger results and a stronger reputation</span>.
           </p>
         </motion.div>
       </div>
