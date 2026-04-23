@@ -100,15 +100,6 @@ export const ReputationSection = () => {
             </svg>
           </div>
         </motion.div>
-
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.7, delay: 0.8 }}
-          className="mt-10 text-lg md:text-xl text-muted-foreground leading-relaxed"
-        >
-          Without a reliable way to improve top-university offers, you give peer schools a chance to move ahead each year.
-        </motion.p>
       </div>
     </section>
   );
