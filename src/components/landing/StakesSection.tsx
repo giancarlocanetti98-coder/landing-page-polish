@@ -17,6 +17,14 @@ export const StakesSection = () => {
           University Outcomes are{" "}
           <span className="text-gold">Too Important</span> to<br />Leave to Chance
         </motion.h2>
+        <motion.p
+          initial={{ opacity: 0, y: 30 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.7, delay: 0.2 }}
+          className="mt-8 text-lg md:text-xl text-muted-foreground leading-relaxed"
+        >
+          That's why we give you a <span className="font-semibold text-foreground">clear, reliable path</span> to get more Russell Group offers.
+        </motion.p>
       </div>
     </section>
   );
