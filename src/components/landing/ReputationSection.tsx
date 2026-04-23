@@ -24,10 +24,10 @@ export const ReputationSection = () => {
           className="mt-8 space-y-6 text-lg md:text-xl text-muted-foreground leading-relaxed"
         >
           <p>
-            Sending more students to <span className="font-semibold text-foreground">Russell Group universities</span> signals an ambitious, high-achieving environment that parents want for their children.
+            Sending more students to Russell Group universities signals an ambitious, high-achieving environment that parents want for their children.
           </p>
           <p>
-            This strengthens your reputation, builds confidence in your leadership and positions your institution as a competitive and academic choice for prospective students.
+            This strengthens your reputation, builds <span className="font-semibold text-foreground">confidence in your leadership</span> and positions your institution as a competitive and academic choice for prospective students.
           </p>
         </motion.div>
       </div>
