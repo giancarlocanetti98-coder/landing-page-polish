@@ -12,7 +12,7 @@ export const ReputationSection = () => {
           initial={{ opacity: 0, y: 40 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.7 }}
-          className="font-serif text-3xl md:text-4xl lg:text-5xl font-semibold text-foreground leading-tight"
+          className="font-serif text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-semibold text-foreground leading-tight whitespace-nowrap"
         >
           Build a Reputation for Sending Students to<br />
           <span className="text-gold">Top Universities</span>
