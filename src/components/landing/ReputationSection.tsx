@@ -36,9 +36,9 @@ export const ReputationSection = () => {
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.7, delay: 0.4 }}
-          className="mt-16 mx-auto max-w-2xl"
+          className="mt-16 mx-auto max-w-md"
         >
-          <div className="relative bg-card/50 border border-border rounded-lg p-6 md:p-8 shadow-elegant">
+          <div className="relative bg-card/50 border border-border rounded-lg p-4 md:p-6 shadow-elegant">
             <svg
               viewBox="0 0 400 260"
               className="w-full h-auto"
