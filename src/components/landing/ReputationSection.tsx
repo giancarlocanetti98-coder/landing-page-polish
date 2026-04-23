@@ -100,6 +100,20 @@ export const ReputationSection = () => {
             </svg>
           </div>
         </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.7, delay: 0.6 }}
+          className="mt-12 space-y-6 text-lg md:text-xl text-muted-foreground leading-relaxed"
+        >
+          <p>
+            When your school becomes known for sending students to top universities, it attracts more ambitious and academically-driven students.
+          </p>
+          <p>
+            This creates momentum, helping you to build <span className="font-semibold text-foreground">stronger results and a stronger reputation</span> over time.
+          </p>
+        </motion.div>
       </div>
     </section>
   );
