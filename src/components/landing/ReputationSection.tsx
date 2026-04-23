@@ -14,7 +14,7 @@ export const ReputationSection = () => {
           transition={{ duration: 0.7 }}
           className="font-serif text-3xl md:text-4xl lg:text-5xl font-semibold text-foreground leading-tight"
         >
-          Build a Reputation for Sending Students to{" "}
+          Build a Reputation for Sending Students to<br />
           <span className="text-gold">Top Universities</span>
         </motion.h2>
         <motion.div
