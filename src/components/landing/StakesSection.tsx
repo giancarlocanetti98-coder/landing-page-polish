@@ -15,7 +15,7 @@ export const StakesSection = () => {
           className="font-serif text-3xl md:text-4xl lg:text-5xl font-semibold text-foreground leading-tight"
         >
           University Outcomes are{" "}
-          <span className="text-gold">Too Important</span> to Leave to Chance
+          <span className="text-gold">Too Important</span> to<br />Leave to Chance
         </motion.h2>
       </div>
     </section>
