@@ -49,29 +49,18 @@ export const StakesSection = () => {
             <p className="text-lg text-muted-foreground leading-relaxed">
               We analyse your last 5-10 years of UCAS data to see exactly where offers are being won and lost.
             </p>
-          </div>
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.7, delay: 0.5 }}
-          className="mt-8 bg-card/50 border border-border rounded-lg p-6 md:p-8 shadow-elegant"
-        >
-          <h4 className="font-serif text-xl md:text-2xl font-semibold text-foreground mb-6 text-center">
-            STEM Applicants
-          </h4>
-          <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3 sm:gap-2">
-            {["Application", "Interview", "Offer", "Secured Place"].map((step, i, arr) => (
-              <div key={step} className="flex flex-col sm:flex-row items-center gap-3 sm:gap-2">
-                <div className="px-4 py-3 rounded-md border border-gold/40 bg-background/60 text-foreground font-medium text-sm md:text-base whitespace-nowrap shadow-sm">
-                  {step}
+            <div className="mt-8 flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3 sm:gap-2">
+              {["Application", "Interview", "Offer", "Secured Place"].map((step, i, arr) => (
+                <div key={step} className="flex flex-col sm:flex-row items-center gap-3 sm:gap-2">
+                  <div className="px-4 py-3 rounded-md border border-gold/40 bg-background/60 text-foreground font-medium text-sm md:text-base whitespace-nowrap shadow-sm">
+                    {step}
+                  </div>
+                  {i < arr.length - 1 && (
+                    <ChevronRight className="w-5 h-5 text-gold rotate-90 sm:rotate-0 flex-shrink-0" />
+                  )}
                 </div>
-                {i < arr.length - 1 && (
-                  <ChevronRight className="w-5 h-5 text-gold rotate-90 sm:rotate-0 flex-shrink-0" />
-                )}
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </motion.div>
       </div>
