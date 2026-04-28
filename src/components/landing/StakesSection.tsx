@@ -50,7 +50,7 @@ export const StakesSection = () => {
               We analyse your last 5-10 years of UCAS data to see exactly where offers are being won and lost.
             </p>
             <p className="mt-6 text-lg text-muted-foreground leading-relaxed">
-              For each subject, university, and stage of the application process, we identify the year-on-year patterns behind stronger and weaker outcomes.
+              For each subject, University, and stage of the application process, we identify the year-on-year patterns behind stronger and weaker outcomes.
             </p>
             <div className="mt-6 flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3 sm:gap-2">
               {["Application", "Interview", "Offer", "Secured Place"].map((step, i, arr) => (
