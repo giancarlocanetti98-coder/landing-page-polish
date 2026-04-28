@@ -65,7 +65,7 @@ export const StakesSection = () => {
               ))}
             </div>
             <p className="mt-6 text-lg text-muted-foreground leading-relaxed">
-              We examine every application to see where things went well, what went wrong, and where the biggest opportunities for improvement are.
+              We examine every application to see where things went well, what went wrong, and where our targeted support will have the greatest impact.
             </p>
           </div>
         </motion.div>
