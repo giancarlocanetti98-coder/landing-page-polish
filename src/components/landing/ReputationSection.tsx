@@ -27,7 +27,7 @@ export const ReputationSection = () => {
             Sending more students to Russell Group universities makes your school an ambitious, high-achieving environment that parents want for their children.
           </p>
           <p>
-            This strengthens your reputation, builds <span className="font-semibold text-foreground">confidence in your leadership</span> and positions your institution as a competitive and academic choice for prospective students.
+            This strengthens your reputation, builds <span className="font-semibold text-foreground">confidence in your leadership</span> and makes you a competitive and academic choice for prospective students.
           </p>
         </motion.div>
 
