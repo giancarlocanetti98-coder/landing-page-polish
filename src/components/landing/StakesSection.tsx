@@ -49,7 +49,10 @@ export const StakesSection = () => {
             <p className="text-lg text-muted-foreground leading-relaxed">
               We analyse your last 5-10 years of UCAS data to see exactly where offers are being won and lost.
             </p>
-            <div className="mt-8 flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3 sm:gap-2">
+            <p className="mt-6 text-lg text-muted-foreground leading-relaxed">
+              For each subject, at each university, offers are lost at different stages.
+            </p>
+            <div className="mt-6 flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3 sm:gap-2">
               {["Application", "Interview", "Offer", "Secured Place"].map((step, i, arr) => (
                 <div key={step} className="flex flex-col sm:flex-row items-center gap-3 sm:gap-2">
                   <div className="px-4 py-3 rounded-md border border-gold/40 bg-background/60 text-foreground font-medium text-sm md:text-base whitespace-nowrap shadow-sm">
@@ -61,6 +64,9 @@ export const StakesSection = () => {
                 </div>
               ))}
             </div>
+            <p className="mt-6 text-lg text-muted-foreground leading-relaxed">
+              We identify the biggest opportunities for improvement.
+            </p>
           </div>
         </motion.div>
       </div>
