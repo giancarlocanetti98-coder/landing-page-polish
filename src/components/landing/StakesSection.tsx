@@ -27,6 +27,27 @@ export const StakesSection = () => {
           <p>Personal statement help. Mock interviews. Academic preparation.</p>
           <p>We make that support more strategic, as well as adding specialist help where it has the <span className="font-semibold text-foreground">greatest impact on Russell Group offers</span>.</p>
         </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.7, delay: 0.4 }}
+          className="mt-12 flex flex-col sm:flex-row gap-6 sm:gap-8 items-start text-left bg-card/50 border border-border rounded-lg p-6 md:p-8 shadow-elegant"
+        >
+          <div className="flex-shrink-0">
+            <div className="font-serif text-4xl md:text-5xl font-semibold text-gold">
+              01
+            </div>
+          </div>
+          <div className="flex-1">
+            <h3 className="font-serif text-2xl md:text-3xl font-semibold text-foreground mb-3">
+              Step 1 — Analysis
+            </h3>
+            <p className="text-lg text-muted-foreground leading-relaxed">
+              We analyse your last five years of UCAS data to see what's working well and where offers are being lost.
+            </p>
+          </div>
+        </motion.div>
       </div>
     </section>
   );
