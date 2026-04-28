@@ -46,7 +46,7 @@ export const StakesSection = () => {
               Step 1 — Analysis
             </h3>
             <p className="text-lg text-muted-foreground leading-relaxed">
-              We analyse your last five years of UCAS data to see what is working, where offers are being lost, and where the biggest opportunities for improvement lie.
+              We analyse your last 5-10 years of UCAS data to see exactly where offers are being won and lost.
             </p>
           </div>
         </motion.div>
