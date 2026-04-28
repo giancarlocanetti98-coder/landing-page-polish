@@ -53,7 +53,7 @@ export const StakesSection = () => {
               For each subject, at each university, offers are lost at different stages.
             </p>
             <div className="mt-6 flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3 sm:gap-2">
-              {["University Choice", "Application", "Interview", "Offer", "Secured Place"].map((step, i, arr) => (
+              {["Application", "Interview", "Offer", "Secured Place"].map((step, i, arr) => (
                 <div key={step} className="flex flex-col sm:flex-row items-center gap-3 sm:gap-2">
                   <div className="px-4 py-3 rounded-md border border-gold/40 bg-background/60 text-foreground font-medium text-sm md:text-base whitespace-nowrap shadow-sm">
                     {step}
