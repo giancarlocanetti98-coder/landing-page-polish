@@ -25,7 +25,7 @@ export const StakesSection = () => {
         >
           <p>You already have support in place for your students.</p>
           <p>Personal statement help. Mock interviews. Academic preparation.</p>
-          <p>We make that support more strategic, so it leads to <span className="font-semibold text-foreground">stronger university outcomes</span>.</p>
+          <p>We make that support more strategic, as well as adding specialist help where it has the <span className="font-semibold text-foreground">greatest impact on Russell Group offers</span>.</p>
         </motion.div>
       </div>
     </section>
