@@ -47,7 +47,7 @@ export const StakesSection = () => {
               Step 1 — Analysis
             </h3>
             <p className="text-lg text-muted-foreground leading-relaxed">
-              We analyse your last 5-10 years of UCAS data to reveal year-on-year patterns. This reveals exactly where offers are being won and lost, and where we can have the greatest impact.
+              We analyse your last 5-10 years of UCAS data to find year-on-year patterns for every subject and university. This reveals exactly where offers are being won and lost, and where we can have the greatest impact.
             </p>
             <div className="mt-6 flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3 sm:gap-2">
               {["Application", "Interview", "Offer", "Secured Place"].map((step, i, arr) => (
