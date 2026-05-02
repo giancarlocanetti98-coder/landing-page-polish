@@ -18,14 +18,14 @@ export const StakesSection = () => {
 
   const funnels: Funnel[] = [
     {
-      id: "medicine",
-      label: "Medicine",
+      id: "stem",
+      label: "STEM",
       // Lots of interviews, few convert to offers
       ratios: [1, 0.75, 0.15, 0.15],
     },
     {
-      id: "law",
-      label: "Law",
+      id: "humanities",
+      label: "Humanities",
       // Few interviews, but every one converts
       ratios: [1, 0.35, 0.35, 0.35],
     },
