@@ -1,92 +1,66 @@
-import { motion, useInView } from "framer-motion";
+import { animate, motion, useInView, useMotionValue, useTransform } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 
 export const StakesSection = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
-  // ---- Heat map data: subject × university × stage ----
-  type Perf = "strong" | "avg" | "under" | "none";
-  type Stage = "interview" | "offer" | "grades";
-
-  // ---- Curated 4×4 grid ----
-  const universities = ["Oxford", "Cambridge", "Imperial", "LSE"];
-  const subjects = ["Medicine", "Engineering", "Law", "Economics"];
-
-  // Each row: 4 cells with {interview, offer, grades}.
-  // Stories baked in:
-  //  - Medicine · Cambridge: strong interviews → UNDER offers (interview-to-offer bottleneck)
-  //  - Law · Oxford: strong offers → UNDER grades (offer-to-grades bottleneck)
-  type Cell = Record<Stage, Perf>;
-  const heatData: Record<string, Cell[]> = {
-    Medicine: [
-      { interview: "avg", offer: "avg", grades: "strong" },          // Oxford
-      { interview: "strong", offer: "under", grades: "avg" },        // Cambridge — bottleneck
-      { interview: "strong", offer: "avg", grades: "strong" },       // Imperial
-      { interview: "avg", offer: "avg", grades: "avg" },             // LSE
-    ],
-    Engineering: [
-      { interview: "strong", offer: "strong", grades: "avg" },
-      { interview: "avg", offer: "avg", grades: "strong" },
-      { interview: "strong", offer: "strong", grades: "strong" },
-      { interview: "avg", offer: "avg", grades: "avg" },
-    ],
-    Law: [
-      { interview: "strong", offer: "strong", grades: "under" },     // Oxford — grades bottleneck
-      { interview: "strong", offer: "strong", grades: "avg" },
-      { interview: "avg", offer: "avg", grades: "avg" },
-      { interview: "strong", offer: "avg", grades: "strong" },
-    ],
-    Economics: [
-      { interview: "avg", offer: "avg", grades: "strong" },
-      { interview: "avg", offer: "avg", grades: "avg" },
-      { interview: "strong", offer: "avg", grades: "avg" },
-      { interview: "strong", offer: "strong", grades: "strong" },
-    ],
+  // ---- Funnel data ----
+  type SubjectId = "medicine" | "law";
+  type Subject = {
+    id: SubjectId;
+    label: string;
+    stages: { label: string; count: number }[]; // Applied → Interview → Offer → Place secured
+    bottleneckIndex: number; // index of the stage BEFORE the biggest drop (gap is between i and i+1)
+    fix: { label: string; recovered: number };
   };
 
-  const cellClass = (p: Perf) => {
-    if (p === "strong") return "bg-emerald-600/85";
-    if (p === "avg") return "bg-gold/70";
-    if (p === "under") return "bg-red-600/80";
-    return "bg-muted/60";
-  };
-  const cellLabel = (p: Perf) => {
-    if (p === "strong") return "Strong";
-    if (p === "avg") return "Average";
-    if (p === "under") return "Under";
-    return "No data";
-  };
-
-  // ---- Stage selector ----
-  const stages: { id: Stage; label: string }[] = [
-    { id: "interview", label: "Interview" },
-    { id: "offer", label: "Offer" },
-    { id: "grades", label: "Grades Attained" },
+  const subjectsData: Subject[] = [
+    {
+      id: "medicine",
+      label: "Medicine",
+      stages: [
+        { label: "Applied", count: 100 },
+        { label: "Interview", count: 82 },
+        { label: "Offer", count: 41 },
+        { label: "Place secured", count: 38 },
+      ],
+      bottleneckIndex: 1, // Interview → Offer is the biggest drop
+      fix: { label: "Interview-to-offer coaching", recovered: 14 },
+    },
+    {
+      id: "law",
+      label: "Law",
+      stages: [
+        { label: "Applied", count: 100 },
+        { label: "Interview", count: 38 },
+        { label: "Offer", count: 31 },
+        { label: "Place secured", count: 29 },
+      ],
+      bottleneckIndex: 0, // Applied → Interview is the biggest drop
+      fix: { label: "Application & personal-statement strategy", recovered: 18 },
+    },
   ];
 
-  const [activeStage, setActiveStage] = useState<Stage>("interview");
-  const [userInteracted, setUserInteracted] = useState(false);
+  const [activeSubject, setActiveSubject] = useState<SubjectId>("medicine");
+  const subject = subjectsData.find((s) => s.id === activeSubject)!;
+  const maxCount = subject.stages[0].count;
+  const bottleneck = subject.bottleneckIndex;
+  const recoveredCount = subject.stages[bottleneck + 1].count + subject.fix.recovered;
 
-  // Auto-cycle once when in view: interview → offer → grades, then settle.
+  // Animated count-up for "+N recovered"
+  const recoveredMV = useMotionValue(0);
+  const recoveredDisplay = useTransform(recoveredMV, (v) => Math.round(v).toString());
   useEffect(() => {
-    if (!isInView || userInteracted) return;
-    const order: Stage[] = ["interview", "offer", "grades"];
-    let i = 0;
-    const tick = () => {
-      i += 1;
-      if (i >= order.length) return; // settle on "grades"
-      setActiveStage(order[i]);
-      timer = window.setTimeout(tick, 2500);
-    };
-    let timer = window.setTimeout(tick, 2500);
-    return () => window.clearTimeout(timer);
-  }, [isInView, userInteracted]);
-
-  const handleStageSelect = (s: Stage) => {
-    setUserInteracted(true);
-    setActiveStage(s);
-  };
+    if (!isInView) return;
+    recoveredMV.set(0);
+    const controls = animate(recoveredMV, subject.fix.recovered, {
+      duration: 1.2,
+      delay: 3.2,
+      ease: "easeOut",
+    });
+    return () => controls.stop();
+  }, [isInView, activeSubject, subject.fix.recovered, recoveredMV]);
 
   return (
     <section ref={ref} className="py-24 bg-gradient-section">
