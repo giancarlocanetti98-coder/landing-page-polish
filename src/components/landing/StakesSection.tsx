@@ -188,8 +188,8 @@ export const StakesSection = () => {
                   return (
                     <div
                       key={subject}
-                      className="grid gap-2 mb-2"
-                      style={{ gridTemplateColumns: `120px repeat(${universities.length}, minmax(56px, 1fr))` }}
+                      className="grid gap-1.5 mb-1.5"
+                      style={{ gridTemplateColumns: `120px repeat(${universities.length}, minmax(48px, 1fr))` }}
                     >
                       <div className="text-sm md:text-base font-medium text-foreground flex items-center pr-2">
                         {subject}
@@ -208,7 +208,7 @@ export const StakesSection = () => {
                             title={`${subject} · ${universities[colIdx]} · ${
                               stages.find((s) => s.id === activeStage)!.label
                             }: ${cellLabel(perf)}`}
-                            className="aspect-square rounded-md overflow-hidden cursor-default"
+                            className="h-8 md:h-9 rounded-md overflow-hidden cursor-default"
                           >
                             <motion.div
                               key={`${activeStage}-${perf}`}
