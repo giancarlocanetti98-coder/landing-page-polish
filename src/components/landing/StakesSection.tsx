@@ -6,43 +6,28 @@ export const StakesSection = () => {
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   // ---- Two contrasting funnels ----
+  // Same start (everyone applies = 1.0) — shape difference shows where students drop off.
   type Funnel = {
     id: string;
     label: string;
-    sublabel: string;
-    stages: { label: string; count: number }[]; // Applied → Interview → Offer → Place
-    bottleneckIndex: number; // gap AFTER this index is the biggest drop
-    insight: string;
+    // Proportions relative to "Applied" (always 1). Order: Applied, Interview, Offer, Place secured.
+    ratios: number[];
   };
 
-  const maxCount = 12; // shared scale so the two funnels are visually comparable
+  const stageLabels = ["Applied", "Interview", "Offer", "Place secured"];
 
   const funnels: Funnel[] = [
     {
       id: "medicine",
       label: "Medicine",
-      sublabel: "lots of interviews, few convert to offers",
-      stages: [
-        { label: "Applied", count: 8 },
-        { label: "Interview", count: 6 },
-        { label: "Offer", count: 1 },
-        { label: "Place secured", count: 1 },
-      ],
-      bottleneckIndex: 1, // Interview → Offer
-      insight: "Fix: interview-to-offer coaching.",
+      // Lots of interviews, few convert to offers
+      ratios: [1, 0.75, 0.15, 0.15],
     },
     {
       id: "law",
       label: "Law",
-      sublabel: "few interviews, but every one converts",
-      stages: [
-        { label: "Applied", count: 12 },
-        { label: "Interview", count: 4 },
-        { label: "Offer", count: 4 },
-        { label: "Place secured", count: 4 },
-      ],
-      bottleneckIndex: 0, // Applied → Interview
-      insight: "Fix: stronger applications & personal statements.",
+      // Few interviews, but every one converts
+      ratios: [1, 0.35, 0.35, 0.35],
     },
   ];
 
@@ -50,77 +35,33 @@ export const StakesSection = () => {
     const baseDelay = 0.4 + funnelIdx * 0.15;
     return (
       <div className="flex-1 min-w-0">
-        {/* Funnel header */}
-        <div className="mb-4">
-          <div className="font-serif text-xl font-semibold text-foreground">
-            {funnel.label}
-          </div>
-          <div className="text-xs text-muted-foreground mt-0.5">
-            {funnel.sublabel}
-          </div>
+        <div className="font-serif text-xl font-semibold text-foreground mb-4">
+          {funnel.label}
         </div>
 
-        {/* Stages */}
         <div className="space-y-2.5">
-          {funnel.stages.map((stage, i) => {
-            const widthPct = (stage.count / maxCount) * 100;
-            const prev = i > 0 ? funnel.stages[i - 1].count : null;
-            const lost = prev !== null ? prev - stage.count : 0;
-            const isBottleneckGap = i === funnel.bottleneckIndex + 1;
-            const isFinal = i === funnel.stages.length - 1;
+          {funnel.ratios.map((ratio, i) => {
+            const widthPct = ratio * 100;
+            const isFinal = i === funnel.ratios.length - 1;
             return (
-              <div key={stage.label}>
-                {prev !== null && lost > 0 && (
+              <div key={stageLabels[i]} className="flex items-center gap-2">
+                <div className="w-[100px] text-xs font-medium text-muted-foreground text-right pr-1 shrink-0">
+                  {stageLabels[i]}
+                </div>
+                <div className="relative flex-1 h-7">
                   <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={isInView ? { opacity: 1 } : {}}
-                    transition={{ duration: 0.3, delay: baseDelay + i * 0.35 }}
-                    className={`flex items-center gap-1.5 pl-[88px] -mt-0.5 mb-0.5 text-[11px] ${
-                      isBottleneckGap ? "text-red-500 font-semibold" : "text-muted-foreground"
+                    initial={{ width: 0 }}
+                    animate={isInView ? { width: `${widthPct}%` } : {}}
+                    transition={{ duration: 0.55, delay: baseDelay + i * 0.35, ease: "easeOut" }}
+                    className={`h-full rounded-md ${
+                      isFinal ? "bg-emerald-600/85" : "bg-foreground/80"
                     }`}
-                  >
-                    <span>↓</span>
-                    <span>−{lost}</span>
-                    {isBottleneckGap && (
-                      <span className="uppercase tracking-wider text-[9px] bg-red-500/15 text-red-500 px-1.5 py-0.5 rounded">
-                        Biggest drop
-                      </span>
-                    )}
-                  </motion.div>
-                )}
-
-                <div className="flex items-center gap-2">
-                  <div className="w-[80px] text-xs font-medium text-foreground text-right pr-1 shrink-0">
-                    {stage.label}
-                  </div>
-                  <div className="relative flex-1 h-7">
-                    <motion.div
-                      initial={{ width: 0 }}
-                      animate={isInView ? { width: `${widthPct}%` } : {}}
-                      transition={{ duration: 0.5, delay: baseDelay + i * 0.35, ease: "easeOut" }}
-                      className={`h-full rounded-md flex items-center justify-end pr-2.5 text-xs font-semibold ${
-                        isFinal
-                          ? "bg-emerald-600/85 text-white"
-                          : "bg-foreground/80 text-background"
-                      }`}
-                    >
-                      {stage.count}
-                    </motion.div>
-                  </div>
+                  />
                 </div>
               </div>
             );
           })}
         </div>
-
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={isInView ? { opacity: 1 } : {}}
-          transition={{ duration: 0.4, delay: baseDelay + 1.8 }}
-          className="mt-4 text-xs text-foreground/80 italic"
-        >
-          {funnel.insight}
-        </motion.p>
       </div>
     );
   };
