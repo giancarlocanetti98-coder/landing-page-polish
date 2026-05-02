@@ -9,7 +9,6 @@ export const StakesSection = () => {
   type Perf = "strong" | "avg" | "under" | "none";
   type Stage = "application" | "interview" | "offer";
 
-  const universities = ["Oxford", "Cambridge", "Imperial", "LSE", "UCL", "Durham", "Warwick"];
   // ---- Curated 4×4 grid ----
   const universities = ["Oxford", "Cambridge", "Imperial", "LSE"];
   const subjects = ["Medicine", "Engineering", "Law", "Economics"];
