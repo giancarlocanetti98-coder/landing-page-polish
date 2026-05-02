@@ -1,92 +1,66 @@
-import { motion, useInView } from "framer-motion";
+import { animate, motion, useInView, useMotionValue, useTransform } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 
 export const StakesSection = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
-  // ---- Heat map data: subject × university × stage ----
-  type Perf = "strong" | "avg" | "under" | "none";
-  type Stage = "interview" | "offer" | "grades";
-
-  // ---- Curated 4×4 grid ----
-  const universities = ["Oxford", "Cambridge", "Imperial", "LSE"];
-  const subjects = ["Medicine", "Engineering", "Law", "Economics"];
-
-  // Each row: 4 cells with {interview, offer, grades}.
-  // Stories baked in:
-  //  - Medicine · Cambridge: strong interviews → UNDER offers (interview-to-offer bottleneck)
-  //  - Law · Oxford: strong offers → UNDER grades (offer-to-grades bottleneck)
-  type Cell = Record<Stage, Perf>;
-  const heatData: Record<string, Cell[]> = {
-    Medicine: [
-      { interview: "avg", offer: "avg", grades: "strong" },          // Oxford
-      { interview: "strong", offer: "under", grades: "avg" },        // Cambridge — bottleneck
-      { interview: "strong", offer: "avg", grades: "strong" },       // Imperial
-      { interview: "avg", offer: "avg", grades: "avg" },             // LSE
-    ],
-    Engineering: [
-      { interview: "strong", offer: "strong", grades: "avg" },
-      { interview: "avg", offer: "avg", grades: "strong" },
-      { interview: "strong", offer: "strong", grades: "strong" },
-      { interview: "avg", offer: "avg", grades: "avg" },
-    ],
-    Law: [
-      { interview: "strong", offer: "strong", grades: "under" },     // Oxford — grades bottleneck
-      { interview: "strong", offer: "strong", grades: "avg" },
-      { interview: "avg", offer: "avg", grades: "avg" },
-      { interview: "strong", offer: "avg", grades: "strong" },
-    ],
-    Economics: [
-      { interview: "avg", offer: "avg", grades: "strong" },
-      { interview: "avg", offer: "avg", grades: "avg" },
-      { interview: "strong", offer: "avg", grades: "avg" },
-      { interview: "strong", offer: "strong", grades: "strong" },
-    ],
+  // ---- Funnel data ----
+  type SubjectId = "medicine" | "law";
+  type Subject = {
+    id: SubjectId;
+    label: string;
+    stages: { label: string; count: number }[]; // Applied → Interview → Offer → Place secured
+    bottleneckIndex: number; // index of the stage BEFORE the biggest drop (gap is between i and i+1)
+    fix: { label: string; recovered: number };
   };
 
-  const cellClass = (p: Perf) => {
-    if (p === "strong") return "bg-emerald-600/85";
-    if (p === "avg") return "bg-gold/70";
-    if (p === "under") return "bg-red-600/80";
-    return "bg-muted/60";
-  };
-  const cellLabel = (p: Perf) => {
-    if (p === "strong") return "Strong";
-    if (p === "avg") return "Average";
-    if (p === "under") return "Under";
-    return "No data";
-  };
-
-  // ---- Stage selector ----
-  const stages: { id: Stage; label: string }[] = [
-    { id: "interview", label: "Interview" },
-    { id: "offer", label: "Offer" },
-    { id: "grades", label: "Grades Attained" },
+  const subjectsData: Subject[] = [
+    {
+      id: "medicine",
+      label: "Medicine",
+      stages: [
+        { label: "Applied", count: 100 },
+        { label: "Interview", count: 82 },
+        { label: "Offer", count: 41 },
+        { label: "Place secured", count: 38 },
+      ],
+      bottleneckIndex: 1, // Interview → Offer is the biggest drop
+      fix: { label: "Interview-to-offer coaching", recovered: 14 },
+    },
+    {
+      id: "law",
+      label: "Law",
+      stages: [
+        { label: "Applied", count: 100 },
+        { label: "Interview", count: 38 },
+        { label: "Offer", count: 31 },
+        { label: "Place secured", count: 29 },
+      ],
+      bottleneckIndex: 0, // Applied → Interview is the biggest drop
+      fix: { label: "Application & personal-statement strategy", recovered: 18 },
+    },
   ];
 
-  const [activeStage, setActiveStage] = useState<Stage>("interview");
-  const [userInteracted, setUserInteracted] = useState(false);
+  const [activeSubject, setActiveSubject] = useState<SubjectId>("medicine");
+  const subject = subjectsData.find((s) => s.id === activeSubject)!;
+  const maxCount = subject.stages[0].count;
+  const bottleneck = subject.bottleneckIndex;
+  const recoveredCount = subject.stages[bottleneck + 1].count + subject.fix.recovered;
 
-  // Auto-cycle once when in view: interview → offer → grades, then settle.
+  // Animated count-up for "+N recovered"
+  const recoveredMV = useMotionValue(0);
+  const recoveredDisplay = useTransform(recoveredMV, (v) => Math.round(v).toString());
   useEffect(() => {
-    if (!isInView || userInteracted) return;
-    const order: Stage[] = ["interview", "offer", "grades"];
-    let i = 0;
-    const tick = () => {
-      i += 1;
-      if (i >= order.length) return; // settle on "grades"
-      setActiveStage(order[i]);
-      timer = window.setTimeout(tick, 2500);
-    };
-    let timer = window.setTimeout(tick, 2500);
-    return () => window.clearTimeout(timer);
-  }, [isInView, userInteracted]);
-
-  const handleStageSelect = (s: Stage) => {
-    setUserInteracted(true);
-    setActiveStage(s);
-  };
+    if (!isInView) return;
+    recoveredMV.set(0);
+    const controls = animate(recoveredMV, subject.fix.recovered, {
+      duration: 1.2,
+      delay: 3.2,
+      ease: "easeOut",
+    });
+    return () => controls.stop();
+  }, [isInView, activeSubject, subject.fix.recovered, recoveredMV]);
 
   return (
     <section ref={ref} className="py-24 bg-gradient-section">
@@ -132,21 +106,21 @@ export const StakesSection = () => {
               We analyse your last 5-10 years of UCAS data to find year-on-year patterns for every subject and university. This reveals exactly where offers are being won and lost, and where we can have the greatest impact.
             </p>
 
-            {/* Heat map */}
-            <div className="mt-8 rounded-md border border-border bg-background/60 p-4 md:p-5 shadow-sm overflow-x-auto">
-              {/* Header: stage pills + legend on one tidy line */}
-              <div
-                className="flex flex-wrap items-center justify-between gap-3 mb-4"
-                onMouseEnter={() => setUserInteracted(true)}
-              >
-                <div className="flex flex-wrap items-center gap-2">
-                  {stages.map((s) => {
-                    const active = s.id === activeStage;
+            {/* Funnel diagram */}
+            <div className="mt-8 rounded-md border border-border bg-background/60 p-5 md:p-6 shadow-sm">
+              {/* Subject toggle */}
+              <div className="flex flex-wrap items-center justify-between gap-3 mb-5">
+                <div className="text-[11px] uppercase tracking-[0.18em] text-muted-foreground font-medium">
+                  Example · {subject.label} · top universities
+                </div>
+                <div className="flex items-center gap-2">
+                  {subjectsData.map((s) => {
+                    const active = s.id === activeSubject;
                     return (
                       <button
                         key={s.id}
                         type="button"
-                        onClick={() => handleStageSelect(s.id)}
+                        onClick={() => setActiveSubject(s.id)}
                         className={`px-3 py-1.5 rounded-full text-xs font-medium border transition-colors ${
                           active
                             ? "bg-gold text-foreground border-gold shadow-sm"
@@ -158,78 +132,110 @@ export const StakesSection = () => {
                     );
                   })}
                 </div>
-                <div className="flex items-center gap-3 text-[11px] text-muted-foreground">
-                  <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-sm bg-emerald-600/85" />Strong</span>
-                  <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-sm bg-gold/70" />Average</span>
-                  <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-sm bg-red-600/80" />Under</span>
-                </div>
               </div>
 
-              <div className="inline-block min-w-full">
-                {/* Header row */}
-                <div
-                  className="grid gap-2 mb-2"
-                  style={{ gridTemplateColumns: `120px repeat(${universities.length}, minmax(56px, 1fr))` }}
-                >
-                  <div />
-                  {universities.map((u) => (
-                    <div
-                      key={u}
-                      className="text-[11px] md:text-xs font-medium text-muted-foreground text-center pb-2 border-b border-border/60"
-                    >
-                      {u}
-                    </div>
-                  ))}
-                </div>
-
-                {/* Data rows */}
-                {subjects.map((subject, rowIdx) => {
-                  const cells = heatData[subject];
+              {/* Funnel — re-keyed on subject change so animations replay */}
+              <div key={activeSubject} className="space-y-3">
+                {subject.stages.map((stage, i) => {
+                  const widthPct = (stage.count / maxCount) * 100;
+                  const prev = i > 0 ? subject.stages[i - 1].count : null;
+                  const lost = prev !== null ? prev - stage.count : 0;
+                  const isBottleneckGap = i === bottleneck + 1;
+                  const isFinal = i === subject.stages.length - 1;
                   return (
-                    <div
-                      key={subject}
-                      className="grid gap-1.5 mb-1.5"
-                      style={{ gridTemplateColumns: `120px repeat(${universities.length}, minmax(48px, 1fr))` }}
-                    >
-                      <div className="text-sm md:text-base font-medium text-foreground flex items-center pr-2">
-                        {subject}
-                      </div>
-                      {cells.map((cell, colIdx) => {
-                        const perf = cell[activeStage];
-                        return (
+                    <div key={stage.label}>
+                      {/* Loss marker between bars */}
+                      {prev !== null && (
+                        <motion.div
+                          initial={{ opacity: 0, y: -4 }}
+                          animate={isInView ? { opacity: 1, y: 0 } : {}}
+                          transition={{ duration: 0.3, delay: 0.4 + i * 0.5 }}
+                          className={`flex items-center gap-2 pl-[140px] -mt-1 mb-1 text-xs ${
+                            isBottleneckGap ? "text-red-500 font-semibold" : "text-muted-foreground"
+                          }`}
+                        >
+                          <span className={`inline-block ${isBottleneckGap ? "text-base" : ""}`}>↓</span>
+                          <span>
+                            −{lost} lost
+                            {isBottleneckGap && (
+                              <span className="ml-2 uppercase tracking-wider text-[10px] bg-red-500/15 text-red-500 px-1.5 py-0.5 rounded">
+                                Biggest drop
+                              </span>
+                            )}
+                          </span>
+                        </motion.div>
+                      )}
+
+                      {/* Stage row */}
+                      <div className="flex items-center gap-3">
+                        <div className="w-[128px] text-sm font-medium text-foreground text-right pr-1 shrink-0">
+                          {stage.label}
+                        </div>
+                        <div className="relative flex-1 h-9">
                           <motion.div
-                            key={colIdx}
-                            initial={{ opacity: 0, scale: 0.6 }}
-                            animate={isInView ? { opacity: 1, scale: 1 } : {}}
-                            transition={{
-                              duration: 0.4,
-                              delay: 0.5 + (rowIdx * universities.length + colIdx) * 0.04,
-                            }}
-                            title={`${subject} · ${universities[colIdx]} · ${
-                              stages.find((s) => s.id === activeStage)!.label
-                            }: ${cellLabel(perf)}`}
-                            className="h-8 md:h-9 rounded-md overflow-hidden cursor-default"
+                            initial={{ width: 0 }}
+                            animate={isInView ? { width: `${widthPct}%` } : {}}
+                            transition={{ duration: 0.55, delay: 0.2 + i * 0.5, ease: "easeOut" }}
+                            className={`h-full rounded-md flex items-center justify-end pr-3 text-sm font-semibold ${
+                              isFinal
+                                ? "bg-emerald-600/85 text-white"
+                                : "bg-foreground/80 text-background"
+                            }`}
                           >
-                            <motion.div
-                              key={`${activeStage}-${perf}`}
-                              initial={{ opacity: 0.4 }}
-                              animate={{ opacity: 1 }}
-                              transition={{
-                                duration: 0.3,
-                                delay: (rowIdx * universities.length + colIdx) * 0.02,
-                              }}
-                              className={`w-full h-full ${cellClass(perf)}`}
-                            />
+                            {stage.count}
                           </motion.div>
-                        );
-                      })}
+                        </div>
+                      </div>
+
+                      {/* "After fix" recovered bar appears after the bottleneck stage */}
+                      {i === bottleneck + 1 && (
+                        <motion.div
+                          initial={{ opacity: 0, y: 6 }}
+                          animate={isInView ? { opacity: 1, y: 0 } : {}}
+                          transition={{ duration: 0.4, delay: 3.0 }}
+                          className="mt-2 flex items-center gap-3"
+                        >
+                          <div className="w-[128px] text-xs font-medium text-gold text-right pr-1 shrink-0">
+                            With our fix
+                          </div>
+                          <div className="relative flex-1 h-9">
+                            <motion.div
+                              initial={{ width: 0 }}
+                              animate={isInView ? { width: `${(recoveredCount / maxCount) * 100}%` } : {}}
+                              transition={{ duration: 1.2, delay: 3.2, ease: "easeOut" }}
+                              className="h-full rounded-md bg-gold flex items-center justify-end pr-3 text-sm font-semibold text-foreground"
+                            >
+                              {recoveredCount}{" "}
+                              <span className="ml-1 text-xs font-bold">
+                                (+<motion.span>{recoveredDisplay}</motion.span>)
+                              </span>
+                            </motion.div>
+                          </div>
+                        </motion.div>
+                      )}
                     </div>
                   );
                 })}
               </div>
 
+              {/* Fix callout */}
+              <motion.div
+                initial={{ opacity: 0, x: 12 }}
+                animate={isInView ? { opacity: 1, x: 0 } : {}}
+                transition={{ duration: 0.45, delay: 2.7 }}
+                className="mt-5 ml-[140px] inline-flex items-start gap-3 rounded-md border-l-2 border-gold bg-gold/10 px-4 py-3"
+              >
+                <div className="text-gold font-semibold text-xs uppercase tracking-wider mt-0.5">
+                  Targeted fix
+                </div>
+                <div className="text-sm text-foreground">
+                  {subject.fix.label}
+                  <span className="text-muted-foreground"> — recovers ~{subject.fix.recovered} offers per cohort.</span>
+                </div>
+              </motion.div>
+
               <p className="mt-5 text-sm text-muted-foreground text-center">
-                <span className="font-semibold text-foreground">Different stages, different fixes.</span>
+                <span className="font-semibold text-foreground">We find your school's biggest drop-off, and fix exactly that.</span>
               </p>
             </div>
           </div>
