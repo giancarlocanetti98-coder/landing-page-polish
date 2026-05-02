@@ -7,41 +7,41 @@ export const StakesSection = () => {
 
   // ---- Heat map data: subject × university × stage ----
   type Perf = "strong" | "avg" | "under" | "none";
-  type Stage = "application" | "interview" | "offer";
+  type Stage = "interview" | "offer" | "grades";
 
   // ---- Curated 4×4 grid ----
   const universities = ["Oxford", "Cambridge", "Imperial", "LSE"];
   const subjects = ["Medicine", "Engineering", "Law", "Economics"];
 
-  // Each row: 4 cells with {application, interview, offer}.
-  // Two clear stories baked in:
-  //  - Medicine · Cambridge: strong → strong → UNDER (interview-to-offer bottleneck)
-  //  - Law · Oxford: UNDER → strong → strong (application bottleneck)
+  // Each row: 4 cells with {interview, offer, grades}.
+  // Stories baked in:
+  //  - Medicine · Cambridge: strong interviews → UNDER offers (interview-to-offer bottleneck)
+  //  - Law · Oxford: strong offers → UNDER grades (offer-to-grades bottleneck)
   type Cell = Record<Stage, Perf>;
   const heatData: Record<string, Cell[]> = {
     Medicine: [
-      { application: "strong", interview: "avg", offer: "avg" },          // Oxford
-      { application: "strong", interview: "strong", offer: "under" },     // Cambridge — bottleneck
-      { application: "strong", interview: "strong", offer: "avg" },       // Imperial
-      { application: "avg", interview: "avg", offer: "avg" },             // LSE
+      { interview: "avg", offer: "avg", grades: "strong" },          // Oxford
+      { interview: "strong", offer: "under", grades: "avg" },        // Cambridge — bottleneck
+      { interview: "strong", offer: "avg", grades: "strong" },       // Imperial
+      { interview: "avg", offer: "avg", grades: "avg" },             // LSE
     ],
     Engineering: [
-      { application: "avg", interview: "strong", offer: "strong" },
-      { application: "strong", interview: "avg", offer: "avg" },
-      { application: "strong", interview: "strong", offer: "strong" },
-      { application: "avg", interview: "avg", offer: "avg" },
+      { interview: "strong", offer: "strong", grades: "avg" },
+      { interview: "avg", offer: "avg", grades: "strong" },
+      { interview: "strong", offer: "strong", grades: "strong" },
+      { interview: "avg", offer: "avg", grades: "avg" },
     ],
     Law: [
-      { application: "under", interview: "strong", offer: "strong" },     // Oxford — bottleneck
-      { application: "avg", interview: "strong", offer: "strong" },
-      { application: "avg", interview: "avg", offer: "avg" },
-      { application: "strong", interview: "strong", offer: "avg" },
+      { interview: "strong", offer: "strong", grades: "under" },     // Oxford — grades bottleneck
+      { interview: "strong", offer: "strong", grades: "avg" },
+      { interview: "avg", offer: "avg", grades: "avg" },
+      { interview: "strong", offer: "avg", grades: "strong" },
     ],
     Economics: [
-      { application: "avg", interview: "avg", offer: "avg" },
-      { application: "strong", interview: "avg", offer: "avg" },
-      { application: "avg", interview: "strong", offer: "avg" },
-      { application: "strong", interview: "strong", offer: "strong" },
+      { interview: "avg", offer: "avg", grades: "strong" },
+      { interview: "avg", offer: "avg", grades: "avg" },
+      { interview: "strong", offer: "avg", grades: "avg" },
+      { interview: "strong", offer: "strong", grades: "strong" },
     ],
   };
 
@@ -60,22 +60,22 @@ export const StakesSection = () => {
 
   // ---- Stage selector ----
   const stages: { id: Stage; label: string }[] = [
-    { id: "application", label: "Application" },
     { id: "interview", label: "Interview" },
     { id: "offer", label: "Offer" },
+    { id: "grades", label: "Grades Attained" },
   ];
 
-  const [activeStage, setActiveStage] = useState<Stage>("application");
+  const [activeStage, setActiveStage] = useState<Stage>("interview");
   const [userInteracted, setUserInteracted] = useState(false);
 
-  // Auto-cycle once when in view: application → interview → offer, then settle.
+  // Auto-cycle once when in view: interview → offer → grades, then settle.
   useEffect(() => {
     if (!isInView || userInteracted) return;
-    const order: Stage[] = ["application", "interview", "offer"];
+    const order: Stage[] = ["interview", "offer", "grades"];
     let i = 0;
     const tick = () => {
       i += 1;
-      if (i >= order.length) return; // settle on "offer"
+      if (i >= order.length) return; // settle on "grades"
       setActiveStage(order[i]);
       timer = window.setTimeout(tick, 2500);
     };
